@@ -34,10 +34,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Likes"
-            android:textColor="@android:color/black"
+            android:textAllCaps="false"
+            android:textColor="@color/gray_300"
             app:icon="@drawable/swap_vert"
             app:iconSize="25sp"
-            app:iconTint="@android:color/black"
+            app:iconTint="@color/gray_300"
             android:textSize="20sp" />
         <Button
             android:id="@+id/sort_by_price"
@@ -45,10 +46,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Prices"
-            android:textColor="@android:color/black"
+            android:textColor="@color/gray_300"
             app:icon="@drawable/swap_vert"
             app:iconSize="25sp"
-            app:iconTint="@android:color/black"
+            android:textAllCaps="false"
+            app:iconTint="@color/gray_300"
             android:textSize="20sp" />
     </LinearLayout>
 
