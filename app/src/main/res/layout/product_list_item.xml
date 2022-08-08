@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    app:cardElevation="5dp"
+    app:cardCornerRadius="5dp"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <ImageView
+            android:id="@+id/product_imageview"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="100dp"
+            android:src="@drawable/image_placeholder"
+            android:layout_marginRight="5dp"/>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/product_name_textview"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Colosseum"
+                android:textSize="22dp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/like_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="37dp"
+                android:layout_height="28dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="0dp"
+                app:icon="@drawable/thumb_up_off"
+                app:iconSize="22sp"
+                app:iconTint="@android:color/black" />
+            <TextView
+                android:id="@+id/like_count_textview"
+                android:layout_centerVertical="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="300 liked this product"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/price_textview"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$299.90"
+                android:textSize="20dp" />
+            <TextView
+                android:id="@+id/stock_count_textview"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="In Stock"
+                android:textSize="20dp" />
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
+
