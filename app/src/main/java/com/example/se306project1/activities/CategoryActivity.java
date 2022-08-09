@@ -1,11 +1,18 @@
 package com.example.se306project1.activities;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuItem;
+
+import androidx.appcompat.widget.Toolbar;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
@@ -17,6 +24,7 @@ import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,10 +35,17 @@ public class CategoryActivity extends AppCompatActivity {
     private ArrayList<IProduct> products;
 
     ViewHolder viewHolder;
+    AppBarViewHolder appBarViewHolder;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
+    }
+
+    class AppBarViewHolder {
+        private final Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
+        private final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
+        private final NavigationView navigationView = (NavigationView) findViewById(R.id.app_drawer_navigation);
     }
 
     @Override
@@ -38,11 +53,13 @@ public class CategoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         viewHolder = new ViewHolder();
+        appBarViewHolder = new AppBarViewHolder();
         this.categories = new ArrayList<>();
         this.products = new ArrayList<>();
         this.fillTopPicks();
         this.fillCategories();
         this.setAdapter();
+        this.setAppBar();
     }
 
     public void setAdapter() {
@@ -104,6 +121,40 @@ public class CategoryActivity extends AppCompatActivity {
         for (int i = 0; i < 5; i++) {
             this.products.add(product);
         }
+    }
+
+    // click event handler for the menu icon in the app bar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                appBarViewHolder.drawerLayout.openDrawer(GravityCompat.START);
+                break;
+            default:
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void setAppBar() {
+        setSupportActionBar(appBarViewHolder.toolbar);
+        ActionBar tb = getSupportActionBar();
+        tb.setHomeAsUpIndicator(R.drawable.menu);
+        tb.setTitle("MyMusic");
+        tb.setDisplayHomeAsUpEnabled(true);
+
+        // click event handler for the items in the navigation
+        appBarViewHolder.navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                        appBarViewHolder.drawerLayout.closeDrawers();
+                        appBarViewHolder.drawerLayout.setSelected(true);
+                        return true;
+                    }
+                });
+
+        getSupportActionBar().setTitle(R.string.app_title);
     }
 
 }
