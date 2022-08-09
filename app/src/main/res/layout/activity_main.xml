@@ -5,9 +5,7 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/yellow_main"
@@ -98,7 +96,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/confirm_password"
-            app:layout_constraintVertical_bias="0.57"
+            app:layout_constraintVertical_bias="0.4"
             app:layout_constraintWidth_percent="0.8">
 
         </Button>
@@ -117,7 +115,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/register_sign_up_button"
-            app:layout_constraintVertical_bias="0.35"
+            app:layout_constraintVertical_bias="0.4"
             app:layout_constraintWidth_percent="0.8"
             app:strokeColor="@color/orange_main"
             app:strokeWidth="1dp">
@@ -188,18 +186,19 @@
             android:id="@+id/sign_up_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/orange_main"
             android:padding="8dp"
             android:text="@string/sign_up"
-            android:textColor="@color/white"
+            android:textColor="@color/orange_main"
             android:textSize="20sp"
             app:cornerRadius="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password"
-            app:layout_constraintVertical_bias="0.494"
-            app:layout_constraintWidth_percent="0.8">
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintWidth_percent="0.8"
+            app:strokeColor="@color/orange_main"
+            app:strokeWidth="1dp">
 
         </Button>
 
@@ -208,22 +207,19 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="64dp"
+            android:backgroundTint="@color/orange_main"
             android:padding="8dp"
             android:text="@string/login_in"
-            android:textColor="@color/orange_main"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:cornerRadius="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/sign_up_button"
-            app:layout_constraintVertical_bias="0.35"
-            app:layout_constraintWidth_percent="0.8"
-            app:strokeColor="@color/orange_main"
-            app:strokeWidth="1dp">
-
+            app:layout_constraintVertical_bias="0.4"
+            app:layout_constraintWidth_percent="0.8">
         </Button>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
