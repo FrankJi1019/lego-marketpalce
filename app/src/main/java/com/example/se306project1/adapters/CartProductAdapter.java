@@ -3,6 +3,7 @@ package com.example.se306project1.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,10 +17,16 @@ import java.util.ArrayList;
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
 
     public class CartProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView cartProductNameTextView;
+        private TextView nameTextView;
+        private TextView amountTextView;
+        private TextView priceTextView;
+        private ImageView imageView;
         public CartProductViewHolder(final View view) {
             super(view);
-            this.cartProductNameTextView = view.findViewById(R.id.cart_product_name_textview);
+            this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
+            this.amountTextView = view.findViewById(R.id.cart_product_amount_textview);
+            this.priceTextView = view.findViewById(R.id.cart_product_price_textview);
+            this.imageView = view.findViewById(R.id.cart_product_imageview);
         }
     }
 
@@ -40,7 +47,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     @Override
     public void onBindViewHolder(@NonNull CartProductViewHolder holder, int position) {
         CartProduct cartProduct = this.products.get(position);
-        holder.cartProductNameTextView.setText(cartProduct.getName());
+        holder.nameTextView.setText(cartProduct.getName());
+        holder.priceTextView.setText("$" + cartProduct.getPrice());
+        holder.amountTextView.setText(Integer.toString(cartProduct.getAmount()));
     }
 
     @Override
