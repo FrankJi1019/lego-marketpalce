@@ -26,7 +26,7 @@
             android:layout_weight="2"
             android:layout_height="match_parent">
             <TextView
-                android:id="@+id/product_name_textview"
+                android:id="@+id/category_title_textview"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="32dp"
                 android:layout_width="wrap_content"
