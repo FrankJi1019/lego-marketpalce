@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">se306project1</string>
+    <string name="app_title">LEGO</string>
+    <string name="sign_up">SIGN UP</string>
+    <string name="login_in">LOGIN</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="top_pick">Top Pick</string>
 </resources>
