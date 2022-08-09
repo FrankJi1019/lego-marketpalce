@@ -5,10 +5,11 @@
       <map>
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="app/src/main/res/layout/activity_category.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_category.xml" value="0.198626708984375" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.1" />
         <entry key="app/src/main/res/layout/category_layout_view.xml" value="0.1" />
         <entry key="app/src/main/res/layout/product_list_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/top_pick_layout_view.xml" value="0.1" />
       </map>
     </option>
   </component>

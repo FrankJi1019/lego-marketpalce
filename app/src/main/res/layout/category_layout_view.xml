@@ -28,7 +28,6 @@
             <TextView
                 android:id="@+id/category_title_textview"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="32dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Colosseum"
@@ -38,6 +37,7 @@
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/forward_arrow_button"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"
