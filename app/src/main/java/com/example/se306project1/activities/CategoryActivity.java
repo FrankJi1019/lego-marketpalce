@@ -24,7 +24,7 @@ import java.util.List;
 public class CategoryActivity extends AppCompatActivity {
 
     private List<ICategory> categories;
-    private List<IProduct> products;
+    private ArrayList<IProduct> products;
 
     ViewHolder viewHolder;
 
@@ -40,8 +40,8 @@ public class CategoryActivity extends AppCompatActivity {
         viewHolder = new ViewHolder();
         this.categories = new ArrayList<>();
         this.products = new ArrayList<>();
-        this.fillCategories();
         this.fillTopPicks();
+        this.fillCategories();
         this.setAdapter();
     }
 
@@ -101,7 +101,7 @@ public class CategoryActivity extends AppCompatActivity {
         List<String> images = new ArrayList<>();
         images.add("image_placeholder.png");
         product.setImages(images);
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 5; i++) {
             this.products.add(product);
         }
     }

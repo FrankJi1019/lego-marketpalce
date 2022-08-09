@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_margin="10dp"
     android:orientation="horizontal"
-    app:cardElevation="5dp"
     app:cardCornerRadius="5dp"
-    android:layout_margin="10dp">
+    app:cardElevation="5dp">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -15,18 +15,20 @@
 
         <ImageView
             android:id="@+id/top_pick_imageview"
-            android:layout_width="wrap_content"
-            android:layout_weight="1"
-            android:layout_height="100dp"
-            android:src="@drawable/image_placeholder"
-          />
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/image_placeholder" />
+
         <TextView
             android:id="@+id/top_pick_text_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/top_pick"
+            android:gravity="center"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
             android:layout_below="@id/top_pick_imageview"
-            android:layout_centerHorizontal="true"/>
+            android:text="@string/top_pick" />
 
     </RelativeLayout>
 

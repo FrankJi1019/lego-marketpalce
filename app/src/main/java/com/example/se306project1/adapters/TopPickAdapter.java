@@ -1,15 +1,18 @@
 package com.example.se306project1.adapters;
 
+
+import android.content.res.Resources;
+import android.net.Uri;
 import android.view.LayoutInflater;
-        import android.view.View;
-        import android.view.ViewGroup;
-        import android.widget.ImageView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 
-        import androidx.annotation.NonNull;
-        import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
-        import com.example.se306project1.R;
-        import com.example.se306project1.models.IProduct;
+import com.example.se306project1.R;
+import com.example.se306project1.models.IProduct;
 
         import java.util.List;
 
@@ -38,7 +41,7 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
 
     @Override
     public void onBindViewHolder(@NonNull TopPickViewHolder holder, int position) {
-//        String productImage = this.products.get(position).getImages().get()
+//        String productImage = this.products.get(position).getImages().get(0);;
         holder.topPickImageView.setImageResource(R.drawable.image_placeholder);
     }
 
