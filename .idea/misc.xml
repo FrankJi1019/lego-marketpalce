@@ -3,35 +3,25 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/add.xml" value="0.168" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/arrow_back_ios.xml" value="0.1635" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/close.xml" value="0.168" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/remove.xml" value="0.1" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/swap_vert.xml" value="0.1635" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/drawable/thumb_up_off.xml" value="0.1635" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/activity_cart.xml" value="0.4" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/activity_main.xml" value="0.24947916666666667" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/activity_product.xml" value="0.264" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/cart_product_list_item.xml" value="0.4" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/list_item.xml" value="0.24947916666666667" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/AndroidProject/project-1-java-new-team22/app/src/main/res/layout/product_list_item.xml" value="0.4" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/layout/activity_main.xml" value="0.335" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable-v24/baseline_favorite_24.xml" value="0.1" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable-v24/favorite-48px.xml" value="0.122" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable-v24/heart_plus-48px.xml" value="0.1" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable-v24/outline_favorite_border_24.xml" value="0.1" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable/arrow_back_ios.xml" value="0.122" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable/favorite-48px.xml" value="0.1" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable/ic_launcher_background.xml" value="0.122" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable/swap_vert.xml" value="0.122" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/drawable/thumb_up_off.xml" value="0.122" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/layout/activity_detail.xml" value="0.165" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/layout/activity_main.xml" value="0.2171875" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/layout/activity_product.xml" value="0.2171875" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/layout/image_slide.xml" value="0.21614583333333334" />
-        <entry key="..\:/Users/15651/project-1-java-new-team22/app/src/main/res/layout/product_list_item.xml" value="0.2171875" />
+        <entry key="app/src/main/res/drawable/ic_baseline_confirmation_number_24.xml" value="0.185" />
+        <entry key="app/src/main/res/drawable/login_button_box.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/login_email.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/login_password.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/login_person.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/login_register_text_box.xml" value="0.198" />
+        <entry key="app/src/main/res/drawable/sign_up_button_box.xml" value="0.185" />
+        <entry key="app/src/main/res/font/.xml" value="0.16203703703703703" />
+        <entry key="app/src/main/res/font/aclonica.xml" value="0.18229166666666666" />
+        <entry key="app/src/main/res/layout/activity_category.xml" value="0.198626708984375" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.215679931640625" />
+        <entry key="app/src/main/res/layout/activity_product.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/cart_product_list_item.xml" value="0.20677083333333332" />
+        <entry key="app/src/main/res/layout/category_layout_view.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/login_register_text_box.xml" value="0.1703125" />
+        <entry key="app/src/main/res/layout/product_list_item.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/top_pick_layout_view.xml" value="0.8166885375976562" />
       </map>
     </option>
   </component>
