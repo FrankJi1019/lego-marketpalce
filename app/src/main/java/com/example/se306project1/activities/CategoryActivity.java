@@ -43,7 +43,7 @@ public class CategoryActivity extends AppCompatActivity {
         this.categories = new ArrayList<>();
         this.topProducts = new ArrayList<>();
         this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this, DataProvider.getIProductList(4));
+        this.productSearcher = new ProductSearcher(this);
 
         this.fillTopPicks();
         this.fillCategories();

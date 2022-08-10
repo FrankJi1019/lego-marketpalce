@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.SuggestionAdapter;
+import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 
 import java.util.List;
@@ -21,20 +22,27 @@ public class ProductSearcher {
         private RecyclerView suggestionListRecycler;
     }
 
-    private List<IProduct> allProducts;
+    private List<IProduct> productPool;
     private AppCompatActivity activity;
     private ViewHolder viewHolder;
     private SuggestionAdapter suggestionAdapter;
 
-    public ProductSearcher(AppCompatActivity activity, List<IProduct> searchPool) {
+    public ProductSearcher(AppCompatActivity activity) {
         this.activity = activity;
         this.viewHolder = new ViewHolder();
         this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
-        this.allProducts = searchPool;
+        this.fillProductSearPool();
+    }
+
+    public ProductSearcher(AppCompatActivity activity, List<IProduct> products) {
+        this.activity = activity;
+        this.viewHolder = new ViewHolder();
+        this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
+        this.productPool = products;
     }
 
     public void initialise() {
-        this.suggestionAdapter = new SuggestionAdapter(allProducts);
+        this.suggestionAdapter = new SuggestionAdapter(productPool);
         this.viewHolder.suggestionListRecycler.setAdapter(this.suggestionAdapter);
         this.viewHolder.suggestionListRecycler.setLayoutManager(
                 new LinearLayoutManager(
@@ -63,5 +71,9 @@ public class ProductSearcher {
             }
         });
         return superValue;
+    }
+
+    private void fillProductSearPool() {
+        this.productPool = DataProvider.getIProductList(4);
     }
 }
