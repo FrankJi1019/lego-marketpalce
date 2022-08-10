@@ -49,10 +49,11 @@ public class Drawer {
                 });
     }
 
-    public void setUp(MenuItem item) {
+    public boolean setUp(MenuItem item, boolean toBeReturned) {
         if (item.getItemId() == android.R.id.home) {
             this.drawerViewHolder.drawerLayout.openDrawer(GravityCompat.START);
         }
+        return toBeReturned;
     }
 
 }

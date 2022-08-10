@@ -15,14 +15,15 @@ import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder>
         implements Filterable {
 
-    private ArrayList<IProduct> allProducts = new ArrayList<>();
-    private ArrayList<IProduct> filteredProducts = new ArrayList<>();
-    private ArrayList<IProduct> emptyProductList = new ArrayList<>();
+    private List<IProduct> allProducts = new ArrayList<>();
+    private List<IProduct> filteredProducts = new ArrayList<>();
+    private List<IProduct> emptyProductList = new ArrayList<>();
 
     class SuggestionViewHolder extends RecyclerView.ViewHolder {
         private TextView suggestedNameTextView;
@@ -33,7 +34,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         }
     }
 
-    public SuggestionAdapter(ArrayList<IProduct> products) {
+    public SuggestionAdapter(List<IProduct> products) {
         this.allProducts = products;
     }
 
