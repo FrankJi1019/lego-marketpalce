@@ -16,7 +16,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;

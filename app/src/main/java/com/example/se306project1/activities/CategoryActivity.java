@@ -10,11 +10,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
@@ -23,13 +21,8 @@ import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.SuggestionAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
-import com.example.se306project1.models.Category;
-import com.example.se306project1.models.Category1;
-import com.example.se306project1.models.Category2;
-import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.models.Product;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -45,6 +38,8 @@ public class CategoryActivity extends AppCompatActivity {
     AppBarViewHolder appBarViewHolder;
 
     SuggestionAdapter suggestionAdapter;
+
+    Drawer drawer;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
@@ -68,13 +63,14 @@ public class CategoryActivity extends AppCompatActivity {
         this.categories = new ArrayList<>();
         this.topProducts = new ArrayList<>();
         this.allProducts = new ArrayList<>();
+        this.drawer = new Drawer(this);
 
         this.fillTopPicks();
         this.fillCategories();
         this.fillProductSearchList();
 
         this.setAdapter();
-        this.setAppBar();
+        this.drawer.initialise();
         this.setSuggestionAdapter();
     }
 
@@ -129,44 +125,17 @@ public class CategoryActivity extends AppCompatActivity {
     // click event handler for the menu icon in the app bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                appBarViewHolder.drawerLayout.openDrawer(GravityCompat.START);
-                break;
-            default:
-                break;
-        }
+        this.drawer.setUp(item);
         return super.onOptionsItemSelected(item);
     }
 
-    public void setAppBar() {
-        setSupportActionBar(appBarViewHolder.toolbar);
-        ActionBar tb = getSupportActionBar();
-        tb.setHomeAsUpIndicator(R.drawable.menu);
-        tb.setTitle("MyMusic");
-        tb.setDisplayHomeAsUpEnabled(true);
-
-        // click event handler for the items in the navigation
-        appBarViewHolder.navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        appBarViewHolder.drawerLayout.closeDrawers();
-                        appBarViewHolder.drawerLayout.setSelected(true);
-                        return true;
-                    }
-                });
-
-        getSupportActionBar().setTitle(R.string.app_title);
-    }
-
+    // for suggestion
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) menuItem.getActionView();
         searchView.setQueryHint("Search with keyword...");
-        Context that = this;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {

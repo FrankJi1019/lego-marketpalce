@@ -21,11 +21,9 @@ import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.adapters.SuggestionAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.models.Product;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -102,12 +100,8 @@ public class ProductActivity extends AppCompatActivity {
     // click event handler for the menu icon in the app bar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                appBarViewHolder.drawerLayout.openDrawer(GravityCompat.START);
-                break;
-            default:
-                break;
+        if (item.getItemId() == android.R.id.home) {
+            appBarViewHolder.drawerLayout.openDrawer(GravityCompat.START);
         }
         return super.onOptionsItemSelected(item);
     }
