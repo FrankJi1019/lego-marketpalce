@@ -15,7 +15,7 @@
             android:id="@+id/suggested_product_name_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="123123"
+            android:text="product name placeholder"
             android:textSize="20sp"
             android:layout_margin="10dp"/>
     </RelativeLayout>
