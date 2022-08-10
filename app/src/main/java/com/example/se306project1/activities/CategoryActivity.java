@@ -3,20 +3,26 @@ package com.example.se306project1.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
+import com.example.se306project1.adapters.SuggestionAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
+import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.Category;
 import com.example.se306project1.models.Category1;
 import com.example.se306project1.models.Category2;
@@ -32,10 +38,13 @@ import java.util.List;
 public class CategoryActivity extends AppCompatActivity {
 
     private List<ICategory> categories;
-    private ArrayList<IProduct> products;
+    private ArrayList<IProduct> topProducts;
+    private ArrayList<IProduct> allProducts;
 
     ViewHolder viewHolder;
     AppBarViewHolder appBarViewHolder;
+
+    SuggestionAdapter suggestionAdapter;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
@@ -46,24 +55,48 @@ public class CategoryActivity extends AppCompatActivity {
         private final Toolbar toolbar = (Toolbar) findViewById(R.id.app_toolbar);
         private final DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawerlayout);
         private final NavigationView navigationView = (NavigationView) findViewById(R.id.app_drawer_navigation);
+        private final RecyclerView suggestionListRecycler = (RecyclerView) findViewById(R.id.suggestion_recyclerview);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        viewHolder = new ViewHolder();
-        appBarViewHolder = new AppBarViewHolder();
+
+        this.viewHolder = new ViewHolder();
+        this.appBarViewHolder = new AppBarViewHolder();
         this.categories = new ArrayList<>();
-        this.products = new ArrayList<>();
+        this.topProducts = new ArrayList<>();
+        this.allProducts = new ArrayList<>();
+
         this.fillTopPicks();
         this.fillCategories();
+        this.fillProductSearchList();
+
         this.setAdapter();
         this.setAppBar();
+        this.setSuggestionAdapter();
+    }
+
+    public void setSuggestionAdapter() {
+        this.suggestionAdapter = new SuggestionAdapter(allProducts);
+        this.appBarViewHolder.suggestionListRecycler.setAdapter(suggestionAdapter);
+        this.appBarViewHolder.suggestionListRecycler.setLayoutManager(
+                new LinearLayoutManager(
+                        getApplicationContext(),
+                        LinearLayoutManager.VERTICAL,
+                        false
+                )
+        );
+        this.appBarViewHolder.suggestionListRecycler.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    public void fillProductSearchList() {
+        this.allProducts = DataProvider.getIProductList(10);
     }
 
     public void setAdapter() {
-        TopPickAdapter topPickAdapter = new TopPickAdapter(this.products);
+        TopPickAdapter topPickAdapter = new TopPickAdapter(this.topProducts);
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -86,41 +119,11 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     public void fillCategories() {
-        Category category1 = new Category1();
-        Category category2 = new Category2();
-        Category category3 = new Category3();
-
-        category1.setId(1);
-        category2.setId(2);
-        category3.setId(3);
-
-        category1.setTitle("Colosseum1");
-        category2.setTitle("Colosseum2");
-        category3.setTitle("Colosseum3");
-
-        category1.setImage("image_placeholder.png");
-        category1.setImage("image_placeholder.png");
-        category1.setImage("image_placeholder.png");
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-
+        this.categories = DataProvider.getICategoryList();
     }
 
     public void fillTopPicks() {
-        Product product = new Product();
-        product.setId(1);
-        product.setCategoryId(1);
-        product.setName("Colosseum");
-        product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
-        product.setPrice(199.90);
-        product.setStock(0);
-        List<String> images = new ArrayList<>();
-        images.add("image_placeholder.png");
-        product.setImages(images);
-        for (int i = 0; i < 5; i++) {
-            this.products.add(product);
-        }
+        this.topProducts = DataProvider.getIProductList(5);
     }
 
     // click event handler for the menu icon in the app bar
@@ -155,6 +158,27 @@ public class CategoryActivity extends AppCompatActivity {
                 });
 
         getSupportActionBar().setTitle(R.string.app_title);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) menuItem.getActionView();
+        searchView.setQueryHint("Search with keyword...");
+        Context that = this;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String s) {
+                suggestionAdapter.getFilter().filter(s);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 
 }
