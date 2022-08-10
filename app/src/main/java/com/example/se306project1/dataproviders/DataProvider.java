@@ -1,5 +1,6 @@
 package com.example.se306project1.dataproviders;
 
+import com.example.se306project1.R;
 import com.example.se306project1.models.Category;
 import com.example.se306project1.models.Category1;
 import com.example.se306project1.models.Category2;
@@ -62,6 +63,14 @@ public class DataProvider {
         res.add(category1);
         res.add(category2);
         res.add(category3);
+        return res;
+    }
+
+    public static List<Integer> getImageList(int size) {
+        List<Integer> res = new ArrayList<>();
+        for (int i = 0; i < size; i++) {
+            res.add(R.drawable.image_placeholder);
+        }
         return res;
     }
 
