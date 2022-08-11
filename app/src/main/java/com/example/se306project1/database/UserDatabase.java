@@ -9,5 +9,7 @@ public class UserDatabase implements IUserDatabase{
         return true;
     }
 
-    public void createUser(String username, String password){}
+    public void createUser(String username, String password){
+
+    }
 }
