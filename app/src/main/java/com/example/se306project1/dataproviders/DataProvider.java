@@ -24,7 +24,7 @@ public class DataProvider {
             product.setName("Colosseum");
             product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
             product.setPrice(199.90);
-            product.setStock(0);
+            product.setStock(20);
             List<String> images = new ArrayList<>();
             images.add("image_placeholder.png");
             product.setImages(images);
@@ -40,7 +40,7 @@ public class DataProvider {
         product.setName("Colosseum");
         product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
         product.setPrice(199.90);
-        product.setStock(0);
+        product.setStock(20);
         List<String> images = new ArrayList<>();
         images.add("image_placeholder.png");
         product.setImages(images);
@@ -84,7 +84,7 @@ public class DataProvider {
             cartProduct.setName("Colosseum");
             cartProduct.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
             cartProduct.setPrice(199.90);
-            cartProduct.setStock(0);
+            cartProduct.setStock(10);
             List<String> images = new ArrayList<>();
             images.add("image_placeholder.png");
             cartProduct.setImages(images);
