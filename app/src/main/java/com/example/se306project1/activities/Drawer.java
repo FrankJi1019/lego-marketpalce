@@ -71,7 +71,7 @@ public class Drawer {
             CategoryActivity.start(this.activity);
         } else if (item.getItemId() ==  R.id.nav_likes && !this.activity.getClass().equals(ProductActivity.class)) {
             ProductActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_cart && !this.activity.getClass().equals(CategoryActivity.class)) {
+        } else if (item.getItemId() ==  R.id.nav_cart && !this.activity.getClass().equals(CartActivity.class)) {
             CartActivity.start(this.activity);
         } else if (item.getItemId() ==  R.id.nav_technic && !this.activity.getClass().equals(ProductActivity.class)) {
             ProductActivity.start(this.activity);

@@ -13,6 +13,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.models.CartProduct;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
 
@@ -30,9 +31,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         }
     }
 
-    private ArrayList<CartProduct> products;
+    private List<CartProduct> products;
 
-    public CartProductAdapter(ArrayList<CartProduct> products) {
+    public CartProductAdapter(List<CartProduct> products) {
         this.products = products;
     }
 
