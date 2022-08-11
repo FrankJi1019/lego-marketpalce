@@ -4,12 +4,16 @@ public class UserDatabase implements IUserDatabase{
 
     public UserDatabase(){}
 
+//    TODO
+   public boolean isUserExist(String username){
+        return true;
+   }
 
     public boolean isLoginValid(String username, String password){
         return true;
     }
 
-    public void createUser(String username, String password){
+    public void addUserToFireStore(String username, String password){
 
     }
 }

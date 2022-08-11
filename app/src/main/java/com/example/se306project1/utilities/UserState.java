@@ -16,7 +16,7 @@ public class UserState {
         this.currentUser = currentUser;
     }
 
-    public static UserState getUserState(){
+    public static UserState getInstance(){
         if(userState == null) {
             userState = new UserState();
         }
