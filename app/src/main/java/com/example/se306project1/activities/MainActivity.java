@@ -16,7 +16,6 @@ import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.UserState;
 
 public class MainActivity extends AppCompatActivity {
-    private String registerUsername, registerPassword, confirmPassword, loginUsername, loginPassword;
     private UserState userState;
     private User user = new User();
 
@@ -49,53 +48,40 @@ public class MainActivity extends AppCompatActivity {
 
         vh.test = findViewById(R.id.test);
 
-        vh.registerUsernameEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean focus) {
-                registerUsername = vh.registerUsernameEditText.getText().toString();
-                if(!focus){
-                    vh.test.setText(registerUsername);
-                    checkValidUsername();
-                }
+        vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
+            if(!focus){
+                vh.test.setText(getRegisterUsername());
+                checkValidUsername();
             }
         });
 
-        vh.registerLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vh.signUp.setVisibility(View.GONE);
-                vh.login.setVisibility(View.VISIBLE);
-            }
+        vh.registerLoginButton.setOnClickListener(view -> {
+            vh.signUp.setVisibility(View.GONE);
+            vh.login.setVisibility(View.VISIBLE);
         });
 
 //        TODO
-        vh.registerSignUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                if (validSignUp()){
-                    createCurrentUser(getRegisterUsername(),getRegisterPassword());
+        vh.registerSignUpButton.setOnClickListener(view -> {
+            if (validSignUp()){
+                createCurrentUser(getRegisterUsername(),getRegisterPassword());
 //                    add new user to database
-                    vh.registerUsernameEditText.setText("");
-                    vh.registerPasswordEditText.setText("");
-                    vh.registerConfirmPasswordEditText.setText("");
-                    switchToCategoryActivity();
-                }
+                vh.registerUsernameEditText.setText("");
+                vh.registerPasswordEditText.setText("");
+                vh.registerConfirmPasswordEditText.setText("");
+                switchToCategoryActivity();
             }
         });
 
-        vh.loginSignUpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vh.signUp.setVisibility(View.VISIBLE);
-                vh.login.setVisibility(View.GONE);
-            }
+        vh.loginSignUpButton.setOnClickListener(view -> {
+            vh.signUp.setVisibility(View.VISIBLE);
+            vh.login.setVisibility(View.GONE);
         });
 
 //        TODO
-        vh.loginLoginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        vh.loginLoginButton.setOnClickListener(view -> {
+            if(validLogin()){
+                vh.loginUsernameEditText.setText("");
+                vh.loginPasswordEditText.setText("");
                 createCurrentUser(getLoginUsername(),getLoginPassword());
                 switchToCategoryActivity();
             }
@@ -114,8 +100,13 @@ public class MainActivity extends AppCompatActivity {
         userState.setCurrentUser(user);
     }
 
+    //    TODO
+    private boolean validLogin(){
+        return true;
+    }
+
     private boolean validSignUp(){
-        boolean isValid = (checkValidUsername() && !checkEmptyInput() && confirmPassword())? true:false;
+        boolean isValid = checkValidUsername() && !checkEmptyInput() && confirmPassword();
         if(isValid){
             Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_LONG).show();
         }
@@ -124,7 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
 // TODO
     private boolean checkValidUsername(){
-        registerUsername = vh.registerUsernameEditText.getText().toString();
         if(vh.registerUsernameEditText.getText().length()==0){
             Toast.makeText(this,"Please enter your username", Toast.LENGTH_LONG).show();
             return false;
@@ -133,11 +123,6 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
         return true;
-    }
-
-    //    TODO
-    private void checkLogin(){
-
     }
 
     private boolean checkEmptyInput(){
