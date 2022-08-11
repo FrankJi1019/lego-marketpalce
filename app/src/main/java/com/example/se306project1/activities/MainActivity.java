@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout signUp, login;
         EditText registerUsernameEditText, registerPasswordEditText, registerConfirmPasswordEditText, loginUsernameEditText, loginPasswordEditText;
         Button registerSignUpButton, registerLoginButton, loginLoginButton, loginSignUpButton;
-        TextView test;
+        TextView what;
     }
 
     private ViewHolder vh = new ViewHolder();
@@ -49,27 +50,34 @@ public class MainActivity extends AppCompatActivity {
         vh.signUp = findViewById(R.id.sign_up_page);
         vh.login = findViewById(R.id.login_page);
 
-        vh.test = findViewById(R.id.test);
-
-        vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
-            if(!focus){
-                vh.test.setText(getRegisterUsername());
-                checkValidUsername();
-            }
-        });
-
         vh.registerLoginButton.setOnClickListener(view -> {
             vh.signUp.setVisibility(View.GONE);
             vh.login.setVisibility(View.VISIBLE);
+            vh.registerUsernameEditText.setText("");
+            vh.registerPasswordEditText.setText("");
+            vh.registerConfirmPasswordEditText.setText("");
+        });
+
+        vh.loginSignUpButton.setOnClickListener(view -> {
+            vh.signUp.setVisibility(View.VISIBLE);
+            vh.login.setVisibility(View.GONE);
+            vh.loginUsernameEditText.setText("");
+            vh.loginPasswordEditText.setText("");
+        });
+
+        vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
+            if(!focus){
+                checkValidUsername();
+            }
         });
 
         vh.registerSignUpButton.setOnClickListener(view -> {
             if (validSignUp()){
                 String username = getRegisterUsername();
                 String password = getRegisterPassword();
-                String encriptedPassword = getEncriptedPassword(password);
+                String encryptedPassword = getEncryptedPassword(password);
                 createCurrentUser(username,password);
-                userDatabase.addUserToFireStore(username,encriptedPassword);
+                userDatabase.addUserToFireStore(username,encryptedPassword);
                 vh.registerUsernameEditText.setText("");
                 vh.registerPasswordEditText.setText("");
                 vh.registerConfirmPasswordEditText.setText("");
@@ -77,20 +85,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        vh.loginSignUpButton.setOnClickListener(view -> {
-            vh.signUp.setVisibility(View.VISIBLE);
-            vh.login.setVisibility(View.GONE);
-        });
-
-//        TODO
         vh.loginLoginButton.setOnClickListener(view -> {
-            if(validLogin()){
+            String username = getLoginUsername();
+            String password = getLoginPassword();
+           if (checkEmptyLogin() && userDatabase.isLoginValid(username, password)){
+                Toast.makeText(this, "Password good", Toast.LENGTH_SHORT).show();
+                createCurrentUser(username,password);
+                switchToCategoryActivity();
                 vh.loginUsernameEditText.setText("");
                 vh.loginPasswordEditText.setText("");
-                createCurrentUser(getLoginUsername(),getLoginPassword());
-                switchToCategoryActivity();
             }
         });
+    }
+
+    private boolean checkEmptyLogin(){
+        if(vh.loginUsernameEditText.getText().length()==0){
+            Toast.makeText(this,"Please enter your username", Toast.LENGTH_SHORT).show();
+            return false;
+        }else if(vh.loginPasswordEditText.getText().length() == 0){
+            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 
     private void switchToCategoryActivity(){
@@ -104,27 +120,20 @@ public class MainActivity extends AppCompatActivity {
         userState.setCurrentUser(user);
     }
 
-    //    TODO
-    private boolean validLogin(){
-        return true;
-    }
-
     private boolean validSignUp(){
         boolean isValid = checkValidUsername() && !checkEmptyInput() && confirmPassword();
         if(isValid){
-            Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
         }
         return isValid;
     }
 
-// TODO
     private boolean checkValidUsername(){
-        boolean userExist = userDatabase.isUserExist(getRegisterUsername());
         if(vh.registerUsernameEditText.getText().length()==0){
-            Toast.makeText(this,"Please enter your username", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Please enter your username", Toast.LENGTH_SHORT).show();
             return false;
-        }else if(userExist){
-            Toast.makeText(this,"This username has been used", Toast.LENGTH_LONG).show();
+        }else if(userDatabase.isUserExist(getRegisterUsername())){
+            Toast.makeText(this,"This username has been used", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -132,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean checkEmptyInput(){
         if(getRegisterPassword().isEmpty() || getConfirmPassword().isEmpty()){
-            Toast.makeText(this,"Please enter password", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Please enter password", Toast.LENGTH_SHORT).show();
             return true;
         }
         return false;
@@ -140,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean confirmPassword(){
         if (!getRegisterPassword().equals(getConfirmPassword())){
-            Toast.makeText(this,"Password and confirm password do not match, please try again", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Password and confirm password do not match, please try again", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -166,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
         return vh.loginPasswordEditText.getText().toString();
     }
 
-    private String getEncriptedPassword(String password){
+    private String getEncryptedPassword(String password){
         return PasswordEncripter.hashPassword(password);
     }
 

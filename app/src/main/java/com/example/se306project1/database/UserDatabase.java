@@ -1,9 +1,9 @@
 package com.example.se306project1.database;
 
-
 import com.example.se306project1.models.IUser;
 import com.example.se306project1.models.User;
 
+import com.example.se306project1.utilities.PasswordEncripter;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.firebase.firestore.DocumentReference;
@@ -15,6 +15,8 @@ import java.util.ArrayList;
 public class UserDatabase implements IUserDatabase{
     private static UserDatabase userDatabase = null;
     private ArrayList<String> inValidUsername = new ArrayList<String>();
+    private static boolean isValid;
+    private static String password;
     private UserDatabase(){}
 
     public static UserDatabase getInstance(){
@@ -44,21 +46,17 @@ public class UserDatabase implements IUserDatabase{
         db.collection("Users").document(username).set(user);
     }
 
-
      public boolean isLoginValid(String username, String password){
-        final boolean[] isValid = {false};
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference docRef = db.collection("Users").document(username);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                User user = documentSnapshot.toObject(User.class);
-                if(user.getUsername().equals(username) &&  user.getPassword().equals(password)){
-                    isValid[0] = true;
+                if(documentSnapshot.exists()){
+                    isValid = documentSnapshot.toObject(User.class).getPassword().equals(PasswordEncripter.hashPassword(password));
                 }
             }
         });
-        return isValid[0];
+        return isValid;
     }
-
 }
