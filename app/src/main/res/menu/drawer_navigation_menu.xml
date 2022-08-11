@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/page"
+        android:id="@+id/nav_homepage"
         android:title="Home"/>
     <item
-        android:id="@+id/rea"
+        android:id="@+id/nav_likes"
         android:title="Your Likes"/>
     <item
-        android:id="@+id/found"
+        android:id="@+id/nav_cart"
         android:title="Cart"/>
+
+    <group>
+        <item
+            android:id="@+id/nav_technic"
+            android:title="Technic"/>
+        <item
+            android:id="@+id/nav_starwar"
+            android:title="Star War"/>
+        <item
+            android:id="@+id/nav_friends"
+            android:title="Friends"/>
+    </group>
+
     <item
-        android:id="@+id/myself"
-        android:title="Logout"/>
+        android:id="@+id/nav_logout"
+        android:title="Log Out"/>
 </menu>

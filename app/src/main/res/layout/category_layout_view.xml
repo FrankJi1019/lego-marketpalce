@@ -41,7 +41,8 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                app:backgroundTint="@color/yellow_main"/>
+                app:backgroundTint="@color/yellow_main"
+                android:onClick="onCategoryClick"/>
 
         </RelativeLayout>
 

@@ -1,20 +1,25 @@
 package com.example.se306project1.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailActivity extends AppCompatActivity {
+public class DetailActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     class ViewHolder{
         private final ViewPager viewPager = findViewById(R.id.viewPager);
@@ -25,6 +30,11 @@ public class DetailActivity extends AppCompatActivity {
     ViewHolder viewHolder;
     Drawer drawer;
     ProductSearcher productSearcher;
+
+    public static void start(AppCompatActivity activity) {
+        Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+        activity.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +66,14 @@ public class DetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return this.productSearcher.onCreateOptionsMenu(menu, super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return this.drawer.onNavigationItemSelected(item, true);
+    }
+
+    public void onGoBack(View view) {
+        finish();
     }
 }

@@ -45,7 +45,8 @@
                     android:textSize="20sp"
                     app:icon="@drawable/arrow_back_ios"
                     app:iconSize="20sp"
-                    app:iconTint="@android:color/black" />
+                    app:iconTint="@android:color/black"
+                    android:onClick="onGoBack"/>
 
                 <LinearLayout
                     android:id="@+id/sorter_linearlayout"

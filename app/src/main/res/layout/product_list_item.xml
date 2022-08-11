@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     app:cardElevation="5dp"
     app:cardCornerRadius="5dp"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:onClick="onProductItemClick">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -44,7 +45,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
-                app:icon="@drawable/thumb_up_off"
+                app:icon="@drawable/outline_favorite_border_24"
                 app:iconSize="22sp"
                 app:iconTint="@android:color/black" />
             <TextView

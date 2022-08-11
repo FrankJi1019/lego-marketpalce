@@ -1,22 +1,27 @@
 package com.example.se306project1.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 
-public class ProductActivity extends AppCompatActivity {
+public class ProductActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener{
 
     private ArrayList<IProduct> products;
 
@@ -26,6 +31,11 @@ public class ProductActivity extends AppCompatActivity {
 
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
+    }
+
+    public static void start(AppCompatActivity activity) {
+        Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+        activity.startActivity(thisIntent);
     }
 
 
@@ -70,6 +80,19 @@ public class ProductActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return this.productSearcher.onCreateOptionsMenu(menu, super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return this.drawer.onNavigationItemSelected(item, true);
+    }
+
+    public void onProductItemClick(View view) {
+        DetailActivity.start(this);
+    }
+
+    public void onGoBack(View view) {
+        finish();
     }
 
 }
