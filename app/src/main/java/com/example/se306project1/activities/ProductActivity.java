@@ -6,36 +6,47 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
+import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.models.Product;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ProductActivity extends AppCompatActivity {
 
     private ArrayList<IProduct> products;
 
     ViewHolder viewHolder;
+    Drawer drawer;
+    ProductSearcher productSearcher;
 
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
-        viewHolder = new ViewHolder();
+
+        this.viewHolder = new ViewHolder();
         this.products = new ArrayList<>();
+        this.drawer = new Drawer(this);
+        this.productSearcher = new ProductSearcher(this);
+
         this.fillProducts();
-        this.setAdapter();
+
+        this.setProductAdapter();
+        this.drawer.initialise();
+        this.productSearcher.initialise();
     }
 
-    public void setAdapter() {
+    public void setProductAdapter() {
         ProductAdapter productAdapter = new ProductAdapter(this.products);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -47,21 +58,18 @@ public class ProductActivity extends AppCompatActivity {
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
     }
 
-
     public void fillProducts() {
-        Product product = new Product();
-        product.setId(1);
-        product.setCategoryId(1);
-        product.setName("Colosseum");
-        product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
-        product.setPrice(199.90);
-        product.setStock(0);
-        List<String> images = new ArrayList<>();
-        images.add("image_placeholder.png");
-        product.setImages(images);
-        for (int i = 0; i < 10; i++) {
-            this.products.add(product);
-        }
+        this.products = DataProvider.getIProductList(10);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return this.drawer.setUp(item, super.onOptionsItemSelected(item));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return this.productSearcher.onCreateOptionsMenu(menu, super.onCreateOptionsMenu(menu));
     }
 
 }

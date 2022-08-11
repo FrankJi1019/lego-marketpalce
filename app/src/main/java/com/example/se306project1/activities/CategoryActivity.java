@@ -6,17 +6,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
-import com.example.se306project1.models.Category;
-import com.example.se306project1.models.Category1;
-import com.example.se306project1.models.Category2;
-import com.example.se306project1.models.Category3;
+import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +22,12 @@ import java.util.List;
 public class CategoryActivity extends AppCompatActivity {
 
     private List<ICategory> categories;
-    private ArrayList<IProduct> products;
+    private ArrayList<IProduct> topProducts;
 
     ViewHolder viewHolder;
+
+    Drawer drawer;
+    ProductSearcher productSearcher;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
@@ -37,25 +38,23 @@ public class CategoryActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        viewHolder = new ViewHolder();
+
+        this.viewHolder = new ViewHolder();
         this.categories = new ArrayList<>();
-        this.products = new ArrayList<>();
+        this.topProducts = new ArrayList<>();
+        this.drawer = new Drawer(this);
+        this.productSearcher = new ProductSearcher(this);
+
         this.fillTopPicks();
         this.fillCategories();
-        this.setAdapter();
+
+        this.setCategoryAdapter();
+        this.setTopProductAdapter();
+        this.drawer.initialise();
+        this.productSearcher.initialise();
     }
 
-    public void setAdapter() {
-        TopPickAdapter topPickAdapter = new TopPickAdapter(this.products);
-        RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
-                getApplicationContext(),
-                LinearLayoutManager.HORIZONTAL,
-                false
-        );
-        this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
-        this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        this.viewHolder.topPickRecyclerView.setAdapter(topPickAdapter);
-
+    public void setCategoryAdapter() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
         RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -67,43 +66,32 @@ public class CategoryActivity extends AppCompatActivity {
         this.viewHolder.categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
+    public void setTopProductAdapter() {
+        RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
+                getApplicationContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+        );
+        this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
+        this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this.topProducts));
+    }
 
     public void fillCategories() {
-        Category category1 = new Category1();
-        Category category2 = new Category2();
-        Category category3 = new Category3();
-
-        category1.setId(1);
-        category2.setId(2);
-        category3.setId(3);
-
-        category1.setTitle("Colosseum1");
-        category2.setTitle("Colosseum2");
-        category3.setTitle("Colosseum3");
-
-        category1.setImage("image_placeholder.png");
-        category1.setImage("image_placeholder.png");
-        category1.setImage("image_placeholder.png");
-        categories.add(category1);
-        categories.add(category2);
-        categories.add(category3);
-
+        this.categories = DataProvider.getICategoryList();
     }
 
     public void fillTopPicks() {
-        Product product = new Product();
-        product.setId(1);
-        product.setCategoryId(1);
-        product.setName("Colosseum");
-        product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
-        product.setPrice(199.90);
-        product.setStock(0);
-        List<String> images = new ArrayList<>();
-        images.add("image_placeholder.png");
-        product.setImages(images);
-        for (int i = 0; i < 5; i++) {
-            this.products.add(product);
-        }
+        this.topProducts = DataProvider.getIProductList(5);
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        return this.drawer.setUp(item, super.onOptionsItemSelected(item));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return this.productSearcher.onCreateOptionsMenu(menu, super.onCreateOptionsMenu(menu));
+    }
 }
