@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.se306project1.R;
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
+import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,11 +63,13 @@ public class MainActivity extends AppCompatActivity {
             vh.login.setVisibility(View.VISIBLE);
         });
 
-//        TODO
         vh.registerSignUpButton.setOnClickListener(view -> {
             if (validSignUp()){
-                createCurrentUser(getRegisterUsername(),getRegisterPassword());
-//                userDatabase.addUserToFireStore(getRegisterUsername(),getRegisterPassword());
+                String username = getRegisterUsername();
+                String password = getRegisterPassword();
+                String encriptedPassword = getEncriptedPassword(password);
+                createCurrentUser(username,password);
+                userDatabase.addUserToFireStore(username,encriptedPassword);
                 vh.registerUsernameEditText.setText("");
                 vh.registerPasswordEditText.setText("");
                 vh.registerConfirmPasswordEditText.setText("");
@@ -161,6 +164,10 @@ public class MainActivity extends AppCompatActivity {
 
     private String getLoginPassword(){
         return vh.loginPasswordEditText.getText().toString();
+    }
+
+    private String getEncriptedPassword(String password){
+        return PasswordEncripter.hashPassword(password);
     }
 
 }

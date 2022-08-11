@@ -38,7 +38,6 @@ public class UserDatabase implements IUserDatabase{
         return inValidUsername.contains(username);
    }
 
-
     public void addUserToFireStore(String username, String password){
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         User user = new User(username,password);
