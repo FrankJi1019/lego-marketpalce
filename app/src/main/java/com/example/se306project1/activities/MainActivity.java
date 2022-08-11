@@ -72,8 +72,9 @@ public class MainActivity extends AppCompatActivity {
         vh.registerSignUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if (validSignUp()){
-                    createCurrentUser(registerUsername, registerPassword);
+                    createCurrentUser(getRegisterUsername(),getRegisterPassword());
 //                    add new user to database
                     vh.registerUsernameEditText.setText("");
                     vh.registerPasswordEditText.setText("");
@@ -95,10 +96,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                loginUsername = vh.loginUsernameEditText.getText().toString();
-                loginPassword = vh.loginPasswordEditText.getText().toString();
-                createCurrentUser(loginUsername,loginPassword);
-
+                createCurrentUser(getLoginUsername(),getLoginPassword());
                 switchToCategoryActivity();
             }
         });
@@ -118,7 +116,9 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean validSignUp(){
         boolean isValid = (checkValidUsername() && !checkEmptyInput() && confirmPassword())? true:false;
-        Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_LONG).show();
+        if(isValid){
+            Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_LONG).show();
+        }
         return isValid;
     }
 
@@ -128,15 +128,20 @@ public class MainActivity extends AppCompatActivity {
         if(vh.registerUsernameEditText.getText().length()==0){
             Toast.makeText(this,"Please enter your username", Toast.LENGTH_LONG).show();
             return false;
-        }else if(registerUsername.equals("cc")){
+        }else if(getRegisterUsername().equals("cc")){
             Toast.makeText(this,"This username has been used", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
+    //    TODO
+    private void checkLogin(){
+
+    }
+
     private boolean checkEmptyInput(){
-        if(vh.registerPasswordEditText.getText().length() == 0 || vh.registerConfirmPasswordEditText.getText().length() == 0){
+        if(getRegisterPassword().isEmpty() || getConfirmPassword().isEmpty()){
             Toast.makeText(this,"Please enter password", Toast.LENGTH_LONG).show();
             return true;
         }
@@ -144,18 +149,31 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean confirmPassword(){
-        registerPassword = vh.registerPasswordEditText.getText().toString();
-        confirmPassword = vh.registerConfirmPasswordEditText.getText().toString();
-        if (!registerPassword.equals(confirmPassword)){
+        if (!getRegisterPassword().equals(getConfirmPassword())){
             Toast.makeText(this,"Password and confirm password do not match, please try again", Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
-//    TODO
-    private void checkLogin(){
+    private String getRegisterUsername(){
+        return vh.registerUsernameEditText.getText().toString();
+    }
 
+    private String getRegisterPassword(){
+        return vh.registerPasswordEditText.getText().toString();
+    }
+
+    private String getConfirmPassword(){
+        return vh.registerConfirmPasswordEditText.getText().toString();
+    }
+
+    private String getLoginUsername(){
+        return vh.loginUsernameEditText.getText().toString();
+    }
+
+    private String getLoginPassword(){
+        return vh.loginPasswordEditText.getText().toString();
     }
 
 }
