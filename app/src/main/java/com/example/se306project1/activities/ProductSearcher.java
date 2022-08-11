@@ -42,7 +42,7 @@ public class ProductSearcher {
     }
 
     public void initialise() {
-        this.suggestionAdapter = new SuggestionAdapter(productPool);
+        this.suggestionAdapter = new SuggestionAdapter(this.activity, productPool);
         this.viewHolder.suggestionListRecycler.setAdapter(this.suggestionAdapter);
         this.viewHolder.suggestionListRecycler.setLayoutManager(
                 new LinearLayoutManager(
