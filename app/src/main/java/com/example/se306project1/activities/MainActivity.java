@@ -12,12 +12,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
+import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.UserState;
 
 public class MainActivity extends AppCompatActivity {
     private UserState userState;
-    private User user = new User();
+    private User user;
+    private UserDatabase userDatabase= UserDatabase.getInstance();
 
     private class ViewHolder {
         ConstraintLayout signUp, login;
@@ -64,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         vh.registerSignUpButton.setOnClickListener(view -> {
             if (validSignUp()){
                 createCurrentUser(getRegisterUsername(),getRegisterPassword());
-//                    add new user to database
+//                userDatabase.addUserToFireStore(getRegisterUsername(),getRegisterPassword());
                 vh.registerUsernameEditText.setText("");
                 vh.registerPasswordEditText.setText("");
                 vh.registerConfirmPasswordEditText.setText("");
@@ -95,8 +97,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createCurrentUser(String username, String password){
         userState = UserState.getInstance();
-        user.setUsername(username);
-        user.setPassword(password);
+        user = new User(username, password);
         userState.setCurrentUser(user);
     }
 
@@ -115,10 +116,11 @@ public class MainActivity extends AppCompatActivity {
 
 // TODO
     private boolean checkValidUsername(){
+        boolean userExist = userDatabase.isUserExist(getRegisterUsername());
         if(vh.registerUsernameEditText.getText().length()==0){
             Toast.makeText(this,"Please enter your username", Toast.LENGTH_LONG).show();
             return false;
-        }else if(getRegisterUsername().equals("cc")){
+        }else if(userExist){
             Toast.makeText(this,"This username has been used", Toast.LENGTH_LONG).show();
             return false;
         }
