@@ -5,11 +5,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
@@ -17,6 +15,10 @@ import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     private UserState userState;
@@ -27,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
         ConstraintLayout signUp, login;
         EditText registerUsernameEditText, registerPasswordEditText, registerConfirmPasswordEditText, loginUsernameEditText, loginPasswordEditText;
         Button registerSignUpButton, registerLoginButton, loginLoginButton, loginSignUpButton;
-        TextView what;
     }
 
     private ViewHolder vh = new ViewHolder();
@@ -85,17 +86,43 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+//        TODO
+//        Can we improve?
         vh.loginLoginButton.setOnClickListener(view -> {
             String username = getLoginUsername();
             String password = getLoginPassword();
-           if (checkEmptyLogin() && userDatabase.isLoginValid(username, password)){
-                Toast.makeText(this, "Password good", Toast.LENGTH_SHORT).show();
-                createCurrentUser(username,password);
-                switchToCategoryActivity();
-                vh.loginUsernameEditText.setText("");
-                vh.loginPasswordEditText.setText("");
+            if(checkEmptyLogin()){
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                DocumentReference docRef = db.collection("Users").document(username);
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if(documentSnapshot.exists() && documentSnapshot.toObject(User.class).getPassword().equals(PasswordEncripter.hashPassword(password))){
+                            createCurrentUser(username,password);
+                            successLogin();
+                            switchToCategoryActivity();
+                            vh.loginUsernameEditText.setText("");
+                            vh.loginPasswordEditText.setText("");
+                        }else{
+                            unsuccessfulLogin();
+                        }
+                    }
+                });
             }
         });
+    }
+
+    private void successLogin(){
+        Toast.makeText(this, "Successfully login", Toast.LENGTH_SHORT).show();
+    }
+
+    private void unsuccessfulLogin(){
+        Toast.makeText(this, "The combination of password and username is incorrect, please try agian", Toast.LENGTH_SHORT).show();
+    }
+
+    private void switchToCategoryActivity(){
+        Intent categoryIntent = new Intent(getBaseContext(), CategoryActivity.class);
+        startActivity(categoryIntent);
     }
 
     private boolean checkEmptyLogin(){
@@ -109,11 +136,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void switchToCategoryActivity(){
-        Intent categoryIntent = new Intent(getBaseContext(), CategoryActivity.class);
-        startActivity(categoryIntent);
-    }
-
     private void createCurrentUser(String username, String password){
         userState = UserState.getInstance();
         user = new User(username, password);
@@ -121,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private boolean validSignUp(){
-        boolean isValid = checkValidUsername() && !checkEmptyInput() && confirmPassword();
+        boolean isValid = checkValidUsername() && !checkRegisterEmptyInput() && checkConfirmPassword();
         if(isValid){
             Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
         }
@@ -139,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private boolean checkEmptyInput(){
+    private boolean checkRegisterEmptyInput(){
         if(getRegisterPassword().isEmpty() || getConfirmPassword().isEmpty()){
             Toast.makeText(this,"Please enter password", Toast.LENGTH_SHORT).show();
             return true;
@@ -147,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
         return false;
     }
 
-    private boolean confirmPassword(){
+    private boolean checkConfirmPassword(){
         if (!getRegisterPassword().equals(getConfirmPassword())){
             Toast.makeText(this,"Password and confirm password do not match, please try again", Toast.LENGTH_SHORT).show();
             return false;
