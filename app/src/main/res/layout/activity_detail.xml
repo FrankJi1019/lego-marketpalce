@@ -5,7 +5,7 @@
     android:id="@+id/drawerlayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.CategoryActivity">
+    tools:context=".activities.DetailActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -34,7 +34,6 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:context=".activities.DetailActivity"
                     android:orientation="vertical">
 
                     <androidx.viewpager.widget.ViewPager
@@ -60,7 +59,8 @@
                             android:textSize="18sp"
                             app:icon="@drawable/arrow_back_ios"
                             app:iconSize="18sp"
-                            app:iconTint="@android:color/black" />
+                            app:iconTint="@android:color/black"
+                            android:onClick="onGoBack"/>
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
@@ -78,18 +78,34 @@
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
-                            <Button
-                                android:id="@+id/like_button"
-                                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                                android:layout_width="37dp"
-                                android:layout_height="28dp"
+                            <RelativeLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toEndOf="@+id/detail_name_textView"
                                 android:layout_centerVertical="true"
-                                android:layout_marginLeft="10dp"
-                                android:layout_marginTop="0dp"
-                                android:layout_toRightOf="@+id/detail_name_textView"
-                                app:icon="@drawable/outline_favorite_border_24"
-                                app:iconSize="23sp"
-                                app:iconTint="@android:color/black" />
+                                android:layout_marginStart="10dp">
+                                <Button
+                                    android:id="@+id/like_button"
+                                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                                    android:layout_width="37dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginTop="0dp"
+                                    app:icon="@drawable/outline_favorite_border_24"
+                                    app:iconSize="23sp"
+                                    app:iconTint="@color/gray_300"
+                                    android:onClick="onToggleLike" />
+                                <Button
+                                    android:id="@+id/unlike_button"
+                                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                                    android:layout_width="37dp"
+                                    android:layout_height="28dp"
+                                    android:layout_marginTop="0dp"
+                                    app:icon="@drawable/outline_favorite_border_24"
+                                    app:iconSize="23sp"
+                                    app:iconTint="@color/red_100"
+                                    android:visibility="invisible"
+                                    android:onClick="onToggleLike" />
+                            </RelativeLayout>
 
                         </RelativeLayout>
 
@@ -155,8 +171,7 @@
                             android:textSize="20sp"
                             app:cornerRadius="50dp"
                             android:layout_marginTop="25dp"
-                            >
-                        </Button>
+                            android:onClick="onAddToCart" />
 
                     </LinearLayout>
 

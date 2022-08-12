@@ -18,5 +18,6 @@ public interface IProduct {
     public void setStock(int stock);
     public void setLikesNumber(int likesNumber);
     public int getLikesNumber();
+    public CartProduct toCartProduct();
 
 }

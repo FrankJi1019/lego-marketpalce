@@ -1,6 +1,7 @@
 package com.example.se306project1.activities;
 
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -47,12 +48,41 @@ public class Drawer {
                         return true;
                     }
                 });
+        for (Class c: this.activity.getClass().getInterfaces()) {
+            if (c.equals(NavigationView.OnNavigationItemSelectedListener.class)) {
+                this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
+                        (NavigationView.OnNavigationItemSelectedListener) this.activity
+                );
+                break;
+            }
+        }
+
     }
 
     public boolean setUp(MenuItem item, boolean toBeReturned) {
         if (item.getItemId() == android.R.id.home) {
             this.drawerViewHolder.drawerLayout.openDrawer(GravityCompat.START);
         }
+        return toBeReturned;
+    }
+
+    public boolean onNavigationItemSelected(MenuItem item, boolean toBeReturned) {
+        if (item.getItemId() ==  R.id.nav_homepage) {
+            CategoryActivity.start(this.activity);
+        } else if (item.getItemId() ==  R.id.nav_likes) {
+            ProductActivity.startWithLikes(this.activity);
+        } else if (item.getItemId() ==  R.id.nav_cart) {
+            CartActivity.start(this.activity);
+        } else if (item.getItemId() ==  R.id.nav_technic) {
+            ProductActivity.startWithTheme(this.activity, "Technic");
+        } else if (item.getItemId() ==  R.id.nav_starwar) {
+            ProductActivity.startWithTheme(this.activity, "Star War");
+        } else if (item.getItemId() ==  R.id.nav_friends) {
+            ProductActivity.startWithTheme(this.activity, "Friends");
+        } else if (item.getItemId() ==  R.id.nav_logout) {
+            Toast.makeText(this.activity, "log out", Toast.LENGTH_SHORT).show();
+        }
+        this.drawerViewHolder.drawerLayout.closeDrawer(GravityCompat.START);
         return toBeReturned;
     }
 

@@ -8,9 +8,12 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
+import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 
@@ -25,16 +28,21 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     private List<IProduct> filteredProducts = new ArrayList<>();
     private List<IProduct> emptyProductList = new ArrayList<>();
 
+    private AppCompatActivity activity;
+
     class SuggestionViewHolder extends RecyclerView.ViewHolder {
         private TextView suggestedNameTextView;
+        private CardView suggestionItemContainer;
 
         public SuggestionViewHolder(View view) {
             super(view);
             this.suggestedNameTextView = view.findViewById(R.id.suggested_product_name_textview);
+            this.suggestionItemContainer = view.findViewById(R.id.suggestion_item_container);
         }
     }
 
-    public SuggestionAdapter(List<IProduct> products) {
+    public SuggestionAdapter(AppCompatActivity activity, List<IProduct> products) {
+        this.activity = activity;
         this.allProducts = products;
     }
 
@@ -49,6 +57,10 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     @Override
     public void onBindViewHolder(@NonNull SuggestionViewHolder holder, int position) {
         holder.suggestedNameTextView.setText(this.filteredProducts.get(position).getName());
+        holder.suggestionItemContainer.setOnClickListener(view -> {
+            if (holder.suggestedNameTextView.getText().toString().equalsIgnoreCase("no result")) return;
+            DetailActivity.start(activity);
+        });
     }
 
     @Override

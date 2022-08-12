@@ -1,13 +1,16 @@
 package com.example.se306project1.activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
@@ -15,11 +18,13 @@ import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
+import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<ICategory> categories;
     private ArrayList<IProduct> topProducts;
@@ -32,6 +37,11 @@ public class CategoryActivity extends AppCompatActivity {
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
+    }
+
+    public static void start(AppCompatActivity activity) {
+        Intent intent = new Intent(activity.getBaseContext(), CategoryActivity.class);
+        activity.startActivity(intent);
     }
 
     @Override
@@ -55,7 +65,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public void setCategoryAdapter() {
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, this.categories);
         RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
@@ -93,5 +103,14 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         return this.productSearcher.onCreateOptionsMenu(menu, super.onCreateOptionsMenu(menu));
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        return this.drawer.onNavigationItemSelected(item, true);
+    }
+
+    public void onClickTopPick(View view) {
+        DetailActivity.start(this);
     }
 }

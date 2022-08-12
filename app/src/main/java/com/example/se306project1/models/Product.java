@@ -84,4 +84,15 @@ public class Product implements IProduct {
         return likesNum;
     }
 
+    public CartProduct toCartProduct() {
+        CartProduct cartProduct = new CartProduct();
+        cartProduct.setName(this.name);
+        cartProduct.setDescription(this.description);
+        cartProduct.setPrice(this.price);
+        cartProduct.setImages(this.images);
+        cartProduct.setStock(this.stock);
+        cartProduct.setAmount(1);
+        return cartProduct;
+    }
+
 }
