@@ -24,6 +24,8 @@ import java.util.ArrayList;
 public class ProductActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener{
 
+    private static ProductActivityState state = ProductActivityState.UNDEFINED;
+
     private ArrayList<IProduct> products;
 
     ViewHolder viewHolder;
@@ -39,6 +41,12 @@ public class ProductActivity extends AppCompatActivity
         activity.startActivity(thisIntent);
     }
 
+    public static void startWithTheme(AppCompatActivity activity, String theme) {
+        state = ProductActivityState.THEME;
+        Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+        thisIntent.putExtra("theme", theme);
+        activity.startActivity(thisIntent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +63,10 @@ public class ProductActivity extends AppCompatActivity
         this.setProductAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
+
+        if (state == ProductActivityState.THEME) {
+            getSupportActionBar().setTitle(getIntent().getStringExtra("theme"));
+        }
     }
 
     public void setProductAdapter() {
@@ -101,4 +113,8 @@ public class ProductActivity extends AppCompatActivity
         ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
     }
 
+}
+
+enum ProductActivityState {
+    UNDEFINED, THEME
 }

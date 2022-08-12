@@ -65,7 +65,7 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     public void setCategoryAdapter() {
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this, this.categories);
         RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
@@ -108,11 +108,6 @@ public class CategoryActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return this.drawer.onNavigationItemSelected(item, true);
-    }
-
-    // click event handler
-    public void onCategoryClick(View view) {
-        ProductActivity.start(this);
     }
 
     public void onClickTopPick(View view) {

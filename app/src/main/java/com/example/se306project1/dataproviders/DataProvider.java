@@ -55,9 +55,9 @@ public class DataProvider {
         category1.setId(1);
         category2.setId(2);
         category3.setId(3);
-        category1.setTitle("Colosseum1");
-        category2.setTitle("Colosseum2");
-        category3.setTitle("Colosseum3");
+        category1.setTitle("Technic");
+        category2.setTitle("Star War");
+        category3.setTitle("Friends");
         category1.setImage("image_placeholder.png");
         category1.setImage("image_placeholder.png");
         category1.setImage("image_placeholder.png");

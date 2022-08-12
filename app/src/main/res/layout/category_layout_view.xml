@@ -35,14 +35,13 @@
                 android:textStyle="bold"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/forward_arrow_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/forward_arrow_button"
-                android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
                 android:src="@drawable/ic_baseline_arrow_forward_ios_24"
-                app:backgroundTint="@color/yellow_main"
-                android:onClick="onCategoryClick"/>
+                app:backgroundTint="@color/yellow_main" />
 
         </RelativeLayout>
 
