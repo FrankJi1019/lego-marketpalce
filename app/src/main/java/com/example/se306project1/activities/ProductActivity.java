@@ -48,6 +48,12 @@ public class ProductActivity extends AppCompatActivity
         activity.startActivity(thisIntent);
     }
 
+    public static void startWithLikes(AppCompatActivity activity) {
+        state = ProductActivityState.LIKE;
+        Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+        activity.startActivity(thisIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +72,8 @@ public class ProductActivity extends AppCompatActivity
 
         if (state == ProductActivityState.THEME) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("theme"));
+        } else if (state == ProductActivityState.LIKE) {
+            getSupportActionBar().setTitle("Your Likes");
         }
     }
 
@@ -116,5 +124,5 @@ public class ProductActivity extends AppCompatActivity
 }
 
 enum ProductActivityState {
-    UNDEFINED, THEME
+    UNDEFINED, THEME, LIKE, SEARCH
 }
