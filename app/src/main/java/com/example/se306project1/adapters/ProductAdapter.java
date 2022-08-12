@@ -24,11 +24,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productNameTextview;
-        private MaterialButton likeButton;
+        private MaterialButton likeButton, unlikeButton;
         public ProductViewHolder(final View view) {
             super(view);
             this.productNameTextview = view.findViewById(R.id.product_name_textview);
             this.likeButton = view.findViewById(R.id.like_button);
+            this.unlikeButton = view.findViewById(R.id.unlike_button);
         }
     }
 
@@ -52,6 +53,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         IProduct product = this.products.get(position);
         holder.productNameTextview.setText(product.getName());
         holder.likeButton.setOnClickListener(view -> {
+            view.setVisibility(View.INVISIBLE);
+            holder.unlikeButton.setVisibility(View.VISIBLE);
+        });
+        holder.unlikeButton.setOnClickListener(view -> {
+            view.setVisibility(View.INVISIBLE);
+            holder.likeButton.setVisibility(View.VISIBLE);
         });
     }
 
