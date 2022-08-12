@@ -22,7 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import java.util.ArrayList;
 
 public class ProductActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     private static ProductActivityState state = ProductActivityState.UNDEFINED;
 
@@ -54,6 +54,13 @@ public class ProductActivity extends AppCompatActivity
         activity.startActivity(thisIntent);
     }
 
+    public static void startWithSearch(AppCompatActivity activity, String keyword) {
+        state = ProductActivityState.SEARCH;
+        Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+        thisIntent.putExtra("keyword", keyword);
+        activity.startActivity(thisIntent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +81,10 @@ public class ProductActivity extends AppCompatActivity
             getSupportActionBar().setTitle(getIntent().getStringExtra("theme"));
         } else if (state == ProductActivityState.LIKE) {
             getSupportActionBar().setTitle("Your Likes");
+        } else if (state == ProductActivityState.SEARCH) {
+            getSupportActionBar().setTitle(
+                    String.format("Items related to \"%s\"", getIntent().getStringExtra("keyword"))
+            );
         }
     }
 
