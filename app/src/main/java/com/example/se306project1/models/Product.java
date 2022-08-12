@@ -12,6 +12,20 @@ public class Product implements IProduct {
     private int stock;
     private int likesNum;
 
+    public Product(){
+
+    }
+
+    public Product(String categoryTitle, String name, String description, double price, List<Integer> images, int stock, int likesNum) {
+        this.categoryTitle = categoryTitle;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.images = images;
+        this.stock = stock;
+        this.likesNum = likesNum;
+    }
+
     public String getCategoryTitle() {
         return categoryTitle;
     }

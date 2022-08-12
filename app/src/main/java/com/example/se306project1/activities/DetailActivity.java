@@ -9,7 +9,10 @@ import android.view.MenuItem;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.dataproviders.ProductData;
+import com.example.se306project1.models.IProduct;
 
 import java.util.ArrayList;
 import java.util.List;
