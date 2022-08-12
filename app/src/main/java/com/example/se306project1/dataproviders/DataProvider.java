@@ -69,7 +69,7 @@ public class DataProvider {
     public static List<Integer> getImageList(int size) {
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            res.add(R.drawable.image_placeholder);
+            res.add(R.drawable.hovercraft2);
         }
         return res;
     }
