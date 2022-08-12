@@ -67,18 +67,18 @@ public class Drawer {
     }
 
     public boolean onNavigationItemSelected(MenuItem item, boolean toBeReturned) {
-        if (item.getItemId() ==  R.id.nav_homepage && !this.activity.getClass().equals(CategoryActivity.class)) {
+        if (item.getItemId() ==  R.id.nav_homepage) {
             CategoryActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_likes && !this.activity.getClass().equals(ProductActivity.class)) {
+        } else if (item.getItemId() ==  R.id.nav_likes) {
             ProductActivity.startWithLikes(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_cart && !this.activity.getClass().equals(CartActivity.class)) {
+        } else if (item.getItemId() ==  R.id.nav_cart) {
             CartActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_technic && !this.activity.getClass().equals(ProductActivity.class)) {
-            ProductActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_starwar && !this.activity.getClass().equals(ProductActivity.class)) {
-            ProductActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_friends && !this.activity.getClass().equals(ProductActivity.class)) {
-            ProductActivity.start(this.activity);
+        } else if (item.getItemId() ==  R.id.nav_technic) {
+            ProductActivity.startWithTheme(this.activity, "Technic");
+        } else if (item.getItemId() ==  R.id.nav_starwar) {
+            ProductActivity.startWithTheme(this.activity, "Star War");
+        } else if (item.getItemId() ==  R.id.nav_friends) {
+            ProductActivity.startWithTheme(this.activity, "Friends");
         } else if (item.getItemId() ==  R.id.nav_logout) {
             Toast.makeText(this.activity, "log out", Toast.LENGTH_SHORT).show();
         }
