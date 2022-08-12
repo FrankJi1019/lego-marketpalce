@@ -4,28 +4,20 @@ import java.util.List;
 
 public class Product implements IProduct {
 
-    private int id;
-    private int categoryId;
+    private String categoryTitle;
     private String name;
     private String description;
     private double price;
-    private List<String> images;
+    private List<Integer> images;
     private int stock;
+    private int likesNum;
 
-    public int getId() {
-        return id;
+    public String getCategoryTitle() {
+        return categoryTitle;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
     }
 
     public String getName() {
@@ -52,11 +44,11 @@ public class Product implements IProduct {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public List<Integer> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<Integer> images) {
         this.images = images;
     }
 
@@ -67,4 +59,15 @@ public class Product implements IProduct {
     public void setStock(int stock) {
         this.stock = stock;
     }
+
+    @Override
+    public void setLikesNumber(int likesNumber) {
+        this.likesNum = likesNumber;
+    }
+
+    @Override
+    public int getLikesNumber() {
+        return likesNum;
+    }
+
 }
