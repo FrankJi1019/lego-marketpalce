@@ -43,7 +43,7 @@ public class ProductData {
 
         IProduct product4 = new Product("technic",
                 "helicopter",
-                " ",
+                "  Inquisitive kids aged 11 and up will love learning how a helicopter works with this LEGO® Technic™ Airbus H175 Rescue Helicopter (42145) toy set. It has lots of awesome functions, so they’ll discover how the different parts come together to create an iconic search and rescue vehicle.",
                 163,
                 new ArrayList<>(Arrays.asList(R.drawable.helicopter1,R.drawable.helicopter2,R.drawable.helicopter3)),
                 100,
