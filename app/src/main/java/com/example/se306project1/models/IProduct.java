@@ -18,5 +18,6 @@ public interface IProduct {
     public void setImages(List<String> images);
     public int getStock();
     public void setStock(int stock);
+    public CartProduct toCartProduct();
 
 }

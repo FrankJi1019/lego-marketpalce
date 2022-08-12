@@ -16,6 +16,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.adapters.CartProductAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.statemanagement.CartState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -70,7 +71,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void fillProducts() {
-        this.cartProducts = DataProvider.getCartProductList(10);
+        this.cartProducts = CartState.getCartState().getCartProducts();
     }
 
     @Override

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.statemanagement.CartState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +24,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     public class CartProductViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView, amountTextView, priceTextView;
         private ImageView imageView;
-        private Button decreaseAmountButton, increaseAmountButton;
+        private Button decreaseAmountButton, increaseAmountButton, deleteButton;
         public CartProductViewHolder(final View view) {
             super(view);
             this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
@@ -32,6 +33,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             this.imageView = view.findViewById(R.id.cart_product_imageview);
             this.decreaseAmountButton = view.findViewById(R.id.decrease_amount_button);
             this.increaseAmountButton = view.findViewById(R.id.increase_amount_button);
+            this.deleteButton = view.findViewById(R.id.delete_button);
         }
     }
 
@@ -62,6 +64,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 int newAmount = Math.max(cartProduct.getAmount() - 1, 1);
                 holder.amountTextView.setText(Integer.toString(newAmount));
                 cartProduct.setAmount(newAmount);
+                CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
             }
         });
         holder.increaseAmountButton.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +74,14 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 int newAmount = Math.min(cartProduct.getAmount() + 1, cartProduct.getStock());
                 holder.amountTextView.setText(Integer.toString(newAmount));
                 cartProduct.setAmount(newAmount);
+                CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
+            }
+        });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CartProduct cartProduct = products.get(position);
+                CartState.getCartState().removeCartProduct(cartProduct.getName());
             }
         });
     }

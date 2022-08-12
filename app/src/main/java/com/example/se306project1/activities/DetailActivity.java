@@ -13,6 +13,8 @@ import android.view.View;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.statemanagement.CartState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -75,5 +77,10 @@ public class DetailActivity extends AppCompatActivity
 
     public void onGoBack(View view) {
         finish();
+    }
+
+    public void onAddToCart(View view) {
+        CartProduct product = DataProvider.getIProduct().toCartProduct();
+        CartState.getCartState().addToCart(product);
     }
 }

@@ -16,6 +16,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -93,6 +94,11 @@ public class ProductActivity extends AppCompatActivity
 
     public void onGoBack(View view) {
         finish();
+    }
+
+    public void onSortClick(View view) {
+        ((MaterialButton) view).setIconTintResource(R.color.orange_100);
+        ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
     }
 
 }
