@@ -18,15 +18,14 @@ public class DataProvider {
         ArrayList<IProduct> res = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             IProduct product = new Product();
-            product.setId(i + 1);
-            product.setCategoryId(1);
+            product.setCategoryTitle("1");
             product.setName("Colosseum");
             product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
             product.setPrice(199.90);
             product.setStock(0);
             List<String> images = new ArrayList<>();
             images.add("image_placeholder.png");
-            product.setImages(images);
+//            product.setImages(images);
             res.add(product);
         }
         return res;
@@ -34,15 +33,14 @@ public class DataProvider {
 
     public static IProduct getIProduct() {
         IProduct product = new Product();
-        product.setId(1);
-        product.setCategoryId(1);
+        product.setCategoryTitle("1");
         product.setName("Colosseum");
         product.setDescription("Build and discover the Taj Mahal! The huge ivory-white marble mausoleum, renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal. This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials, and the raised platform is lined with recessed arches.");
         product.setPrice(199.90);
         product.setStock(0);
         List<String> images = new ArrayList<>();
         images.add("image_placeholder.png");
-        product.setImages(images);
+//        product.setImages(images);
         return product;
     }
 
@@ -51,9 +49,6 @@ public class DataProvider {
         Category category1 = new Category1();
         Category category2 = new Category2();
         Category category3 = new Category3();
-        category1.setId(1);
-        category2.setId(2);
-        category3.setId(3);
         category1.setTitle("Colosseum1");
         category2.setTitle("Colosseum2");
         category3.setTitle("Colosseum3");
@@ -69,7 +64,7 @@ public class DataProvider {
     public static List<Integer> getImageList(int size) {
         List<Integer> res = new ArrayList<>();
         for (int i = 0; i < size; i++) {
-            res.add(R.drawable.image_placeholder);
+            res.add(R.drawable.hovercraft2);
         }
         return res;
     }
