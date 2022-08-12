@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
@@ -25,6 +26,8 @@ public class DetailActivity extends AppCompatActivity
 
     class ViewHolder{
         private final ViewPager viewPager = findViewById(R.id.viewPager);
+        private final Button likeButton = findViewById(R.id.like_button);
+        private final Button unlikeButton = findViewById(R.id.unlike_button);
     }
     
     List<Integer> imageList;
@@ -82,5 +85,14 @@ public class DetailActivity extends AppCompatActivity
     public void onAddToCart(View view) {
         CartProduct product = DataProvider.getIProduct().toCartProduct();
         CartState.getCartState().addToCart(product);
+    }
+
+    public void onToggleLike(View view) {
+        view.setVisibility(View.INVISIBLE);
+        if (view.getId() == R.id.unlike_button) {
+            this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+        } else {
+            this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+        }
     }
 }
