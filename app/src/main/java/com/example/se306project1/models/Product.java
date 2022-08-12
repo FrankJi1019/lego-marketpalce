@@ -4,28 +4,34 @@ import java.util.List;
 
 public class Product implements IProduct {
 
-    private int id;
-    private int categoryId;
+    private String categoryTitle;
     private String name;
     private String description;
     private double price;
-    private List<String> images;
+    private List<Integer> images;
     private int stock;
+    private int likesNum;
 
-    public int getId() {
-        return id;
+    public Product(){
+
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Product(String categoryTitle, String name, String description, double price, List<Integer> images, int stock, int likesNum) {
+        this.categoryTitle = categoryTitle;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.images = images;
+        this.stock = stock;
+        this.likesNum = likesNum;
     }
 
-    public int getCategoryId() {
-        return categoryId;
+    public String getCategoryTitle() {
+        return categoryTitle;
     }
 
-    public void setCategoryId(int categoryId) {
-        this.categoryId = categoryId;
+    public void setCategoryTitle(String categoryTitle) {
+        this.categoryTitle = categoryTitle;
     }
 
     public String getName() {
@@ -52,11 +58,11 @@ public class Product implements IProduct {
         this.price = price;
     }
 
-    public List<String> getImages() {
+    public List<Integer> getImages() {
         return images;
     }
 
-    public void setImages(List<String> images) {
+    public void setImages(List<Integer> images) {
         this.images = images;
     }
 
@@ -68,6 +74,16 @@ public class Product implements IProduct {
         this.stock = stock;
     }
 
+    @Override
+    public void setLikesNumber(int likesNumber) {
+        this.likesNum = likesNumber;
+    }
+
+    @Override
+    public int getLikesNumber() {
+        return likesNum;
+    }
+
     public CartProduct toCartProduct() {
         CartProduct cartProduct = new CartProduct();
         cartProduct.setName(this.name);
@@ -76,7 +92,7 @@ public class Product implements IProduct {
         cartProduct.setImages(this.images);
         cartProduct.setStock(this.stock);
         cartProduct.setAmount(1);
-        cartProduct.setCategoryId(this.categoryId);
         return cartProduct;
     }
+
 }

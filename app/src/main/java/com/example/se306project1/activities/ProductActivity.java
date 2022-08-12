@@ -15,9 +15,11 @@ import android.view.View;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 

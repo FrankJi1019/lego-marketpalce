@@ -151,6 +151,7 @@
                         </View>
 
                         <TextView
+                            android:id="@+id/description"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Build and discover the Taj Mahal! The huge ivory-white marble mausoleum,renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal.This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials,and the raised platform is lined with recessed arches."
@@ -169,7 +170,7 @@
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             app:cornerRadius="50dp"
-                            android:layout_marginTop="40dp"
+                            android:layout_marginTop="25dp"
                             android:onClick="onAddToCart" />
 
                     </LinearLayout>
