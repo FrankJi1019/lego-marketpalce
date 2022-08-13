@@ -12,6 +12,8 @@ public class UserState {
         return  this.currentUser;
     }
 
+    public void logoutCurrentUser(){userState = null;}
+
     public void setCurrentUser(User currentUser) {
         this.currentUser = currentUser;
     }
