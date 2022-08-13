@@ -63,11 +63,16 @@ public class LikesDatabase extends ProductDatabase{
                @Override
                public void onSuccess(DocumentSnapshot documentSnapshot) {
                    List<String> likeList = (List<String>)documentSnapshot.get("likeList");
-                   for(int i=0;i<products.size();i++){
-                       if(likeList.contains(products.get(i).getName())){
-                           tt.add(products.get(i));
+                   if(likeList == null){
+                       tt.add(new Product());
+                   }else{
+                       for(int i=0;i<products.size();i++){
+                           if(likeList.contains(products.get(i).getName())){
+                               tt.add(products.get(i));
+                           }
                        }
                    }
+
                    fireStoreCallback.Callback(tt);
                }
            });

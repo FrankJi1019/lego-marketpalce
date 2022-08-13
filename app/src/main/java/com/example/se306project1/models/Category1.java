@@ -11,7 +11,7 @@ public class Category1 extends Category{
         this.layout = layout;
     }
 
-    public Category1(String title, String image, String layout) {
+    public Category1(String title, int image, String layout) {
         super(title, image);
         this.layout = layout;
     }

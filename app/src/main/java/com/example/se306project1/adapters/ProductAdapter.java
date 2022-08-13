@@ -11,10 +11,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
+import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
@@ -31,6 +34,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         private TextView productNameTextview,price_textview;
         private MaterialButton likeButton, unlikeButton;
         private ImageView product_image;
+        private CardView container;
         public ProductViewHolder(final View view) {
             super(view);
             this.productNameTextview = view.findViewById(R.id.product_name_textview);
@@ -38,16 +42,23 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             this.unlikeButton = view.findViewById(R.id.unlike_button);
             this.product_image = view.findViewById(R.id.product_imageview);
             this.price_textview = view.findViewById(R.id.price_textview);
+            this.container = view.findViewById(R.id.product_item_container);
         }
     }
 
     private List<IProduct> products;
+    private AppCompatActivity activity;
 
-    public ProductAdapter(List<IProduct> products) {
+    public ProductAdapter(AppCompatActivity activity, List<IProduct> products) {
+        this.activity = activity;
         this.products = products;
     }
 
-
+    public ProductAdapter(AppCompatActivity activity, List<IProduct> products, String keyword) {
+        this.activity = activity;
+        ProductDatabase db = ProductDatabase.getInstance();
+        this.products = db.getProductsBySearch(products,keyword);
+    }
 
     @NonNull
     @Override
@@ -72,6 +83,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
+        holder.container.setOnClickListener(view -> {
+            DetailActivity.startWithName(this.activity, this.products.get(position).getName());
+        });
     }
 
     @Override

@@ -16,6 +16,9 @@ import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.models.Category1;
+import com.example.se306project1.models.Category2;
+import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
 import com.google.android.material.navigation.NavigationView;
@@ -88,7 +91,9 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     public void fillCategories() {
-        this.categories = DataProvider.getICategoryList();
+        this.categories.add(new Category1("Technic", R.drawable.technic, "Technic"));
+        this.categories.add(new Category2("Star War", R.drawable.starwar, "Star War"));
+        this.categories.add(new Category3("City", R.drawable.city, "City"));
     }
 
     public void fillTopPicks() {

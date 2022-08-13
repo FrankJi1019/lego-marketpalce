@@ -45,6 +45,7 @@ public class DetailActivity extends AppCompatActivity
     }
 
     List<Integer> imageList;
+    String productName;
 
     ViewHolder viewHolder;
     Drawer drawer;
@@ -53,6 +54,12 @@ public class DetailActivity extends AppCompatActivity
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startWithName(AppCompatActivity activity, String name) {
+        Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+        intent.putExtra("name", name);
         activity.startActivity(intent);
     }
 
@@ -75,7 +82,7 @@ public class DetailActivity extends AppCompatActivity
 //        this.fillImage();
 
         LikesDatabase ldb = LikesDatabase.getInstance();
-        ldb.addProductToLikesList("qingyang","Rey");
+//        ldb.addProductToLikesList("qingyang","Rey");
 //        ldb.addProductToLikesList("qingyang","Ducati");
 //        ldb.getUsersAllLikes(new FireStoreCallback() {
 //            @Override
@@ -89,6 +96,21 @@ public class DetailActivity extends AppCompatActivity
 //        },"qingyang");
 
 
+//        ProductDatabase db = ProductDatabase.getInstance();
+//        db.getSpecificProduct(new FireStoreCallback() {
+//            @Override
+//            public <T> void Callback(T value) {
+//                IProduct product = (IProduct) value;
+//                fetchDataAndSetAdapter(product);
+//            }
+//        },"Ferrari");
+
+        this.drawer.initialise();
+        this.productSearcher.initialise();
+        this.productName = getIntent().getStringExtra("name");
+
+        System.out.println(productName);
+
         ProductDatabase db = ProductDatabase.getInstance();
         db.getSpecificProduct(new FireStoreCallback() {
             @Override
@@ -96,10 +118,7 @@ public class DetailActivity extends AppCompatActivity
                 IProduct product = (IProduct) value;
                 fetchDataAndSetAdapter(product);
             }
-        },"Ferrari");
-
-        this.drawer.initialise();
-        this.productSearcher.initialise();
+        },productName);
     }
 
     public void fillImage() {
