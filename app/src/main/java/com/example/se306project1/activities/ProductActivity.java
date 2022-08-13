@@ -14,6 +14,8 @@ import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
+import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
@@ -22,17 +24,19 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static ProductActivityState state = ProductActivityState.UNDEFINED;
 
-    private ArrayList<IProduct> products;
+    private List<IProduct> products;
 
     ViewHolder viewHolder;
     Drawer drawer;
     ProductSearcher productSearcher;
+    String categoryTitle = "city";
 
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
@@ -73,9 +77,17 @@ public class ProductActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillProducts();
+//        this.fillProducts();
 
-        this.setProductAdapter();
+//        this.setProductAdapter();
+        ProductDatabase db = ProductDatabase.getInstance();
+        db.getAllProductsByCategoryTitle(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> productList = (List<IProduct>) value;
+                setProductAdapter(productList);
+            }
+        },categoryTitle);
         this.drawer.initialise();
         this.productSearcher.initialise();
 
@@ -90,8 +102,8 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
-    public void setProductAdapter() {
-        ProductAdapter productAdapter = new ProductAdapter(this.products);
+    public void setProductAdapter(List<IProduct> list) {
+        ProductAdapter productAdapter = new ProductAdapter(list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,

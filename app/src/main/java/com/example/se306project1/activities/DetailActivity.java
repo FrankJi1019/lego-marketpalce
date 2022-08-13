@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
+import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
@@ -30,18 +31,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener{
+        implements NavigationView.OnNavigationItemSelectedListener {
 
-    class ViewHolder{
+    class ViewHolder {
         private final ViewPager viewPager = findViewById(R.id.viewPager);
         private final Button likeButton = findViewById(R.id.like_button);
         private final Button unlikeButton = findViewById(R.id.unlike_button);
-        private final TextView  name = findViewById(R.id.detail_name_textView);
-        private final TextView  stock = findViewById(R.id.stockNumber);
+        private final TextView name = findViewById(R.id.detail_name_textView);
+        private final TextView stock = findViewById(R.id.stockNumber);
         private final TextView price = findViewById(R.id.price);
         private final TextView decription = findViewById(R.id.description);
     }
-    
+
     List<Integer> imageList;
 
     ViewHolder viewHolder;
@@ -70,15 +71,21 @@ public class DetailActivity extends AppCompatActivity
 //            db.addProductToDb(res.get(i));
 //        }
 
-
 //        this.fillImage();
-        fetchData();
+        ProductDatabase db = ProductDatabase.getInstance();
+        db.getSpecificProduct(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                IProduct product = (IProduct) value;
+                fetchDataAndSetAdapter(product);
+            }
+        },"Ferrari");
 
         this.drawer.initialise();
         this.productSearcher.initialise();
     }
 
-    public void fillImage(){
+    public void fillImage() {
         imageList = DataProvider.getImageList(3);
     }
 
@@ -115,25 +122,16 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
-    public void fetchData() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("Products").document("Rey").get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                    Product product = documentSnapshot.toObject(Product.class);
-                    List<Integer> imageList = product.getImages();
-                    detailAdapter = new DetailAdapter(imageList);
-                    viewHolder.viewPager.setAdapter(detailAdapter);
-                    viewHolder.name.setText(product.getName());
-                    viewHolder.stock.setText(product.getStock()+"");
-                    viewHolder.price.setText("$"+product.getPrice());
-                    viewHolder.decription.setText(product.getDescription());
-                    System.out.println(imageList.get(0));
-                    System.out.println(imageList.get(1));
-                    System.out.println(imageList.get(2));
-                }
-            }
-        });
+    public void fetchDataAndSetAdapter(IProduct product) {
+
+        List<Integer> imageList = product.getImages();
+        detailAdapter = new DetailAdapter(imageList);
+        viewHolder.viewPager.setAdapter(detailAdapter);
+        viewHolder.name.setText(product.getName());
+        viewHolder.stock.setText(product.getStock() + "");
+        viewHolder.price.setText("$" + product.getPrice());
+        viewHolder.decription.setText(product.getDescription());
+
+
     }
 }
