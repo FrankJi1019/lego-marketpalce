@@ -57,26 +57,20 @@ public class LikesDatabase extends ProductDatabase{
          });
      }
 
-     public void getUsersAllLikes(FireStoreCallback fireStoreCallback,String username){
-          List<IProduct> products = new ArrayList<>();
+     public void getUsersAllLikes(FireStoreCallback fireStoreCallback,String username,List<IProduct> products){
+         List<IProduct> tt = new ArrayList<>();
            db.collection("likes").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                @Override
                public void onSuccess(DocumentSnapshot documentSnapshot) {
                    List<String> likeList = (List<String>)documentSnapshot.get("likeList");
-                   ProductDatabase db = ProductDatabase.getInstance();
-                   for(int i=0;i<likeList.size();i++){
-                       db.getSpecificProduct(new FireStoreCallback() {
-                           @Override
-                           public <T> void Callback(T value) {
-                               IProduct product = (Product) value;
-                               products.add(product);
-                           }
-                       },likeList.get(i));
+                   for(int i=0;i<products.size();i++){
+                       if(likeList.contains(products.get(i).getName())){
+                           tt.add(products.get(i));
+                       }
                    }
-                   fireStoreCallback.Callback(products);
+                   fireStoreCallback.Callback(tt);
                }
            });
      }
-
 
 }

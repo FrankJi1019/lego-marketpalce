@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
 import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
@@ -72,6 +73,22 @@ public class DetailActivity extends AppCompatActivity
 //        }
 
 //        this.fillImage();
+
+        LikesDatabase ldb = LikesDatabase.getInstance();
+        ldb.addProductToLikesList("qingyang","Rey");
+//        ldb.addProductToLikesList("qingyang","Ducati");
+//        ldb.getUsersAllLikes(new FireStoreCallback() {
+//            @Override
+//            public <T> void Callback(T value) {
+//                List<IProduct> products = (List<IProduct>) value;
+//                for(int i=0;i<products.size();i++){
+//                    System.out.println(products.get(i).getName());
+//                }
+//                System.out.println("hello");
+//            }
+//        },"qingyang");
+
+
         ProductDatabase db = ProductDatabase.getInstance();
         db.getSpecificProduct(new FireStoreCallback() {
             @Override
@@ -131,7 +148,6 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.stock.setText(product.getStock() + "");
         viewHolder.price.setText("$" + product.getPrice());
         viewHolder.decription.setText(product.getDescription());
-
 
     }
 }

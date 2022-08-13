@@ -15,6 +15,8 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
+import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
@@ -40,12 +42,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     private List<IProduct> products;
-    ProductDatabase db = ProductDatabase.getInstance();
 
     public ProductAdapter(List<IProduct> products) {
         this.products = products;
-        db.sortAscendByPrice(this.products);
     }
+
+
 
     @NonNull
     @Override

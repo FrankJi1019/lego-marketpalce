@@ -15,6 +15,7 @@ import android.view.View;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.dataproviders.ProductData;
@@ -81,13 +82,20 @@ public class ProductActivity extends AppCompatActivity
 
 //        this.setProductAdapter();
         ProductDatabase db = ProductDatabase.getInstance();
-        db.getAllProductsByCategoryTitle(new FireStoreCallback() {
+        db.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
-                List<IProduct> productList = (List<IProduct>) value;
-                setProductAdapter(productList);
+                List<IProduct> products = (List<IProduct>) value;
+                LikesDatabase ldb = LikesDatabase.getInstance();
+                ldb.getUsersAllLikes(new FireStoreCallback() {
+                    @Override
+                    public <T> void Callback(T value) {
+                         List<IProduct> tt = (List<IProduct>) value;
+                         setProductAdapter(tt);
+                    }
+                },"qingyang",products);
             }
-        },categoryTitle);
+        });
         this.drawer.initialise();
         this.productSearcher.initialise();
 
@@ -145,6 +153,7 @@ public class ProductActivity extends AppCompatActivity
         ((MaterialButton) view).setIconTintResource(R.color.orange_100);
         ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
     }
+
 
 }
 
