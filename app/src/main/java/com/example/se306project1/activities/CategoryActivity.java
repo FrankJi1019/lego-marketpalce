@@ -15,6 +15,7 @@ import android.view.View;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
+import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.Category1;
@@ -60,11 +61,11 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillTopPicks();
+        this.fillTopPicks(3);
         this.fillCategories();
 
         this.setCategoryAdapter();
-        this.setTopProductAdapter();
+//        this.setTopProductAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
     }
@@ -98,8 +99,20 @@ public class CategoryActivity extends AppCompatActivity
         this.categories.add(new Category3("City", R.drawable.city, "City"));
     }
 
-    public void fillTopPicks() {
-        this.topProducts = DataProvider.getIProductList(5);
+    public void fillTopPicks(int size) {
+        LikesDatabase likesDatabase = LikesDatabase.getInstance();
+        likesDatabase.getAllProducts(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                likesDatabase.sortDescendByLikes(products);
+                for (int i = 0; i < size; i++) {
+                    topProducts.add(products.get(i));
+                }
+                System.out.println(topProducts);
+                setTopProductAdapter();
+            }
+        });
     }
 
     @Override

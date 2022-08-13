@@ -42,7 +42,8 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
     @Override
     public void onBindViewHolder(@NonNull TopPickViewHolder holder, int position) {
 //        String productImage = this.products.get(position).getImages().get(0);;
-        holder.topPickImageView.setImageResource(R.drawable.image_placeholder);
+        IProduct product = this.products.get(position);
+        holder.topPickImageView.setImageResource(product.getImages().get(0));
     }
 
     @Override
