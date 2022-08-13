@@ -143,8 +143,14 @@ public class DetailActivity extends AppCompatActivity
     }
 
     public void onAddToCart(View view) {
-        CartProduct product = DataProvider.getIProduct().toCartProduct();
-        CartState.getCartState().addToCart(product);
+        ProductDatabase productDatabase = ProductDatabase.getInstance();
+        productDatabase.getSpecificProduct(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                IProduct product = (Product) value;
+                CartState.getCartState().addToCart(product.toCartProduct());
+            }
+        }, productName);
     }
 
     public void onToggleLike(View view) {

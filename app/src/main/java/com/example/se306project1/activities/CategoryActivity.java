@@ -60,13 +60,6 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-
-        String Username = UserState.getInstance().getCurrentUser().getUsername();
-
-        LikesDatabase ldb = LikesDatabase.getInstance();
-        ldb.addProductToLikesList(Username,"Rey");
-        ldb.addProductToLikesList(Username,"Ducati");
-
         this.fillTopPicks();
         this.fillCategories();
 
