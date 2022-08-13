@@ -7,10 +7,15 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 public class ProductDatabase {
 
@@ -57,8 +62,8 @@ public class ProductDatabase {
           products.update(fieldName, FieldValue.increment((double)step*(-1)));
      }
 
-     //get all products in database
-     public List<IProduct> getAllProducts(){
+     //get all products in database using the call back
+     public void getAllProducts(FireStoreCallback fireStoreCallback){
           List<IProduct> products = new ArrayList<>();
           db.collection("Products").get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                @Override
@@ -70,22 +75,105 @@ public class ProductDatabase {
                               products.add(product);
                          }
                     }
+                    fireStoreCallback.Callback(products);
                }
           });
-          return products;
      }
 
-     //get the specific product in db according to its name
-     public IProduct getSpecificProduct(String productName){
-          final IProduct[] product1 = new IProduct[1];
+     //get the specific product in db according to its name using call back
+     public void getSpecificProduct(FireStoreCallback fireStoreCallback,String productName){
+          IProduct product1 = new Product();
           db.collection("Products").document(productName).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                @Override
                public void onSuccess(DocumentSnapshot documentSnapshot) {
                     IProduct product = documentSnapshot.toObject(Product.class);
-                    product1[0] = product;
+                    fireStoreCallback.Callback(product);
                }
           });
-          return product1[0];
      }
 
+     //get the all products of specific category according to its title directly from database
+     public void getAllProductsByCategoryTitle(FireStoreCallback fireStoreCallback,String categorytitle){
+          List<IProduct> products = new ArrayList<>();
+          db.collection("Products")
+                  .whereEqualTo("categoryTitle",categorytitle)
+                  .get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                       @Override
+                       public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                            List<DocumentSnapshot> documents = queryDocumentSnapshots.getDocuments();
+                            for(DocumentSnapshot doc:documents){
+                                 if(doc.exists()){
+                                      IProduct product = doc.toObject(Product.class);
+                                      products.add(product);
+                                 }
+                            }
+                            fireStoreCallback.Callback(products);
+                       }
+                  });
+     }
+
+     //already get the all products,just select the products which categorytitle which equal to the parameter
+     public List<IProduct> getCatagoryProducts(List<IProduct> allProducts,String categoryTitle){
+           List<IProduct> res = new ArrayList<>();
+           for(int i=0;i<allProducts.size();i++){
+                if(allProducts.get(i).getCategoryTitle()==categoryTitle){
+                     res.add(allProducts.get(i));
+                }
+           }
+           return res;
+     }
+
+
+
+     //sort product descend according to price
+     public void sortDescendByPrice(List<IProduct> products){
+          Collections.sort(products, new Comparator<IProduct>() {
+               @Override
+               public int compare(IProduct p1, IProduct p2) {
+                    return (int)(p2.getPrice()-p1.getPrice());
+               }
+          });
+     }
+
+     //sort product ascend according to price
+     public void sortAscendByPrice(List<IProduct> products){
+          Collections.sort(products, new Comparator<IProduct>() {
+               @Override
+               public int compare(IProduct p1, IProduct p2) {
+                    return (int)(p1.getPrice()-p2.getPrice());
+               }
+          });
+     }
+
+     //sort product descend according to likes number
+     public void sortDescendByLikes(List<IProduct> products){
+          Collections.sort(products, new Comparator<IProduct>() {
+               @Override
+               public int compare(IProduct p1, IProduct p2) {
+                    return (p2.getLikesNumber()-p1.getLikesNumber());
+               }
+          });
+     }
+
+     //sort product ascend according to likes number
+     public void sortAscendByLikes(List<IProduct> products){
+          Collections.sort(products, new Comparator<IProduct>() {
+               @Override
+               public int compare(IProduct p1, IProduct p2) {
+                    return (p1.getLikesNumber()-p2.getLikesNumber());
+               }
+          });
+     }
+
+     //already get all products from the database,and then select the product name
+     //which contains the keyword
+     public List<IProduct> getProductsBySearch(List<IProduct> allProducts,String keyword){
+          List<IProduct> res = new ArrayList<>();
+          for(int i=0;i<allProducts.size();i++){
+               if(allProducts.get(i).getName().toLowerCase().indexOf(keyword.toLowerCase())!=-1){
+                    res.add(allProducts.get(i));
+               }
+          }
+          return res;
+     }
 }

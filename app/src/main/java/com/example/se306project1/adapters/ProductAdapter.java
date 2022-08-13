@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,29 +15,36 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView productNameTextview;
+        private TextView productNameTextview,price_textview;
         private MaterialButton likeButton, unlikeButton;
+        private ImageView product_image;
         public ProductViewHolder(final View view) {
             super(view);
             this.productNameTextview = view.findViewById(R.id.product_name_textview);
             this.likeButton = view.findViewById(R.id.like_button);
             this.unlikeButton = view.findViewById(R.id.unlike_button);
+            this.product_image = view.findViewById(R.id.product_imageview);
+            this.price_textview = view.findViewById(R.id.price_textview);
         }
     }
 
-    private ArrayList<IProduct> products;
+    private List<IProduct> products;
+    ProductDatabase db = ProductDatabase.getInstance();
 
-    public ProductAdapter(ArrayList<IProduct> products) {
+    public ProductAdapter(List<IProduct> products) {
         this.products = products;
+        db.sortAscendByPrice(this.products);
     }
 
     @NonNull
@@ -60,6 +68,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             view.setVisibility(View.INVISIBLE);
             holder.likeButton.setVisibility(View.VISIBLE);
         });
+        holder.product_image.setImageResource(product.getImages().get(0));
+        holder.price_textview.setText("$"+product.getPrice());
     }
 
     @Override
