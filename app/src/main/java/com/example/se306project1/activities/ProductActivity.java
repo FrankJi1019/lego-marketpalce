@@ -20,6 +20,7 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -79,24 +80,7 @@ public class ProductActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-//        this.fillProducts();
 
-//        this.setProductAdapter();
-//        ProductDatabase db = ProductDatabase.getInstance();
-//        db.getAllProducts(new FireStoreCallback() {
-//            @Override
-//            public <T> void Callback(T value) {
-//                List<IProduct> products = (List<IProduct>) value;
-//                LikesDatabase ldb = LikesDatabase.getInstance();
-//                ldb.getUsersAllLikes(new FireStoreCallback() {
-//                    @Override
-//                    public <T> void Callback(T value) {
-//                         List<IProduct> tt = (List<IProduct>) value;
-//                         setProductAdapter(tt);
-//                    }
-//                },"qingyang",products);
-//            }
-//        });
         this.drawer.initialise();
         this.productSearcher.initialise();
 
@@ -105,6 +89,7 @@ public class ProductActivity extends AppCompatActivity
             fetchAndRenderForCategory(getSupportActionBar().getTitle().toString().toLowerCase());
         } else if (state == ProductActivityState.LIKE) {
             getSupportActionBar().setTitle("Your Likes");
+            fetchAndRenderForLikes(UserState.getInstance().getCurrentUser().getUsername());
         } else if (state == ProductActivityState.SEARCH) {
             getSupportActionBar().setTitle(
                     String.format("Items related to \"%s\"", getIntent().getStringExtra("keyword"))
@@ -157,6 +142,23 @@ public class ProductActivity extends AppCompatActivity
             }
         });
     }
+    public void fetchAndRenderForLikes(String userName){
+        ProductDatabase db = ProductDatabase.getInstance();
+        db.getAllProducts(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                LikesDatabase ldb = LikesDatabase.getInstance();
+                ldb.getUsersAllLikes(new FireStoreCallback() {
+                    @Override
+                    public <T> void Callback(T value) {
+                         List<IProduct> tt = (List<IProduct>) value;
+                         setProductAdapter(tt);
+                    }
+                },userName,products);
+            }
+        });
+    }
 
     public void fillProducts() {
         this.products = DataProvider.getIProductList(10);
@@ -190,7 +192,7 @@ public class ProductActivity extends AppCompatActivity
         ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
     }
 
-    
+
 
 }
 

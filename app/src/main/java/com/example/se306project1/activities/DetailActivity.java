@@ -20,6 +20,7 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
@@ -81,9 +82,6 @@ public class DetailActivity extends AppCompatActivity
 
 //        this.fillImage();
 
-        LikesDatabase ldb = LikesDatabase.getInstance();
-//        ldb.addProductToLikesList("qingyang","Rey");
-//        ldb.addProductToLikesList("qingyang","Ducati");
 //        ldb.getUsersAllLikes(new FireStoreCallback() {
 //            @Override
 //            public <T> void Callback(T value) {
@@ -153,10 +151,15 @@ public class DetailActivity extends AppCompatActivity
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
         } else {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
         }
     }
+    
 
     public void fetchDataAndSetAdapter(IProduct product) {
 

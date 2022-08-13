@@ -4,6 +4,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IUser;
 import com.example.se306project1.models.User;
 
@@ -16,6 +17,9 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class UserDatabase implements IUserDatabase{
     private static UserDatabase userDatabase = null;
@@ -54,6 +58,13 @@ public class UserDatabase implements IUserDatabase{
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         User user = new User(username,password);
         db.collection("Users").document(username).set(user);
+
+        Map<String, List<String>> map = new HashMap<>();
+        map.put("likeList",new ArrayList<>());
+        db.collection("likes").document(username).set(map);
+        Map<String, Object> map1 = new HashMap<>();
+        map1.put("cartproducts",new ArrayList<CartProduct>());
+        db.collection("cart").document(username).set(map1);
     }
 
 //    public void isLoginValid(String username, String password){

@@ -23,6 +23,7 @@ import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
@@ -76,10 +77,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.likeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.unlikeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
         });
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.likeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());

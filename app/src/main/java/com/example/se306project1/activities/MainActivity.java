@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.PasswordEncripter;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginSignUpButton = findViewById(R.id.login_sign_up_button);
         vh.signUp = findViewById(R.id.sign_up_page);
         vh.login = findViewById(R.id.login_page);
+
 
         vh.registerLoginButton.setOnClickListener(view -> {
             vh.signUp.setVisibility(View.GONE);

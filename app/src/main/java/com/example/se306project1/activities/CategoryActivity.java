@@ -15,12 +15,14 @@ import android.view.View;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.Category1;
 import com.example.se306project1.models.Category2;
 import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -57,6 +59,13 @@ public class CategoryActivity extends AppCompatActivity
         this.topProducts = new ArrayList<>();
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
+
+
+        String Username = UserState.getInstance().getCurrentUser().getUsername();
+
+        LikesDatabase ldb = LikesDatabase.getInstance();
+        ldb.addProductToLikesList(Username,"Rey");
+        ldb.addProductToLikesList(Username,"Ducati");
 
         this.fillTopPicks();
         this.fillCategories();

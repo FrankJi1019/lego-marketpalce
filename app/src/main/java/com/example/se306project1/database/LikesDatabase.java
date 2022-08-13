@@ -64,7 +64,7 @@ public class LikesDatabase extends ProductDatabase{
                public void onSuccess(DocumentSnapshot documentSnapshot) {
                    List<String> likeList = (List<String>)documentSnapshot.get("likeList");
                    if(likeList == null){
-                       tt.add(new Product());
+
                    }else{
                        for(int i=0;i<products.size();i++){
                            if(likeList.contains(products.get(i).getName())){
@@ -72,7 +72,6 @@ public class LikesDatabase extends ProductDatabase{
                            }
                        }
                    }
-
                    fireStoreCallback.Callback(tt);
                }
            });
