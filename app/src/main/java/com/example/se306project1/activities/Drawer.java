@@ -1,6 +1,7 @@
 package com.example.se306project1.activities;
 
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -39,6 +40,11 @@ public class Drawer {
         tb.setHomeAsUpIndicator(R.drawable.menu);
         tb.setTitle(R.string.app_title);
         tb.setDisplayHomeAsUpEnabled(true);
+        (
+                (TextView) this.drawerViewHolder.navigationView
+                        .getHeaderView(0)
+                        .findViewById(R.id.drawer_greet_textview)
+        ).setText("Welcome! " + UserState.getInstance().getCurrentUser().getUsername());
         // click event handler for the items in the navigation
         this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
