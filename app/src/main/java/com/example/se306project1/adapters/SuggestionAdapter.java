@@ -59,7 +59,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         holder.suggestedNameTextView.setText(this.filteredProducts.get(position).getName());
         holder.suggestionItemContainer.setOnClickListener(view -> {
             if (holder.suggestedNameTextView.getText().toString().equalsIgnoreCase("no result")) return;
-            DetailActivity.start(activity);
+            DetailActivity.startWithName(activity, holder.suggestedNameTextView.getText().toString());
         });
     }
 
