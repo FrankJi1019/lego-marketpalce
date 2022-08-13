@@ -90,7 +90,7 @@ public class CategoryActivity extends AppCompatActivity
         );
         this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
         this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this.topProducts));
+        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, this.topProducts));
     }
 
     public void fillCategories() {
@@ -130,7 +130,4 @@ public class CategoryActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    public void onClickTopPick(View view) {
-        DetailActivity.start(this);
-    }
 }
