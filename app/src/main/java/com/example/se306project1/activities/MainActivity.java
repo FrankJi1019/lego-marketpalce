@@ -24,6 +24,11 @@ public class MainActivity extends AppCompatActivity {
     private User user;
     private UserDatabase userDatabase= UserDatabase.getInstance();
 
+    public static void start(AppCompatActivity activity) {
+        Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
+        activity.startActivity(intent);
+    }
+
     private class ViewHolder {
         ConstraintLayout signUp, login;
         EditText registerUsernameEditText, registerPasswordEditText, registerConfirmPasswordEditText, loginUsernameEditText, loginPasswordEditText;
