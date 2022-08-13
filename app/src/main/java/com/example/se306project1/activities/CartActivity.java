@@ -14,9 +14,14 @@ import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CartProductAdapter;
+import com.example.se306project1.database.CartDatabase;
+import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.models.IProduct;
 import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -51,15 +56,35 @@ public class CartActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillProducts();
-        this.setAdapter();
+//        this.fillProducts();
+//        this.setAdapter(this.cartProducts);
+        fetchAndRender();
+
         this.drawer.initialise();
         this.productSearcher.initialise();
 
     }
 
-    public void setAdapter() {
-        CartProductAdapter cartProductAdapter = new CartProductAdapter(this.cartProducts);
+    public void fetchAndRender(){
+        ProductDatabase db = ProductDatabase.getInstance();
+        db.getAllProducts(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                CartDatabase cdb = CartDatabase.getInstance();
+                cdb.getUsersCartProducts(new FireStoreCallback() {
+                    @Override
+                    public <T> void Callback(T value) {
+                        List<CartProduct> res = (List<CartProduct>) value;
+                        setAdapter(res);
+                    }
+                }, UserState.getInstance().getCurrentUser().getUsername(),products);
+            }
+        });
+    }
+
+    public void setAdapter(List<CartProduct> cartProducts) {
+        CartProductAdapter cartProductAdapter = new CartProductAdapter(cartProducts);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,

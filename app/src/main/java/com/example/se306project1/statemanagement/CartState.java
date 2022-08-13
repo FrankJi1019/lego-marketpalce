@@ -1,6 +1,11 @@
 package com.example.se306project1.statemanagement;
 
+import com.example.se306project1.database.CartDatabase;
+import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.UserState;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -27,6 +32,8 @@ public class CartState {
             if (c.getName().equals(cartProduct.getName())) return;
         }
         this.cartProducts.add(cartProduct);
+        CartDatabase db = CartDatabase.getInstance();
+        db.addProductToCart(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
     }
 
     public void updateAmount(String productName, int newAmount) {
@@ -41,9 +48,12 @@ public class CartState {
         for (CartProduct c: this.cartProducts) {
             if (c.getName().equals(productName)) {
                 this.cartProducts.remove(c);
-                return;
+                break;
             }
         }
+        CartDatabase db = CartDatabase.getInstance();
+        db.removeProductFromCart(UserState.getInstance().getCurrentUser().getUsername(),productName);
+
     }
 
     public static CartState getCartState() {

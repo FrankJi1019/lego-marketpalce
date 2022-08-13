@@ -86,11 +86,13 @@ public class Product implements IProduct {
 
     public CartProduct toCartProduct() {
         CartProduct cartProduct = new CartProduct();
+        cartProduct.setCategoryTitle(this.categoryTitle);
         cartProduct.setName(this.name);
         cartProduct.setDescription(this.description);
         cartProduct.setPrice(this.price);
         cartProduct.setImages(this.images);
         cartProduct.setStock(this.stock);
+        cartProduct.setLikesNumber(this.likesNum);
         cartProduct.setAmount(1);
         return cartProduct;
     }

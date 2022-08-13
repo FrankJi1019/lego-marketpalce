@@ -51,8 +51,8 @@ public class UserDatabase implements IUserDatabase{
         Map<String, List<String>> map = new HashMap<>();
         map.put("likeList",new ArrayList<>());
         db.collection("likes").document(username).set(map);
-        Map<String, Object> map1 = new HashMap<>();
-        map1.put("cartproducts",new ArrayList<CartProduct>());
+        Map<String, List<String>> map1 = new HashMap<>();
+        map1.put("cartproducts",new ArrayList<>());
         db.collection("cart").document(username).set(map1);
     }
 
