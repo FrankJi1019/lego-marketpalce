@@ -92,7 +92,7 @@ public class ProductDatabase {
           });
      }
 
-     //get the all products of specific category according to its title
+     //get the all products of specific category according to its title directly from database
      public void getAllProductsByCategoryTitle(FireStoreCallback fireStoreCallback,String categorytitle){
           List<IProduct> products = new ArrayList<>();
           db.collection("Products")
@@ -110,6 +110,17 @@ public class ProductDatabase {
                             fireStoreCallback.Callback(products);
                        }
                   });
+     }
+
+     //already get the all products,just select the products which categorytitle which equal to the parameter
+     public List<IProduct> getCatagoryProducts(List<IProduct> allProducts,String categoryTitle){
+           List<IProduct> res = new ArrayList<>();
+           for(int i=0;i<allProducts.size();i++){
+                if(allProducts.get(i).getCategoryTitle()==categoryTitle){
+                     res.add(allProducts.get(i));
+                }
+           }
+           return res;
      }
 
 
@@ -152,5 +163,17 @@ public class ProductDatabase {
                     return (p1.getLikesNumber()-p2.getLikesNumber());
                }
           });
+     }
+
+     //already get all products from the database,and then select the product name
+     //which contains the keyword
+     public List<IProduct> getProductsBySearch(List<IProduct> allProducts,String keyword){
+          List<IProduct> res = new ArrayList<>();
+          for(int i=0;i<allProducts.size();i++){
+               if(allProducts.get(i).getName().toLowerCase().indexOf(keyword.toLowerCase())!=-1){
+                    res.add(allProducts.get(i));
+               }
+          }
+          return res;
      }
 }
