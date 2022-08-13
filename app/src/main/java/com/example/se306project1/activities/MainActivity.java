@@ -11,7 +11,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.FireStoreCallback;
+
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.PasswordEncripter;
@@ -58,10 +60,13 @@ public class MainActivity extends AppCompatActivity {
         vh.login = findViewById(R.id.login_page);
     }
 
+
+
     private void switchToCategoryActivity(){
         Intent categoryIntent = new Intent(getBaseContext(), CategoryActivity.class);
         startActivity(categoryIntent);
     }
+
 
     private void getLoginPage(){
         vh.signUp.setVisibility(View.GONE);

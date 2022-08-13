@@ -94,17 +94,18 @@
                                     app:iconSize="23sp"
                                     app:iconTint="@color/gray_300"
                                     android:onClick="onToggleLike" />
+
                                 <Button
                                     android:id="@+id/unlike_button"
                                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                                     android:layout_width="37dp"
                                     android:layout_height="28dp"
                                     android:layout_marginTop="0dp"
+                                    android:onClick="onToggleLike"
+                                    android:visibility="invisible"
                                     app:icon="@drawable/outline_favorite_border_24"
                                     app:iconSize="23sp"
-                                    app:iconTint="@color/red_100"
-                                    android:visibility="invisible"
-                                    android:onClick="onToggleLike" />
+                                    app:iconTint="@color/red_100" />
                             </RelativeLayout>
 
                         </RelativeLayout>

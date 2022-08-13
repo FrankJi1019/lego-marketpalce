@@ -4,7 +4,7 @@ public interface ICategory {
 
     String getTitle();
     void setTitle(String tile);
-    String getImage();
-    void setImage(String image);
+    int getImage();
+    void setImage(int image);
 
 }

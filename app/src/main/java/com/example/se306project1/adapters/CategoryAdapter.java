@@ -3,6 +3,7 @@ package com.example.se306project1.adapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,10 +23,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         private TextView categoryTitleTextview;
         private FloatingActionButton forwardButton;
+        private ImageView imageView;
         public CategoryViewHolder(final View view) {
             super(view);
             this.categoryTitleTextview = view.findViewById(R.id.category_title_textview);
             this.forwardButton = view.findViewById(R.id.forward_arrow_button);
+            this.imageView = view.findViewById(R.id.category_imageview);
         }
     }
 
@@ -51,6 +54,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         holder.forwardButton.setOnClickListener(view -> {
             ProductActivity.startWithTheme(this.activity, this.categories.get(position).getTitle());
         });
+        holder.imageView.setImageResource(this.categories.get(position).getImage());
     }
 
     @Override

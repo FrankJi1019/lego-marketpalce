@@ -7,7 +7,7 @@
     app:cardElevation="5dp"
     app:cardCornerRadius="5dp"
     android:layout_margin="10dp"
-    android:onClick="onProductItemClick">
+    android:id="@+id/product_item_container">
 
     <LinearLayout
         android:layout_width="wrap_content"

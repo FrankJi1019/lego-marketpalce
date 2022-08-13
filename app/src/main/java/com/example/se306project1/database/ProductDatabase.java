@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-public class ProductDatabase {
+public class ProductDatabase implements IPoductDatabase{
 
      FirebaseFirestore db = FirebaseFirestore.getInstance();
      private static ProductDatabase productDatabase;

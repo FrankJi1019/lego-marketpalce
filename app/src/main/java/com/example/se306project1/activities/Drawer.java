@@ -78,7 +78,7 @@ public class Drawer {
         } else if (item.getItemId() ==  R.id.nav_starwar) {
             ProductActivity.startWithTheme(this.activity, "Star War");
         } else if (item.getItemId() ==  R.id.nav_friends) {
-            ProductActivity.startWithTheme(this.activity, "Friends");
+            ProductActivity.startWithTheme(this.activity, "City");
         } else if (item.getItemId() ==  R.id.nav_logout) {
             Toast.makeText(this.activity, "log out", Toast.LENGTH_SHORT).show();
         }

@@ -15,10 +15,12 @@ import android.widget.TextView;
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
 import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
@@ -44,6 +46,7 @@ public class DetailActivity extends AppCompatActivity
     }
 
     List<Integer> imageList;
+    String productName;
 
     ViewHolder viewHolder;
     Drawer drawer;
@@ -52,6 +55,12 @@ public class DetailActivity extends AppCompatActivity
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+        activity.startActivity(intent);
+    }
+
+    public static void startWithName(AppCompatActivity activity, String name) {
+        Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+        intent.putExtra("name", name);
         activity.startActivity(intent);
     }
 
@@ -72,6 +81,34 @@ public class DetailActivity extends AppCompatActivity
 //        }
 
 //        this.fillImage();
+
+//        ldb.getUsersAllLikes(new FireStoreCallback() {
+//            @Override
+//            public <T> void Callback(T value) {
+//                List<IProduct> products = (List<IProduct>) value;
+//                for(int i=0;i<products.size();i++){
+//                    System.out.println(products.get(i).getName());
+//                }
+//                System.out.println("hello");
+//            }
+//        },"qingyang");
+
+
+//        ProductDatabase db = ProductDatabase.getInstance();
+//        db.getSpecificProduct(new FireStoreCallback() {
+//            @Override
+//            public <T> void Callback(T value) {
+//                IProduct product = (IProduct) value;
+//                fetchDataAndSetAdapter(product);
+//            }
+//        },"Ferrari");
+
+        this.drawer.initialise();
+        this.productSearcher.initialise();
+        this.productName = getIntent().getStringExtra("name");
+
+        System.out.println(productName);
+
         ProductDatabase db = ProductDatabase.getInstance();
         db.getSpecificProduct(new FireStoreCallback() {
             @Override
@@ -79,10 +116,7 @@ public class DetailActivity extends AppCompatActivity
                 IProduct product = (IProduct) value;
                 fetchDataAndSetAdapter(product);
             }
-        },"Ferrari");
-
-        this.drawer.initialise();
-        this.productSearcher.initialise();
+        },productName);
     }
 
     public void fillImage() {
@@ -117,10 +151,15 @@ public class DetailActivity extends AppCompatActivity
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
         } else {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+            LikesDatabase db = LikesDatabase.getInstance();
+            db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
         }
     }
+    
 
     public void fetchDataAndSetAdapter(IProduct product) {
 
@@ -131,7 +170,6 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.stock.setText(product.getStock() + "");
         viewHolder.price.setText("$" + product.getPrice());
         viewHolder.decription.setText(product.getDescription());
-
 
     }
 }
