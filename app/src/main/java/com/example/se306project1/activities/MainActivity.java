@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void userLogin(boolean isValid, String username, String password){
         if (isValid){
-            createCurrentUser(username,password);
+            createCurrentUser(username);
             Toast.makeText(this, "Successfully login", Toast.LENGTH_SHORT).show();
             switchToCategoryActivity();
             vh.loginUsernameEditText.setText("");
@@ -141,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     private void userSignUp(String username, String password){
         Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
         String encryptedPassword = getEncryptedPassword(password);
-        createCurrentUser(username,encryptedPassword);
+        createCurrentUser(username);
         userDatabase.addUserToFireStore(username,encryptedPassword);
         vh.registerUsernameEditText.setText("");
         vh.registerPasswordEditText.setText("");
@@ -160,9 +160,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-    private void createCurrentUser(String username, String password){
+    private void createCurrentUser(String username){
         userState = UserState.getInstance();
-        user = new User(username, password);
+        user = new User(username);
         userState.setCurrentUser(user);
     }
 
