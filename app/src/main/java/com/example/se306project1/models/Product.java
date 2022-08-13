@@ -12,6 +12,19 @@ public class Product implements IProduct {
     private int stock;
     private int likesNum;
 
+    @Override
+    public String toString() {
+        return "Product{" +
+                "categoryTitle='" + categoryTitle + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", price=" + price +
+                ", images=" + images +
+                ", stock=" + stock +
+                ", likesNum=" + likesNum +
+                "}\n";
+    }
+
     public Product(){
 
     }
