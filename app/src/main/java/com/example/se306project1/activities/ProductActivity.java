@@ -80,7 +80,6 @@ public class ProductActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-
         this.drawer.initialise();
         this.productSearcher.initialise();
 

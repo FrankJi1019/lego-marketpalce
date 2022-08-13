@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Product implements IProduct {
 
+    public static int LOW_STOCK_BOUNDARY = 50;
+
     private String categoryTitle;
     private String name;
     private String description;

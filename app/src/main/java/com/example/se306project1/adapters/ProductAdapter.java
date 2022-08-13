@@ -33,6 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
         private TextView productNameTextview,price_textview;
+        private TextView inStockTextview, lowStockTextview, noStockTextview;
         private MaterialButton likeButton, unlikeButton;
         private ImageView product_image;
         private CardView container;
@@ -44,6 +45,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             this.product_image = view.findViewById(R.id.product_imageview);
             this.price_textview = view.findViewById(R.id.price_textview);
             this.container = view.findViewById(R.id.product_item_container);
+            this.inStockTextview = view.findViewById(R.id.in_stock_textview);
+            this.lowStockTextview = view.findViewById(R.id.low_stock_textview);
+            this.noStockTextview = view.findViewById(R.id.no_stock_textview);
         }
     }
 
@@ -91,6 +95,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.container.setOnClickListener(view -> {
             DetailActivity.startWithName(this.activity, this.products.get(position).getName());
         });
+        if (product.getStock() == 0) {
+            holder.noStockTextview.setVisibility(View.VISIBLE);
+        } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {
+            holder.lowStockTextview.setVisibility(View.VISIBLE);
+        } else {
+            holder.inStockTextview.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override
