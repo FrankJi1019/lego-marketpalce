@@ -2,6 +2,7 @@ package com.example.se306project1.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,6 +79,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         IProduct product = this.products.get(position);
+        if (product.getCategoryTitle().equals("technic")) {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#009933"));
+        } else if (product.getCategoryTitle().equals("star war")) {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#737373"));
+        } else {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#0000e6"));
+        }
         holder.productNameTextview.setText(product.getName());
         holder.likeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
