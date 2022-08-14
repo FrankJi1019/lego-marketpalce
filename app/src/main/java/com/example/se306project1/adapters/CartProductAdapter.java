@@ -30,6 +30,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         private Button decreaseAmountButton, increaseAmountButton, deleteButton;
         private CardView cartContainer;
         private CheckBox checkBox;
+
         public CartProductViewHolder(final View view) {
             super(view);
             this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
@@ -77,7 +78,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 cartProduct.setAmount(newAmount);
                 CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
                 CartDatabase db = CartDatabase.getInstance();
-                db.SubstractCartAmount(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
+                db.SubstractCartAmount(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
                 updatePrice();
             }
         });
@@ -90,7 +91,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 cartProduct.setAmount(newAmount);
                 CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
                 CartDatabase db = CartDatabase.getInstance();
-                db.addCartAmount(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
+                db.addCartAmount(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
                 updatePrice();
             }
         });
@@ -117,6 +118,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 updatePrice();
             }
         });
+        holder.checkBox.setChecked(CartState.getCartState().isItemChecked(cartProduct.getName()));
     }
 
     @Override

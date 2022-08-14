@@ -79,6 +79,8 @@ public class CartActivity extends AppCompatActivity
                     @Override
                     public <T> void Callback(T value) {
                         List<CartProduct> res = (List<CartProduct>) value;
+                        cartProducts.clear();
+                        cartProducts.addAll(res);
                         setAdapter(res);
                         CartState.getCartState().setCartList(res);
                     }
@@ -125,6 +127,8 @@ public class CartActivity extends AppCompatActivity
         } else {
             CartState.getCartState().uncheckAll();
         }
+        setAdapter(this.cartProducts);
+        this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
     public void onGoBack(View view) {

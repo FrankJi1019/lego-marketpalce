@@ -11,7 +11,7 @@ public class CartState {
     private static CartState cartState = new CartState();
 
     private List<CartProduct> cartProducts;
-    private List<Integer> checkedProducts;
+    private List<String> checkedProducts;
 
     private CartState() {
         this.cartProducts = new ArrayList<>();
@@ -55,35 +55,31 @@ public class CartState {
     }
 
     public void checkItem(String productName) {
-        System.out.println("looking for: " + productName);
+        if (this.checkedProducts.contains(productName)) return;
         for (int i = 0; i < this.cartProducts.size(); i++) {
-            System.out.println(this.cartProducts.get(i).getName());
             if (this.cartProducts.get(i).getName().equals(productName)) {
-                this.checkedProducts.add(i);
+                this.checkedProducts.add(this.cartProducts.get(i).getName());
             }
         }
     }
 
     public void uncheckItem(String productName) {
-        for (int i = 0; i < this.cartProducts.size(); i++) {
-            if (this.cartProducts.get(i).getName().equals(productName)) {
-                this.checkedProducts.remove(Integer.valueOf(i));
-            }
-        }
+        this.checkedProducts.remove(productName);
     }
 
     public double getPrice() {
         double total = 0;
-        for (int i: this.checkedProducts) {
-            total += this.cartProducts.get(i).getPrice() * this.cartProducts.get(i).getAmount();
+        for (String productName: this.checkedProducts) {
+            CartProduct cartProduct = this.cartProducts.stream().filter(c -> c.getName().equals(productName)).findFirst().get();
+            total += cartProduct.getPrice() * cartProduct.getAmount();
         }
         return total;
     }
 
     public void checkAll() {
         this.checkedProducts.clear();
-        for (int i = 0; i < this.cartProducts.size(); i++) {
-            this.checkedProducts.add(i);
+        for (CartProduct c: this.cartProducts) {
+            this.checkedProducts.add(c.getName());
         }
     }
 
@@ -95,8 +91,8 @@ public class CartState {
         return this.checkedProducts.size() == this.cartProducts.size();
     }
 
-    public boolean isAllUnchecked() {
-        return this.checkedProducts.isEmpty();
+    public boolean isItemChecked(String productName) {
+        return this.checkedProducts.contains(productName);
     }
 
     public static CartState getCartState() {
