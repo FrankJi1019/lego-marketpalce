@@ -99,6 +99,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             @Override
             public void onClick(View view) {
                 CartProduct cartProduct = products.get(position);
+                CartState.getCartState().uncheckItem(cartProduct.getName());
                 CartState.getCartState().removeCartProduct(cartProduct.getName());
                 products.remove(position);
                 updatePrice();
