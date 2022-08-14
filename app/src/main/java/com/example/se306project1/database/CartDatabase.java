@@ -72,7 +72,7 @@ public class CartDatabase extends ProductDatabase {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 List<String> carts = (List<String>) documentSnapshot.get("cartproducts");
-                if(products == null){
+                if(carts == null){
 
                 }else{
                     for(int i=0;i<products.size();i++){

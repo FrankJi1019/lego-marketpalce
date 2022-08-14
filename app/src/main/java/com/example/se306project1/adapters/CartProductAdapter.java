@@ -97,6 +97,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 notifyDataSetChanged();
             }
         });
+        holder.imageView.setImageResource(cartProduct.getImages().get(0));
     }
 
     @Override

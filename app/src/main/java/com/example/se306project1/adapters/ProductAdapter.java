@@ -83,12 +83,18 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.unlikeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(product.getName(), "likesNumber", 1);
+            UserState.getInstance().like(product);
         });
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.likeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(product.getName(), "likesNumber", -1);
+            UserState.getInstance().unlike(product);
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
@@ -101,6 +107,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             holder.lowStockTextview.setVisibility(View.VISIBLE);
         } else {
             holder.inStockTextview.setVisibility(View.VISIBLE);
+        }
+        if (UserState.getInstance().hasLiked(product.getName())) {
+            holder.likeButton.setVisibility(View.INVISIBLE);
+            holder.unlikeButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.unlikeButton.setVisibility(View.INVISIBLE);
+            holder.likeButton.setVisibility(View.VISIBLE);
         }
     }
 

@@ -98,6 +98,8 @@ public class ProductActivity extends AppCompatActivity
                     .replaceAll("\"", "");
             fetchAndRenderForSearing(keyword);
         }
+
+        UserState.getInstance().hasLiked("123");
     }
 
     public void setProductAdapter(List<IProduct> list) {

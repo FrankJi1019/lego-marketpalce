@@ -13,7 +13,8 @@
     <group>
         <item
             android:id="@+id/nav_technic"
-            android:title="Technic"/>
+            android:title="Technic"
+            android:icon="@drawable/add"/>
         <item
             android:id="@+id/nav_starwar"
             android:title="Star War"/>

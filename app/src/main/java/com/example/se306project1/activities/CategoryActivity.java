@@ -23,10 +23,12 @@ import com.example.se306project1.models.Category2;
 import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity
@@ -68,6 +70,8 @@ public class CategoryActivity extends AppCompatActivity
 //        this.setTopProductAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
+
+        UserState.getInstance().hasLiked("123");
     }
 
     public void setCategoryAdapter() {
@@ -82,7 +86,7 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
-    public void setTopProductAdapter() {
+    public void setTopProductAdapter(List<IProduct> list) {
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -90,7 +94,7 @@ public class CategoryActivity extends AppCompatActivity
         );
         this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
         this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, this.topProducts));
+        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, list));
     }
 
     public void fillCategories() {
@@ -106,11 +110,11 @@ public class CategoryActivity extends AppCompatActivity
             public <T> void Callback(T value) {
                 List<IProduct> products = (List<IProduct>) value;
                 likesDatabase.sortDescendByLikes(products);
-                for (int i = 0; i < size; i++) {
-                    topProducts.add(products.get(i));
+                List<IProduct> res = new ArrayList<>();
+                for(int i=0;i<size;i++){
+                    res.add(products.get(i));
                 }
-                System.out.println(topProducts);
-                setTopProductAdapter();
+                setTopProductAdapter(res);
             }
         });
     }
