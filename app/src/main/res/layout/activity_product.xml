@@ -78,13 +78,13 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="likes"
+                            android:text="Likes"
                             android:textAllCaps="false"
-                            android:textColor="@color/gray_300"
+                            android:textColor="@color/dark_gray"
                             android:textSize="20sp"
-                            app:icon="@drawable/swap_vert"
+                            app:icon="@drawable/arrow_upward"
                             app:iconSize="25sp"
-                            app:iconTint="@color/gray_300"
+                            app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick" />
                         <Button
                             android:visibility="invisible"
@@ -92,13 +92,13 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="LIKES"
+                            android:text="Likes"
                             android:textAllCaps="false"
-                            android:textColor="@color/gray_300"
+                            android:textColor="@color/dark_gray"
                             android:textSize="20sp"
-                            app:icon="@drawable/swap_vert"
+                            app:icon="@drawable/arrow_downward"
                             app:iconSize="25sp"
-                            app:iconTint="@color/gray_300"
+                            app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick" />
                     </RelativeLayout>
 
@@ -125,13 +125,13 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="price"
+                            android:text="Price"
                             android:textAllCaps="false"
-                            android:textColor="@color/gray_300"
+                            android:textColor="@color/dark_gray"
                             android:textSize="20sp"
-                            app:icon="@drawable/swap_vert"
+                            app:icon="@drawable/arrow_upward"
                             app:iconSize="25sp"
-                            app:iconTint="@color/gray_300"
+                            app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick"/>
                         <Button
                             android:visibility="invisible"
@@ -139,13 +139,13 @@
                             style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="PRICE"
+                            android:text="Price"
                             android:textAllCaps="false"
-                            android:textColor="@color/gray_300"
+                            android:textColor="@color/dark_gray"
                             android:textSize="20sp"
-                            app:icon="@drawable/swap_vert"
+                            app:icon="@drawable/arrow_downward"
                             app:iconSize="25sp"
-                            app:iconTint="@color/gray_300"
+                            app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick"/>
                     </RelativeLayout>
                 </LinearLayout>
