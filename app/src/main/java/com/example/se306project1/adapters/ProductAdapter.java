@@ -32,7 +32,7 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView productNameTextview,price_textview;
+        private TextView productNameTextview,price_textview, likeCountTextview;
         private TextView inStockTextview, lowStockTextview, noStockTextview;
         private MaterialButton likeButton, unlikeButton;
         private ImageView product_image;
@@ -48,6 +48,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             this.inStockTextview = view.findViewById(R.id.in_stock_textview);
             this.lowStockTextview = view.findViewById(R.id.low_stock_textview);
             this.noStockTextview = view.findViewById(R.id.no_stock_textview);
+            this.likeCountTextview = view.findViewById(R.id.like_count_textview);
         }
     }
 
@@ -101,6 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.container.setOnClickListener(view -> {
             DetailActivity.startWithName(this.activity, this.products.get(position).getName());
         });
+        holder.likeCountTextview.setText(product.getLikesNumber() + " people liked");
         if (product.getStock() == 0) {
             holder.noStockTextview.setVisibility(View.VISIBLE);
         } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {

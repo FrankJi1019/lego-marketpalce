@@ -70,7 +70,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300 liked this product"
+                android:text="0 people liked"
                 android:textSize="20dp" />
 
             <TextView
