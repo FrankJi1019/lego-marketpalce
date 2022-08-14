@@ -11,6 +11,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.TextView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CartProductAdapter;
@@ -19,7 +21,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -38,6 +40,8 @@ public class CartActivity extends AppCompatActivity
 
     class ViewHolder {
         private final RecyclerView cartProductRecyclerView = findViewById(R.id.cart_product_recyclerview);
+        private final TextView totalPriceTextview = findViewById(R.id.total_price_textview);
+        private final CheckBox selectAllCheckBox = findViewById(R.id.select_all_checkbox);
     }
 
     public static void start(AppCompatActivity activity) {
@@ -76,6 +80,7 @@ public class CartActivity extends AppCompatActivity
                     public <T> void Callback(T value) {
                         List<CartProduct> res = (List<CartProduct>) value;
                         setAdapter(res);
+                        CartState.getCartState().setCartList(res);
                     }
                 }, UserState.getInstance().getCurrentUser().getUsername(),products);
             }
@@ -83,7 +88,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void setAdapter(List<CartProduct> cartProducts) {
-        CartProductAdapter cartProductAdapter = new CartProductAdapter(cartProducts);
+        CartProductAdapter cartProductAdapter = new CartProductAdapter(cartProducts, this.viewHolder.totalPriceTextview, this.viewHolder.selectAllCheckBox);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
@@ -111,6 +116,15 @@ public class CartActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return this.drawer.onNavigationItemSelected(item, true);
+    }
+
+    public void selectAll(View view) {
+        CheckBox checkBox = (CheckBox) view;
+        if (checkBox.isChecked()) {
+            CartState.getCartState().checkAll();
+        } else {
+            CartState.getCartState().uncheckAll();
+        }
     }
 
     public void onGoBack(View view) {

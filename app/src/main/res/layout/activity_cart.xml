@@ -74,7 +74,8 @@
                                 android:id="@+id/select_all_checkbox"
                                 android:layout_width="35dp"
                                 android:layout_height="wrap_content"
-                                android:layout_centerVertical="true" />
+                                android:layout_centerVertical="true"
+                                android:onClick="selectAll"/>
                             <TextView
                                 android:layout_toRightOf="@+id/select_all_checkbox"
                                 android:layout_centerVertical="true"
@@ -91,14 +92,14 @@
                                 android:text="CHECKOUT"
                                 android:backgroundTint="@color/orange_main"/>
                             <TextView
-                                android:id="@+id/total_price"
+                                android:id="@+id/total_price_textview"
                                 android:layout_toLeftOf="@+id/checkout_button"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="10dp"
                                 android:textSize="20sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="$299.98" />
+                                android:text="$0.0" />
                         </RelativeLayout>
 
                     </com.google.android.material.bottomnavigation.BottomNavigationView>

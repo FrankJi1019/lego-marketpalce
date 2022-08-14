@@ -5,9 +5,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -16,10 +17,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.se306project1.R;
 import com.example.se306project1.database.CartDatabase;
 import com.example.se306project1.models.CartProduct;
-import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
@@ -29,6 +29,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         private ImageView imageView;
         private Button decreaseAmountButton, increaseAmountButton, deleteButton;
         private CardView cartContainer;
+        private CheckBox checkBox;
         public CartProductViewHolder(final View view) {
             super(view);
             this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
@@ -39,14 +40,18 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             this.increaseAmountButton = view.findViewById(R.id.increase_amount_button);
             this.deleteButton = view.findViewById(R.id.delete_button);
             this.cartContainer = view.findViewById(R.id.cart_item_container);
+            this.checkBox = view.findViewById(R.id.cart_product_checkbox);
         }
     }
 
     private List<CartProduct> products;
+    private TextView totalPriceTextview;
+    private CheckBox selectAllCheckBox;
 
-    public CartProductAdapter(List<CartProduct> products) {
+    public CartProductAdapter(List<CartProduct> products, TextView totalPriceTextview, CheckBox checkBox) {
         this.products = products;
-        System.out.println(products.size());
+        this.totalPriceTextview = totalPriceTextview;
+        this.selectAllCheckBox = checkBox;
     }
 
     @NonNull
@@ -73,6 +78,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
                 CartDatabase db = CartDatabase.getInstance();
                 db.SubstractCartAmount(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
+                updatePrice();
             }
         });
         holder.increaseAmountButton.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +91,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
                 CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
                 CartDatabase db = CartDatabase.getInstance();
                 db.addCartAmount(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
+                updatePrice();
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -92,12 +99,24 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             public void onClick(View view) {
                 CartProduct cartProduct = products.get(position);
                 CartState.getCartState().removeCartProduct(cartProduct.getName());
-//                holder.cartContainer.setVisibility(View.GONE);
                 products.remove(position);
+                updatePrice();
                 notifyDataSetChanged();
             }
         });
         holder.imageView.setImageResource(cartProduct.getImages().get(0));
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    CartState.getCartState().checkItem(cartProduct.getName());
+                } else {
+                    CartState.getCartState().uncheckItem(cartProduct.getName());
+                }
+                selectAllCheckBox.setChecked(CartState.getCartState().isAllChecked());
+                updatePrice();
+            }
+        });
     }
 
     @Override
@@ -105,4 +124,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return this.products.size();
     }
 
+    private void updatePrice() {
+        totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
+    }
 }

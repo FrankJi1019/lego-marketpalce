@@ -6,9 +6,7 @@ public class CartProduct extends Product {
 
     private int amount;
 
-    public CartProduct(){
-
-    }
+    public CartProduct(){}
 
     public CartProduct(int amount) {
         this.amount = amount;
