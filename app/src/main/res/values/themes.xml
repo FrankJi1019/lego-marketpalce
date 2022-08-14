@@ -8,5 +8,7 @@
         <!-- Customize your theme here. -->
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowSwipeToDismiss">false</item>
+        <item name="android:actionMenuTextColor">@color/red_100</item>
     </style>
 </resources>

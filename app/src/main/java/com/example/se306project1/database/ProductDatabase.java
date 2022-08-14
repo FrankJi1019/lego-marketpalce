@@ -51,7 +51,7 @@ public class ProductDatabase implements IPoductDatabase{
      //for this method the type T must be int,double or long
      public <T> void updateIncrement(String productName,String fieldName,T step){
           DocumentReference products = db.collection("Products").document(productName);
-          products.update(fieldName, FieldValue.increment((double)step));
+          products.update(fieldName, FieldValue.increment((int)step));
      }
 
      //use to update the database data for the number which can decrement
@@ -59,7 +59,7 @@ public class ProductDatabase implements IPoductDatabase{
      //for this method the type T must be int,double or long
      public <T> void updateDecrement(String productName,String fieldName,T step){
           DocumentReference products = db.collection("Products").document(productName);
-          products.update(fieldName, FieldValue.increment((double)step*(-1)));
+          products.update(fieldName, FieldValue.increment((int)step*(-1)));
      }
 
      //get all products in database using the call back

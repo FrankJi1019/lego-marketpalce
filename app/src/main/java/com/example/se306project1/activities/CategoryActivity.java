@@ -10,13 +10,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
+import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.Category1;
 import com.example.se306project1.models.Category2;
 import com.example.se306project1.models.Category3;
@@ -60,13 +59,15 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillTopPicks();
+        this.fillTopPicks(3);
         this.fillCategories();
 
         this.setCategoryAdapter();
-        this.setTopProductAdapter();
+//        this.setTopProductAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
+
+        UserState.getInstance().hasLiked("123");
     }
 
     public void setCategoryAdapter() {
@@ -81,7 +82,7 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
-    public void setTopProductAdapter() {
+    public void setTopProductAdapter(List<IProduct> list) {
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -89,7 +90,7 @@ public class CategoryActivity extends AppCompatActivity
         );
         this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
         this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this.topProducts));
+        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, list));
     }
 
     public void fillCategories() {
@@ -98,8 +99,20 @@ public class CategoryActivity extends AppCompatActivity
         this.categories.add(new Category3("City", R.drawable.city, "City"));
     }
 
-    public void fillTopPicks() {
-        this.topProducts = DataProvider.getIProductList(5);
+    public void fillTopPicks(int size) {
+        LikesDatabase likesDatabase = LikesDatabase.getInstance();
+        likesDatabase.getAllProducts(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                likesDatabase.sortDescendByLikes(products);
+                List<IProduct> res = new ArrayList<>();
+                for(int i=0;i<size;i++){
+                    res.add(products.get(i));
+                }
+                setTopProductAdapter(res);
+            }
+        });
     }
 
     @Override
@@ -117,7 +130,4 @@ public class CategoryActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    public void onClickTopPick(View view) {
-        DetailActivity.start(this);
-    }
 }

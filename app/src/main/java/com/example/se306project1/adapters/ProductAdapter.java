@@ -2,6 +2,7 @@ package com.example.se306project1.adapters;
 
 import android.annotation.SuppressLint;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,8 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     public class ProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView productNameTextview,price_textview;
+        private TextView productNameTextview,price_textview, likeCountTextview;
+        private TextView inStockTextview, lowStockTextview, noStockTextview;
         private MaterialButton likeButton, unlikeButton;
         private ImageView product_image;
         private CardView container;
@@ -44,6 +46,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             this.product_image = view.findViewById(R.id.product_imageview);
             this.price_textview = view.findViewById(R.id.price_textview);
             this.container = view.findViewById(R.id.product_item_container);
+            this.inStockTextview = view.findViewById(R.id.in_stock_textview);
+            this.lowStockTextview = view.findViewById(R.id.low_stock_textview);
+            this.noStockTextview = view.findViewById(R.id.no_stock_textview);
+            this.likeCountTextview = view.findViewById(R.id.like_count_textview);
         }
     }
 
@@ -73,24 +79,60 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         IProduct product = this.products.get(position);
+        if (product.getCategoryTitle().equals("technic")) {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#009933"));
+        } else if (product.getCategoryTitle().equals("star war")) {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#737373"));
+        } else {
+            holder.container.setOutlineSpotShadowColor(Color.parseColor("#0000e6"));
+        }
         holder.productNameTextview.setText(product.getName());
         holder.likeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.unlikeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(product.getName(), "likesNumber", 1);
+            UserState.getInstance().like(product);
+            int initialLike = Integer.parseInt(
+                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
+            );
+            holder.likeCountTextview.setText(initialLike + 1 + " people liked");
         });
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.likeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(product.getName(), "likesNumber", -1);
+            UserState.getInstance().unlike(product);
+            int initialLike = Integer.parseInt(
+                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
+            );
+            holder.likeCountTextview.setText(initialLike - 1 + " people liked");
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
         holder.container.setOnClickListener(view -> {
             DetailActivity.startWithName(this.activity, this.products.get(position).getName());
         });
+        holder.likeCountTextview.setText(product.getLikesNumber() + " people liked");
+        if (product.getStock() == 0) {
+            holder.noStockTextview.setVisibility(View.VISIBLE);
+        } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {
+            holder.lowStockTextview.setVisibility(View.VISIBLE);
+        } else {
+            holder.inStockTextview.setVisibility(View.VISIBLE);
+        }
+        if (UserState.getInstance().hasLiked(product.getName())) {
+            holder.likeButton.setVisibility(View.INVISIBLE);
+            holder.unlikeButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.unlikeButton.setVisibility(View.INVISIBLE);
+            holder.likeButton.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

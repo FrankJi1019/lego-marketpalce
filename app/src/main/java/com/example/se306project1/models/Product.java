@@ -4,6 +4,8 @@ import java.util.List;
 
 public class Product implements IProduct {
 
+    public static int LOW_STOCK_BOUNDARY = 50;
+
     private String categoryTitle;
     private String name;
     private String description;
@@ -11,6 +13,11 @@ public class Product implements IProduct {
     private List<Integer> images;
     private int stock;
     private int likesNum;
+
+    @Override
+    public String toString() {
+        return "Product{" + name + "}\n";
+    }
 
     public Product(){
 

@@ -7,7 +7,7 @@
     android:orientation="horizontal"
     app:cardCornerRadius="5dp"
     app:cardElevation="5dp"
-    android:onClick="onClickTopPick">
+    android:id="@+id/top_pick_container">
 
     <RelativeLayout
         android:layout_width="wrap_content"

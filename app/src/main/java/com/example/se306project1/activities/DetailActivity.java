@@ -18,16 +18,11 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
-import com.example.se306project1.models.CartProduct;
-import com.example.se306project1.statemanagement.CartState;
+import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
-import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -107,7 +102,13 @@ public class DetailActivity extends AppCompatActivity
         this.productSearcher.initialise();
         this.productName = getIntent().getStringExtra("name");
 
-        System.out.println(productName);
+        if (UserState.getInstance().hasLiked(productName)) {
+            this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+            this.viewHolder.likeButton.setVisibility(View.INVISIBLE);
+        } else {
+            this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+            this.viewHolder.unlikeButton.setVisibility(View.INVISIBLE);
+        }
 
         ProductDatabase db = ProductDatabase.getInstance();
         db.getSpecificProduct(new FireStoreCallback() {
@@ -159,10 +160,20 @@ public class DetailActivity extends AppCompatActivity
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(productName, "likesNumber", -1);
+            IProduct product = new Product();
+            product.setName(productName);
+            UserState.getInstance().unlike(product);
         } else {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),productName);
+            ProductDatabase productDatabase = ProductDatabase.getInstance();
+            productDatabase.updateIncrement(productName, "likesNumber", 1);
+            IProduct product = new Product();
+            product.setName(productName);
+            UserState.getInstance().like(product);
         }
     }
     

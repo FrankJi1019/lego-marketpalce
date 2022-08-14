@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
-import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.FireStoreCallback;
 
 import com.example.se306project1.database.UserDatabase;
@@ -23,6 +22,11 @@ public class MainActivity extends AppCompatActivity {
     private UserState userState;
     private User user;
     private UserDatabase userDatabase= UserDatabase.getInstance();
+
+    public static void start(AppCompatActivity activity) {
+        Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
+        activity.startActivity(intent);
+    }
 
     private class ViewHolder {
         ConstraintLayout signUp, login;
@@ -61,10 +65,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     private void switchToCategoryActivity(){
-        Intent categoryIntent = new Intent(getBaseContext(), CategoryActivity.class);
-        startActivity(categoryIntent);
+        CategoryActivity.start(this);
     }
 
 

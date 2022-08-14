@@ -103,7 +103,7 @@
                                     android:layout_marginTop="0dp"
                                     android:onClick="onToggleLike"
                                     android:visibility="invisible"
-                                    app:icon="@drawable/outline_favorite_border_24"
+                                    app:icon="@drawable/like_button"
                                     app:iconSize="23sp"
                                     app:iconTint="@color/red_100" />
                             </RelativeLayout>

@@ -49,7 +49,7 @@
                     android:layout_height="48dp"
                     android:layout_marginTop="0dp"
                     android:translationY="-10dp"
-                    app:icon="@drawable/outline_favorite_border_24"
+                    app:icon="@drawable/like_button"
                     app:iconSize="22sp"
                     app:iconTint="@color/red_100"
                     android:visibility="invisible"/>
@@ -70,7 +70,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="300 liked this product"
+                android:text="0 people liked"
                 android:textSize="20dp" />
 
             <TextView
@@ -81,14 +81,41 @@
                 android:layout_alignParentBottom="true"
                 android:text="$299.90"
                 android:textSize="20dp" />
-            <TextView
-                android:id="@+id/stock_count_textview"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
+            <RelativeLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="In Stock"
-                android:textSize="20dp" />
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/in_stock_textview"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="In Stock"
+                    android:textColor="@color/gray_100"
+                    android:visibility="invisible"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/low_stock_textview"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Low Stock"
+                    android:textColor="@color/orange_100"
+                    android:visibility="invisible"
+                    android:textSize="20dp" />
+                <TextView
+                    android:id="@+id/no_stock_textview"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="No Stock"
+                    android:textColor="@color/red_100"
+                    android:visibility="invisible"
+                    android:textSize="20dp" />
+            </RelativeLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

@@ -11,9 +11,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.SuggestionAdapter;
+import com.example.se306project1.database.FireStoreCallback;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductSearcher {
@@ -31,6 +34,7 @@ public class ProductSearcher {
         this.activity = activity;
         this.viewHolder = new ViewHolder();
         this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
+        this.productPool = new ArrayList<>();
         this.fillProductSearPool();
     }
 
@@ -75,6 +79,15 @@ public class ProductSearcher {
     }
 
     private void fillProductSearPool() {
-        this.productPool = DataProvider.getIProductList(4);
+        ProductDatabase productDatabase = ProductDatabase.getInstance();
+        productDatabase.getAllProducts(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                for (IProduct product: products) {
+                    productPool.add(product);
+                }
+            }
+        });
     }
 }
