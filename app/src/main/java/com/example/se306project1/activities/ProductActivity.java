@@ -20,6 +20,8 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.statemanagement.ActivityResumer;
+import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
@@ -53,14 +55,31 @@ public class ProductActivity extends AppCompatActivity
         state = ProductActivityState.THEME;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("theme", theme);
-
         activity.startActivity(thisIntent);
+        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
+            @Override
+            public void start() {
+                state = ProductActivityState.THEME;
+                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+                thisIntent.putExtra("theme", theme);
+                activity.startActivity(thisIntent);
+            }
+        });
+
     }
 
     public static void startWithLikes(AppCompatActivity activity) {
         state = ProductActivityState.LIKE;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         activity.startActivity(thisIntent);
+        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
+            @Override
+            public void start() {
+                state = ProductActivityState.LIKE;
+                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+                activity.startActivity(thisIntent);
+            }
+        });
     }
 
     public static void startWithSearch(AppCompatActivity activity, String keyword) {
@@ -68,6 +87,15 @@ public class ProductActivity extends AppCompatActivity
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("keyword", keyword);
         activity.startActivity(thisIntent);
+        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
+            @Override
+            public void start() {
+                state = ProductActivityState.SEARCH;
+                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
+                thisIntent.putExtra("keyword", keyword);
+                activity.startActivity(thisIntent);
+            }
+        });
     }
 
     @Override
@@ -185,15 +213,13 @@ public class ProductActivity extends AppCompatActivity
 //    }
 
     public void onGoBack(View view) {
-        finish();
+        ActivityState.getInstance().goBack();
     }
 
     public void onSortClick(View view) {
         ((MaterialButton) view).setIconTintResource(R.color.orange_100);
         ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
     }
-
-
 
 }
 

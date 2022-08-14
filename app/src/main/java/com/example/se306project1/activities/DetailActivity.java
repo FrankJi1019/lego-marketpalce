@@ -20,6 +20,8 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.User;
+import com.example.se306project1.statemanagement.ActivityResumer;
+import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.statemanagement.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -63,6 +65,14 @@ public class DetailActivity extends AppCompatActivity
         Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
         intent.putExtra("name", name);
         activity.startActivity(intent);
+        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
+            @Override
+            public void start() {
+                Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
+                intent.putExtra("name", name);
+                activity.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -146,10 +156,8 @@ public class DetailActivity extends AppCompatActivity
     }
 
     public void onGoBack(View view) {
-        finish();
-//        ProductActivity.startWithTheme(this, "Star War");
+        ActivityState.getInstance().goBack();
     }
-
 
     public void onAddToCart(View view) {
         ProductDatabase productDatabase = ProductDatabase.getInstance();
