@@ -18,14 +18,10 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
-import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.statemanagement.ActivityResumer;
-import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,15 +52,6 @@ public class ProductActivity extends AppCompatActivity
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("theme", theme);
         activity.startActivity(thisIntent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                state = ProductActivityState.THEME;
-                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
-                thisIntent.putExtra("theme", theme);
-                activity.startActivity(thisIntent);
-            }
-        });
 
     }
 
@@ -72,14 +59,6 @@ public class ProductActivity extends AppCompatActivity
         state = ProductActivityState.LIKE;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         activity.startActivity(thisIntent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                state = ProductActivityState.LIKE;
-                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
-                activity.startActivity(thisIntent);
-            }
-        });
     }
 
     public static void startWithSearch(AppCompatActivity activity, String keyword) {
@@ -87,15 +66,6 @@ public class ProductActivity extends AppCompatActivity
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("keyword", keyword);
         activity.startActivity(thisIntent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                state = ProductActivityState.SEARCH;
-                Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
-                thisIntent.putExtra("keyword", keyword);
-                activity.startActivity(thisIntent);
-            }
-        });
     }
 
     @Override
@@ -111,6 +81,18 @@ public class ProductActivity extends AppCompatActivity
         this.drawer.initialise();
         this.productSearcher.initialise();
 
+        updateProductList();
+
+        UserState.getInstance().hasLiked("123");
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateProductList();
+    }
+
+    public void updateProductList() {
         if (state == ProductActivityState.THEME) {
             getSupportActionBar().setTitle(getIntent().getStringExtra("theme"));
             fetchAndRenderForCategory(getSupportActionBar().getTitle().toString().toLowerCase());
@@ -126,8 +108,6 @@ public class ProductActivity extends AppCompatActivity
                     .replaceAll("\"", "");
             fetchAndRenderForSearing(keyword);
         }
-
-        UserState.getInstance().hasLiked("123");
     }
 
     public void setProductAdapter(List<IProduct> list) {
@@ -150,18 +130,18 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
     }
 
-    public void fetchAndRenderForCategory(String categoryTitle){
-         ProductDatabase db = ProductDatabase.getInstance();
-         db.getAllProductsByCategoryTitle(new FireStoreCallback() {
-             @Override
-             public <T> void Callback(T value) {
-                 List<IProduct> products = (List<IProduct>) value;
-                 setProductAdapter(products);
-             }
-         },categoryTitle);
+    public void fetchAndRenderForCategory(String categoryTitle) {
+        ProductDatabase db = ProductDatabase.getInstance();
+        db.getAllProductsByCategoryTitle(new FireStoreCallback() {
+            @Override
+            public <T> void Callback(T value) {
+                List<IProduct> products = (List<IProduct>) value;
+                setProductAdapter(products);
+            }
+        }, categoryTitle);
     }
 
-    public void fetchAndRenderForSearing(String keyword){
+    public void fetchAndRenderForSearing(String keyword) {
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
@@ -171,7 +151,8 @@ public class ProductActivity extends AppCompatActivity
             }
         });
     }
-    public void fetchAndRenderForLikes(String userName){
+
+    public void fetchAndRenderForLikes(String userName) {
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
@@ -181,10 +162,10 @@ public class ProductActivity extends AppCompatActivity
                 ldb.getUsersAllLikes(new FireStoreCallback() {
                     @Override
                     public <T> void Callback(T value) {
-                         List<IProduct> tt = (List<IProduct>) value;
-                         setProductAdapter(tt);
+                        List<IProduct> tt = (List<IProduct>) value;
+                        setProductAdapter(tt);
                     }
-                },userName,products);
+                }, userName, products);
             }
         });
     }
@@ -213,7 +194,7 @@ public class ProductActivity extends AppCompatActivity
 //    }
 
     public void onGoBack(View view) {
-        ActivityState.getInstance().goBack();
+        finish();
     }
 
     public void onSortClick(View view) {

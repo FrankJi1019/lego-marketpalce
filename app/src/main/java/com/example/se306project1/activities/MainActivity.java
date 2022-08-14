@@ -11,13 +11,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
-import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.FireStoreCallback;
 
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
-import com.example.se306project1.statemanagement.ActivityResumer;
-import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
 
@@ -29,13 +26,6 @@ public class MainActivity extends AppCompatActivity {
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
         activity.startActivity(intent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
-                activity.startActivity(intent);
-            }
-        });
     }
 
     private class ViewHolder {

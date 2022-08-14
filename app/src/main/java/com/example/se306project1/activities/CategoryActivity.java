@@ -10,27 +10,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.Category1;
 import com.example.se306project1.models.Category2;
 import com.example.se306project1.models.Category3;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.models.User;
-import com.example.se306project1.statemanagement.ActivityResumer;
-import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity
@@ -52,13 +46,6 @@ public class CategoryActivity extends AppCompatActivity
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CategoryActivity.class);
         activity.startActivity(intent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                Intent intent = new Intent(activity.getBaseContext(), CategoryActivity.class);
-                activity.startActivity(intent);
-            }
-        });
     }
 
     @Override

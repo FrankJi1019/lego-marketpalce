@@ -17,11 +17,8 @@ import com.example.se306project1.adapters.CartProductAdapter;
 import com.example.se306project1.database.CartDatabase;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.statemanagement.ActivityResumer;
-import com.example.se306project1.statemanagement.ActivityState;
 import com.example.se306project1.statemanagement.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -46,13 +43,6 @@ public class CartActivity extends AppCompatActivity
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
         activity.startActivity(intent);
-        ActivityState.getInstance().startNewActivity(new ActivityResumer() {
-            @Override
-            public void start() {
-                Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
-                activity.startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -124,7 +114,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void onGoBack(View view) {
-        ActivityState.getInstance().goBack();
+        finish();
     }
 
 }
