@@ -55,32 +55,99 @@
                     android:layout_alignParentRight="true"
                     android:orientation="horizontal">
 
-                    <Button
-                        android:id="@+id/sort_by_likes_button"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Likes"
-                        android:textAllCaps="false"
-                        android:textColor="@color/gray_300"
-                        android:textSize="20sp"
-                        app:icon="@drawable/swap_vert"
-                        app:iconSize="25sp"
-                        app:iconTint="@color/gray_300"
-                        android:onClick="onSortClick" />
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_likes_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Likes"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick" />
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_likes_ascend_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="likes"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick" />
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_likes_desend_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="LIKES"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick" />
+                    </RelativeLayout>
 
-                    <Button
-                        android:id="@+id/sort_by_price_button"
-                        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                    <RelativeLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Prices"
-                        android:textAllCaps="false"
-                        android:textColor="@color/gray_300"
-                        android:textSize="20sp"
-                        app:icon="@drawable/swap_vert"
-                        app:iconSize="25sp"
-                        app:iconTint="@color/gray_300" />
+                        android:layout_height="wrap_content">
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_price_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Price"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick"/>
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_price_ascend_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="price"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick"/>
+                        <Button
+                            android:visibility="invisible"
+                            android:id="@+id/sort_by_price_descend_button"
+                            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="PRICE"
+                            android:textAllCaps="false"
+                            android:textColor="@color/gray_300"
+                            android:textSize="20sp"
+                            app:icon="@drawable/swap_vert"
+                            app:iconSize="25sp"
+                            app:iconTint="@color/gray_300"
+                            android:onClick="onSortClick"/>
+                    </RelativeLayout>
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView

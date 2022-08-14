@@ -11,16 +11,16 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.UserState;
-import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -31,15 +31,22 @@ public class ProductActivity extends AppCompatActivity
 
     private static ProductActivityState state = ProductActivityState.UNDEFINED;
 
-    private List<IProduct> products;
+    private SortState sortState = SortState.NO_SORT;
+    private List<IProduct> defaultOrder = new ArrayList<>();
+    private List<IProduct> products = new ArrayList<>();
 
     ViewHolder viewHolder;
     Drawer drawer;
     ProductSearcher productSearcher;
-    String categoryTitle = "city";
 
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
+        private final Button likeSortButton = findViewById(R.id.sort_by_likes_button);
+        private final Button likeSortAscButton = findViewById(R.id.sort_by_likes_ascend_button);
+        private final Button likeSortDscButton = findViewById(R.id.sort_by_likes_desend_button);
+        private final Button priceSortButton = findViewById(R.id.sort_by_price_button);
+        private final Button priceSortAscButton = findViewById(R.id.sort_by_price_ascend_button);
+        private final Button priceSortDscButton = findViewById(R.id.sort_by_price_descend_button);
     }
 
     public static void start(AppCompatActivity activity) {
@@ -74,7 +81,6 @@ public class ProductActivity extends AppCompatActivity
         setContentView(R.layout.activity_product);
 
         this.viewHolder = new ViewHolder();
-        this.products = new ArrayList<>();
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
@@ -83,7 +89,8 @@ public class ProductActivity extends AppCompatActivity
 
         updateProductList();
 
-        UserState.getInstance().hasLiked("123");
+        updateSortingButtonStyle();
+
     }
 
     @Override
@@ -135,8 +142,10 @@ public class ProductActivity extends AppCompatActivity
         db.getAllProductsByCategoryTitle(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
-                List<IProduct> products = (List<IProduct>) value;
-                setProductAdapter(products);
+                List<IProduct> res = (List<IProduct>) value;
+                setProductAdapter(res);
+                products.addAll(res);
+                defaultOrder.addAll(res);
             }
         }, categoryTitle);
     }
@@ -146,8 +155,10 @@ public class ProductActivity extends AppCompatActivity
         db.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
-                List<IProduct> products = (List<IProduct>) value;
-                setProductAdapter(products);
+                List<IProduct> res = (List<IProduct>) value;
+                setProductAdapter(res);
+                products.addAll(res);
+                defaultOrder.addAll(res);
             }
         });
     }
@@ -157,21 +168,18 @@ public class ProductActivity extends AppCompatActivity
         db.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
-                List<IProduct> products = (List<IProduct>) value;
                 LikesDatabase ldb = LikesDatabase.getInstance();
                 ldb.getUsersAllLikes(new FireStoreCallback() {
                     @Override
                     public <T> void Callback(T value) {
                         List<IProduct> tt = (List<IProduct>) value;
                         setProductAdapter(tt);
+                        products.addAll(tt);
+                        defaultOrder.addAll(tt);
                     }
-                }, userName, products);
+                }, userName, (List<IProduct>) value);
             }
         });
-    }
-
-    public void fillProducts() {
-        this.products = DataProvider.getIProductList(10);
     }
 
     @Override
@@ -189,21 +197,99 @@ public class ProductActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-//    public void onProductItemClick(View view) {
-//        DetailActivity.startWithName(this, );
-//    }
-
     public void onGoBack(View view) {
         finish();
     }
 
     public void onSortClick(View view) {
-        ((MaterialButton) view).setIconTintResource(R.color.orange_100);
-        ((MaterialButton) view).setIconResource(R.drawable.outline_favorite_border_24);
+        updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
+        updateSortingButtonStyle();
+    }
+
+    private void updateSortState(boolean isLikeClicked) {
+        if (isLikeClicked) {
+            switch (sortState) {
+                case LIKE_DESCEND:
+                    sortState = SortState.LIKE_ASCEND;
+                    break;
+                case LIKE_ASCEND:
+                    sortState = SortState.NO_SORT;
+                    break;
+                default:
+                    sortState = SortState.LIKE_DESCEND;
+            }
+        } else {
+            switch (sortState) {
+                case PRICE_ASCEND:
+                    sortState = SortState.PRICE_DESCEND;
+                    break;
+                case PRICE_DESCEND:
+                    sortState = SortState.NO_SORT;
+                    break;
+                default:
+                    sortState = SortState.PRICE_ASCEND;
+            }
+        }
+    }
+
+    private void updateSortingButtonStyle() {
+        this.viewHolder.likeSortButton.setVisibility(View.INVISIBLE);
+        this.viewHolder.likeSortAscButton.setVisibility(View.INVISIBLE);
+        this.viewHolder.likeSortDscButton.setVisibility(View.INVISIBLE);
+        this.viewHolder.priceSortButton.setVisibility(View.INVISIBLE);
+        this.viewHolder.priceSortAscButton.setVisibility(View.INVISIBLE);
+        this.viewHolder.priceSortDscButton.setVisibility(View.INVISIBLE);
+        switch (sortState) {
+            case NO_SORT:
+                this.viewHolder.likeSortButton.setVisibility(View.VISIBLE);
+                this.viewHolder.priceSortButton.setVisibility(View.VISIBLE);
+                break;
+            case LIKE_ASCEND:
+                this.viewHolder.likeSortAscButton.setVisibility(View.VISIBLE);
+                this.viewHolder.priceSortButton.setVisibility(View.VISIBLE);
+                break;
+            case LIKE_DESCEND:
+                this.viewHolder.likeSortDscButton.setVisibility(View.VISIBLE);
+                this.viewHolder.priceSortButton.setVisibility(View.VISIBLE);
+                break;
+            case PRICE_ASCEND:
+                this.viewHolder.likeSortButton.setVisibility(View.VISIBLE);
+                this.viewHolder.priceSortAscButton.setVisibility(View.VISIBLE);
+                break;
+            case PRICE_DESCEND:
+                this.viewHolder.likeSortButton.setVisibility(View.VISIBLE);
+                this.viewHolder.priceSortDscButton.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    private void sortProductList() {
+        switch (sortState) {
+            case NO_SORT:
+                this.products.clear();
+                this.products.addAll(defaultOrder);
+                break;
+            case LIKE_ASCEND:
+                LikesDatabase.getInstance().sortAscendByLikes(this.products);
+                break;
+            case LIKE_DESCEND:
+                LikesDatabase.getInstance().sortDescendByLikes(this.products);
+                break;
+            case PRICE_ASCEND:
+                LikesDatabase.getInstance().sortAscendByPrice(this.products);
+                break;
+            case PRICE_DESCEND:
+                LikesDatabase.getInstance().sortDescendByPrice(this.products);
+                break;
+        }
     }
 
 }
 
 enum ProductActivityState {
     UNDEFINED, THEME, LIKE, SEARCH
+}
+
+enum SortState {
+    NO_SORT, LIKE_ASCEND, LIKE_DESCEND, PRICE_ASCEND, PRICE_DESCEND
 }
