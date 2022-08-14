@@ -22,6 +22,7 @@ public class UserState {
 
     public void logoutCurrentUser() {
         userState = null;
+        likedProducts.clear();
     }
 
     public void setCurrentUser(User currentUser) {

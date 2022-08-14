@@ -95,6 +95,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             ProductDatabase productDatabase = ProductDatabase.getInstance();
             productDatabase.updateIncrement(product.getName(), "likesNumber", 1);
             UserState.getInstance().like(product);
+            int initialLike = Integer.parseInt(
+                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
+            );
+            holder.likeCountTextview.setText(initialLike + 1 + " people liked");
         });
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
@@ -104,6 +108,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             ProductDatabase productDatabase = ProductDatabase.getInstance();
             productDatabase.updateIncrement(product.getName(), "likesNumber", -1);
             UserState.getInstance().unlike(product);
+            int initialLike = Integer.parseInt(
+                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
+            );
+            holder.likeCountTextview.setText(initialLike - 1 + " people liked");
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
