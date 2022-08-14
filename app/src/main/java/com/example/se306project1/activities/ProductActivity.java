@@ -80,6 +80,9 @@ public class ProductActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        this.products.clear();
+        this.defaultOrder.clear();
+
         this.viewHolder = new ViewHolder();
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
@@ -96,6 +99,8 @@ public class ProductActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        this.products.clear();
+        this.defaultOrder.clear();
         updateProductList();
     }
 
@@ -138,10 +143,13 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void fetchAndRenderForCategory(String categoryTitle) {
+        this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProductsByCategoryTitle(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
+                products.clear();
+                defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
                 setProductAdapter(res);
                 products.addAll(res);
@@ -151,10 +159,13 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void fetchAndRenderForSearing(String keyword) {
+        this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
+                products.clear();
+                defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
                 setProductAdapter(res);
                 products.addAll(res);
@@ -164,6 +175,7 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void fetchAndRenderForLikes(String userName) {
+        this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
@@ -172,6 +184,8 @@ public class ProductActivity extends AppCompatActivity
                 ldb.getUsersAllLikes(new FireStoreCallback() {
                     @Override
                     public <T> void Callback(T value) {
+                        products.clear();
+                        defaultOrder.clear();
                         List<IProduct> tt = (List<IProduct>) value;
                         setProductAdapter(tt);
                         products.addAll(tt);
@@ -202,8 +216,11 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void onSortClick(View view) {
+        System.out.println(this.defaultOrder.size());
         updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
         updateSortingButtonStyle();
+        sortProductList();
+        setProductAdapter(this.products);
     }
 
     private void updateSortState(boolean isLikeClicked) {

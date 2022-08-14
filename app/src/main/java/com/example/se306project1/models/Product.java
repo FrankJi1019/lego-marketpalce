@@ -16,15 +16,7 @@ public class Product implements IProduct {
 
     @Override
     public String toString() {
-        return "Product{" +
-                "categoryTitle='" + categoryTitle + '\'' +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", price=" + price +
-                ", images=" + images +
-                ", stock=" + stock +
-                ", likesNum=" + likesNum +
-                "}\n";
+        return "Product{" + name + "}\n";
     }
 
     public Product(){
