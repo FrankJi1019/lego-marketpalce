@@ -6,7 +6,8 @@
     android:orientation="horizontal"
     app:cardElevation="5dp"
     app:cardCornerRadius="5dp"
-    android:layout_margin="10dp">
+    android:layout_margin="10dp"
+    android:id="@+id/category_card_view">
 
     <LinearLayout
         android:layout_width="wrap_content"

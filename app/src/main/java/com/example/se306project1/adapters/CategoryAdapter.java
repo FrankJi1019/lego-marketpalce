@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
@@ -24,11 +25,13 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         private TextView categoryTitleTextview;
         private FloatingActionButton forwardButton;
         private ImageView imageView;
+        private CardView cardView;
         public CategoryViewHolder(final View view) {
             super(view);
             this.categoryTitleTextview = view.findViewById(R.id.category_title_textview);
             this.forwardButton = view.findViewById(R.id.forward_arrow_button);
             this.imageView = view.findViewById(R.id.category_imageview);
+            this.cardView = view.findViewById(R.id.category_card_view);
         }
     }
 
@@ -52,6 +55,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         String CategoryTitle = this.categories.get(position).getTitle();
         holder.categoryTitleTextview.setText(CategoryTitle);
         holder.forwardButton.setOnClickListener(view -> {
+            ProductActivity.startWithTheme(this.activity, this.categories.get(position).getTitle());
+        });
+        holder.cardView.setOnClickListener(view -> {
             ProductActivity.startWithTheme(this.activity, this.categories.get(position).getTitle());
         });
         holder.imageView.setImageResource(this.categories.get(position).getImage());
