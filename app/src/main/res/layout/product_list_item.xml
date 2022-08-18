@@ -20,17 +20,20 @@
             android:layout_weight="1"
             android:layout_height="100dp"
             android:src="@drawable/image_placeholder"
-            android:layout_marginRight="5dp"/>
+            android:layout_marginRight="7dp"/>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginLeft="8dp">
 
             <TextView
                 android:id="@+id/product_name_textview"
-                android:layout_width="wrap_content"
+                android:layout_width="160dp"
                 android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:ellipsize="end"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:text="Colosseum"
@@ -81,39 +84,43 @@
                 android:layout_alignParentBottom="true"
                 android:text="$299.90"
                 android:textSize="20dp" />
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/in_stock_textview"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:text="In Stock"
                     android:textColor="@color/gray_100"
-                    android:visibility="invisible"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:visibility="invisible" />
+
                 <TextView
                     android:id="@+id/low_stock_textview"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:text="Low Stock"
                     android:textColor="@color/orange_100"
-                    android:visibility="invisible"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:visibility="invisible" />
+
                 <TextView
                     android:id="@+id/no_stock_textview"
-                    android:layout_alignParentBottom="true"
-                    android:layout_alignParentEnd="true"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentBottom="true"
                     android:text="No Stock"
                     android:textColor="@color/red_100"
-                    android:visibility="invisible"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:visibility="invisible" />
             </RelativeLayout>
 
         </RelativeLayout>
