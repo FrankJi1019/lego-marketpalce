@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.DetailAdapter;
@@ -156,9 +157,14 @@ public class DetailActivity extends AppCompatActivity
             @Override
             public <T> void Callback(T value) {
                 IProduct product = (Product) value;
+                addToCartSuccess();
                 CartState.getCartState().addToCart(product.toCartProduct());
             }
         }, productName);
+    }
+
+    private void addToCartSuccess(){
+        Toast.makeText(this, "The lego is in your cart now", Toast.LENGTH_SHORT).show();
     }
 
     public void onToggleLike(View view) {
