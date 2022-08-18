@@ -132,6 +132,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void onGoBack(View view) {
+        CartState.getCartState().uncheckAll();
         finish();
     }
 

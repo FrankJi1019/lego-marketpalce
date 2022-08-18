@@ -87,6 +87,10 @@ public class CartState {
         this.checkedProducts.clear();
     }
 
+    public void printAllChecked() {
+        System.out.println(this.checkedProducts);
+    }
+
     public boolean isAllChecked() {
         return this.checkedProducts.size() == this.cartProducts.size();
     }

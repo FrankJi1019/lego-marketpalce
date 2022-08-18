@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
@@ -47,6 +48,7 @@ public class ProductActivity extends AppCompatActivity
         private final Button priceSortButton = findViewById(R.id.sort_by_price_button);
         private final Button priceSortAscButton = findViewById(R.id.sort_by_price_ascend_button);
         private final Button priceSortDscButton = findViewById(R.id.sort_by_price_descend_button);
+        private final TextView noResultTextView = findViewById(R.id.no_search_result_message);
     }
 
     public static void start(AppCompatActivity activity) {
@@ -129,6 +131,11 @@ public class ProductActivity extends AppCompatActivity
                     .replace("Items related to ", "")
                     .replaceAll("\"", "");
             productAdapter = new ProductAdapter(this, list, keyword);
+            for (IProduct p: list) {
+                if (p.getName().contains(keyword)) {
+                    this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
+                }
+            }
         } else {
             productAdapter = new ProductAdapter(this, list);
         }
