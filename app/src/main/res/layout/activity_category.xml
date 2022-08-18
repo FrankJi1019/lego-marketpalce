@@ -20,18 +20,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/suggestion_recyclerview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-            
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ScrollView
+            <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:padding="10dp">
@@ -45,35 +41,49 @@
                             android:id="@+id/recommended_for_you"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
-                            android:layout_marginLeft="10dp"
+                            android:fontFamily="sans-serif"
                             android:layout_marginTop="8dp"
-                            android:layout_marginEnd="8dp"
                             android:layout_marginBottom="8dp"
-                            android:fontFamily="monospace"
                             android:text="@string/recommended_for_you"
+                            android:textAlignment="center"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/top_pick_product_recycler_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_below="@+id/recommended_for_you"
-                            android:layout_marginTop="8dp"
-                            android:layout_marginBottom="8dp"
-                            android:scrollbars="horizontal" />
-
-                        <TextView
-                            android:id="@+id/trending_now_textview"
+                        <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@id/top_pick_product_recycler_view"
-                            android:layout_marginLeft="10dp"
+                            android:id="@+id/top_pick_product"
+                            android:layout_below="@+id/recommended_for_you"
+                            android:orientation="vertical">
+                            <ProgressBar
+                                android:id="@+id/top_pick_progressbar"
+                                android:layout_width="60dp"
+                                android:layout_height="60dp"
+                                android:layout_gravity="center"
+                                android:layout_margin="32dp"
+                                android:indeterminateTint="@color/orange_main"
+                                />
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/top_pick_product_recycler_view"
+                                android:visibility="gone"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="8dp"
+                                android:layout_marginBottom="8dp"
+                                android:scrollbars="horizontal" />
+                        </LinearLayout>
+
+
+                        <TextView
+                            android:id="@+id/shop_by_category_textview"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/top_pick_product"
                             android:layout_marginTop="8dp"
                             android:layout_marginBottom="8dp"
-                            android:fontFamily="monospace"
-                            android:text="Trending Now"
+                            android:fontFamily="sans-serif"
+                            android:text="@string/shop_by_category"
+                            android:textAlignment="center"
                             android:textSize="20sp"
                             android:textStyle="bold" />
 
@@ -81,15 +91,13 @@
                             android:id="@+id/category_recycler_view"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/trending_now_textview"
+                            android:layout_below="@+id/shop_by_category_textview"
                             android:layout_marginTop="8dp" />
 
                     </RelativeLayout>
 
                 </ScrollView>
 
-            </LinearLayout>
-            
         </LinearLayout>
 
     </LinearLayout>

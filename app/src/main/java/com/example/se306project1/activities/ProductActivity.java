@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,6 +50,7 @@ public class ProductActivity extends AppCompatActivity
         private final Button priceSortAscButton = findViewById(R.id.sort_by_price_ascend_button);
         private final Button priceSortDscButton = findViewById(R.id.sort_by_price_descend_button);
         private final TextView noResultTextView = findViewById(R.id.no_search_result_message);
+        ProgressBar productProgressbar = findViewById(R.id.product_progressbar);
     }
 
     public static void start(AppCompatActivity activity) {
@@ -150,6 +152,8 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setLayoutManager(layoutManager);
         this.viewHolder.productRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
+        this.viewHolder.productProgressbar.setVisibility(View.GONE);
+        this.viewHolder.productRecyclerView.setVisibility(View.VISIBLE);
     }
 
     public void fetchAndRenderForCategory(String categoryTitle) {

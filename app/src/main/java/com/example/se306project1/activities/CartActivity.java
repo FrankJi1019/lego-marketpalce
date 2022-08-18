@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.se306project1.R;
@@ -42,6 +43,7 @@ public class CartActivity extends AppCompatActivity
         private final RecyclerView cartProductRecyclerView = findViewById(R.id.cart_product_recyclerview);
         private final TextView totalPriceTextview = findViewById(R.id.total_price_textview);
         private final CheckBox selectAllCheckBox = findViewById(R.id.select_all_checkbox);
+        ProgressBar cartProductProgressbar = findViewById(R.id.cart_product_progressbar);
     }
 
     public static void start(AppCompatActivity activity) {
@@ -96,6 +98,9 @@ public class CartActivity extends AppCompatActivity
         this.viewHolder.cartProductRecyclerView.setLayoutManager(layoutManager);
         this.viewHolder.cartProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
+        this.viewHolder.cartProductProgressbar.setVisibility(View.GONE);
+        this.viewHolder.cartProductRecyclerView.setVisibility(View.VISIBLE);
+
     }
 
     public void fillProducts() {
