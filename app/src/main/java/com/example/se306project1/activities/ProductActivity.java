@@ -96,6 +96,8 @@ public class ProductActivity extends AppCompatActivity
 
         updateSortingButtonStyle();
 
+        this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
+
     }
 
     @Override
@@ -131,6 +133,7 @@ public class ProductActivity extends AppCompatActivity
                     .replace("Items related to ", "")
                     .replaceAll("\"", "");
             productAdapter = new ProductAdapter(this, this.products, keyword);
+            this.viewHolder.noResultTextView.setVisibility(View.VISIBLE);
             for (IProduct p: this.products) {
                 if (p.getName().contains(keyword)) {
                     this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
