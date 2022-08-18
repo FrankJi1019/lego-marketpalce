@@ -59,13 +59,12 @@ public class CartActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-//        this.fillProducts();
-//        this.setAdapter(this.cartProducts);
         fetchAndRender();
 
         this.drawer.initialise();
         this.productSearcher.initialise();
 
+        CartState.getCartState().printAllProducts();
     }
 
     public void fetchAndRender(){
@@ -133,6 +132,7 @@ public class CartActivity extends AppCompatActivity
 
     public void onGoBack(View view) {
         CartState.getCartState().uncheckAll();
+        CartState.getCartState().printAllProducts();
         finish();
     }
 

@@ -19,6 +19,7 @@ public class CartState {
     }
 
     public void setCartList(List<CartProduct> cartProducts) {
+        this.cartProducts.clear();
         this.cartProducts.addAll(cartProducts);
     }
 
@@ -55,7 +56,9 @@ public class CartState {
     }
 
     public void checkItem(String productName) {
-        if (this.checkedProducts.contains(productName)) return;
+        if (this.checkedProducts.contains(productName)) {
+            return;
+        };
         for (int i = 0; i < this.cartProducts.size(); i++) {
             if (this.cartProducts.get(i).getName().equals(productName)) {
                 this.checkedProducts.add(this.cartProducts.get(i).getName());
@@ -85,10 +88,6 @@ public class CartState {
 
     public void uncheckAll() {
         this.checkedProducts.clear();
-    }
-
-    public void printAllChecked() {
-        System.out.println(this.checkedProducts);
     }
 
     public boolean isAllChecked() {

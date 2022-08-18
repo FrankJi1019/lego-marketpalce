@@ -111,6 +111,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
+                    System.out.println("check");
                     CartState.getCartState().checkItem(cartProduct.getName());
                 } else {
                     CartState.getCartState().uncheckItem(cartProduct.getName());
