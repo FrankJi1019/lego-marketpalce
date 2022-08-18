@@ -80,11 +80,14 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         IProduct product = this.products.get(position);
         if (product.getCategoryTitle().equals("technic")) {
-            holder.container.setOutlineSpotShadowColor(Color.parseColor("#009933"));
+            holder.unlikeButton.setIconResource(R.drawable.technic_icon);
+            holder.unlikeButton.setIconTintResource(R.color.technic);
         } else if (product.getCategoryTitle().equals("star war")) {
-            holder.container.setOutlineSpotShadowColor(Color.parseColor("#737373"));
+            holder.unlikeButton.setIconResource(R.drawable.starwar_icon);
+            holder.unlikeButton.setIconTintResource(R.color.star_war);
         } else {
-            holder.container.setOutlineSpotShadowColor(Color.parseColor("#0000e6"));
+            holder.unlikeButton.setIconResource(R.drawable.city_icon);
+            holder.unlikeButton.setIconTintResource(R.color.city);
         }
         holder.productNameTextview.setText(product.getName());
         holder.likeButton.setOnClickListener(view -> {
