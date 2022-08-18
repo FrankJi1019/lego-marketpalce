@@ -59,7 +59,7 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillTopPicks(3);
+        this.fillTopPicks(5);
         this.fillCategories();
 
         this.setCategoryAdapter();
