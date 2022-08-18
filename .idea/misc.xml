@@ -5,6 +5,7 @@
       <map>
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/layout/activity_main.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_cart.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_category.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_product.xml" value="0.2388888888888889" />
         <entry key="app/src/main/res/layout/cart_product_list_item.xml" value="0.18888888888888888" />

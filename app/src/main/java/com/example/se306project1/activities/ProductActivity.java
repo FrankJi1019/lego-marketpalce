@@ -151,7 +151,6 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
         this.viewHolder.productProgressbar.setVisibility(View.GONE);
         this.viewHolder.productRecyclerView.setVisibility(View.VISIBLE);
-
     }
 
     public void fetchAndRenderForCategory(String categoryTitle) {
