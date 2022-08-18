@@ -16,6 +16,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,16 +76,18 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
             protected FilterResults performFiltering(CharSequence charSequence) {
                 String searchText = charSequence.toString();
                 if (searchText.isEmpty()) {
-                    filteredProducts.clear();
+                    filteredProducts = emptyProductList;
                 } else {
+                    List<IProduct> temp = new ArrayList<>();
                     for (IProduct product : allProducts) {
                         if (product.getName().toLowerCase().contains(searchText.toLowerCase())) {
-                            filteredProducts.add(product);
+                            temp.add(product);
                         }
                     }
+                    filteredProducts = temp;
                 }
                 if (!searchText.isEmpty() && filteredProducts.isEmpty()) {
-                    IProduct product = DataProvider.getIProduct();
+                    IProduct product = new Product();
                     product.setName("No Result");
                     filteredProducts.add(product);
                 }

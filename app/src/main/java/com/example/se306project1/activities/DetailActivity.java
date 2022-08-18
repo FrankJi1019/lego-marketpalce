@@ -2,14 +2,18 @@ package com.example.se306project1.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.se306project1.R;
@@ -18,6 +22,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -37,8 +42,14 @@ public class DetailActivity extends AppCompatActivity
         private final TextView name = findViewById(R.id.detail_name_textView);
         private final TextView stock = findViewById(R.id.stockNumber);
         private final TextView price = findViewById(R.id.price);
-        private final TextView decription = findViewById(R.id.description);
+        private final TextView description = findViewById(R.id.description);
+        private final LinearLayout dots = findViewById(R.id.dots);
     }
+
+    private Drawable activeDot;
+    private Drawable inactiveDot;
+    private int dotsCount;
+    private ImageView[] sliderDots;
 
     List<Integer> imageList;
     String productName;
@@ -70,33 +81,16 @@ public class DetailActivity extends AppCompatActivity
         this.productSearcher = new ProductSearcher(this);
 
 //        List<IProduct> res = ProductData.getAllProducts();
-//        ProductDatabase db = ProductDatabase.getInstance();
+//        ProductDatabase dbk = ProductDatabase.getInstance();
 //        for (int i = 0; i < res.size(); i++) {
-//            db.addProductToDb(res.get(i));
+//            dbk.addProductToDb(res.get(i));
 //        }
 
 //        this.fillImage();
 
-//        ldb.getUsersAllLikes(new FireStoreCallback() {
-//            @Override
-//            public <T> void Callback(T value) {
-//                List<IProduct> products = (List<IProduct>) value;
-//                for(int i=0;i<products.size();i++){
-//                    System.out.println(products.get(i).getName());
-//                }
-//                System.out.println("hello");
-//            }
-//        },"qingyang");
 
-
-//        ProductDatabase db = ProductDatabase.getInstance();
-//        db.getSpecificProduct(new FireStoreCallback() {
-//            @Override
-//            public <T> void Callback(T value) {
-//                IProduct product = (IProduct) value;
-//                fetchDataAndSetAdapter(product);
-//            }
-//        },"Ferrari");
+        activeDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot);
+        inactiveDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.inactive_dot);
 
         this.drawer.initialise();
         this.productSearcher.initialise();
@@ -118,10 +112,23 @@ public class DetailActivity extends AppCompatActivity
                 fetchDataAndSetAdapter(product);
             }
         },productName);
-    }
 
-    public void fillImage() {
-        imageList = DataProvider.getImageList(3);
+        viewHolder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                for (int i = 0; i < dotsCount; i++) {
+                    sliderDots[i].setImageDrawable(inactiveDot);
+                }
+
+                sliderDots[position].setImageDrawable(activeDot);
+            }
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
     }
 
     @Override
@@ -181,12 +188,30 @@ public class DetailActivity extends AppCompatActivity
     public void fetchDataAndSetAdapter(IProduct product) {
 
         List<Integer> imageList = product.getImages();
+        initialiseDots(imageList.size());
         detailAdapter = new DetailAdapter(imageList);
         viewHolder.viewPager.setAdapter(detailAdapter);
         viewHolder.name.setText(product.getName());
         viewHolder.stock.setText(product.getStock() + "");
         viewHolder.price.setText("$" + product.getPrice());
-        viewHolder.decription.setText(product.getDescription());
+        viewHolder.description.setText(product.getDescription());
 
+    }
+
+    public void initialiseDots(int size){
+        dotsCount = size;
+        sliderDots = new ImageView[size];
+
+        for (int i = 0; i < dotsCount; i++) {
+            sliderDots[i] = new ImageView(this);
+            sliderDots[i].setImageDrawable(inactiveDot);
+
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            params.setMargins(10, 0, 10, 0);
+
+            viewHolder.dots.addView(sliderDots[i], params);
+        }
+
+        sliderDots[0].setImageDrawable(activeDot);
     }
 }
