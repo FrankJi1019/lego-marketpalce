@@ -16,4 +16,8 @@
     <color name="stroke">#ffff52</color>
     <color name="white">#FFFFFF</color>
 
+    <color name="technic">#009900</color>
+    <color name="star_war">#333333</color>
+    <color name="city">#0000AA</color>
+
 </resources>
