@@ -36,10 +36,28 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <androidx.viewpager.widget.ViewPager
+
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="190dp"
-                        android:id="@+id/viewPager"/>
+                        android:layout_height="wrap_content">
+
+                        <androidx.viewpager.widget.ViewPager
+                            android:id="@+id/viewPager"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp" />
+
+                        <LinearLayout
+                            android:id="@+id/dots"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@id/viewPager"
+                            android:layout_marginTop="8dp"
+                            android:background="@color/white"
+                            android:gravity="center_vertical|center_horizontal"
+                            android:orientation="horizontal"/>
+
+                    </RelativeLayout>
+
 
                     <LinearLayout
                         android:layout_height="wrap_content"
