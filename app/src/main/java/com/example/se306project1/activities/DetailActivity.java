@@ -22,6 +22,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.dataproviders.DataProvider;
+import com.example.se306project1.dataproviders.ProductData;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -41,7 +42,7 @@ public class DetailActivity extends AppCompatActivity
         private final TextView name = findViewById(R.id.detail_name_textView);
         private final TextView stock = findViewById(R.id.stockNumber);
         private final TextView price = findViewById(R.id.price);
-        private final TextView decription = findViewById(R.id.description);
+        private final TextView description = findViewById(R.id.description);
         private final LinearLayout dots = findViewById(R.id.dots);
     }
 
@@ -80,33 +81,13 @@ public class DetailActivity extends AppCompatActivity
         this.productSearcher = new ProductSearcher(this);
 
 //        List<IProduct> res = ProductData.getAllProducts();
-//        ProductDatabase db = ProductDatabase.getInstance();
+//        ProductDatabase dbk = ProductDatabase.getInstance();
 //        for (int i = 0; i < res.size(); i++) {
-//            db.addProductToDb(res.get(i));
+//            dbk.addProductToDb(res.get(i));
 //        }
 
 //        this.fillImage();
 
-//        ldb.getUsersAllLikes(new FireStoreCallback() {
-//            @Override
-//            public <T> void Callback(T value) {
-//                List<IProduct> products = (List<IProduct>) value;
-//                for(int i=0;i<products.size();i++){
-//                    System.out.println(products.get(i).getName());
-//                }
-//                System.out.println("hello");
-//            }
-//        },"qingyang");
-
-
-//        ProductDatabase db = ProductDatabase.getInstance();
-//        db.getSpecificProduct(new FireStoreCallback() {
-//            @Override
-//            public <T> void Callback(T value) {
-//                IProduct product = (IProduct) value;
-//                fetchDataAndSetAdapter(product);
-//            }
-//        },"Ferrari");
 
         activeDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot);
         inactiveDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.inactive_dot);
@@ -148,10 +129,6 @@ public class DetailActivity extends AppCompatActivity
             @Override
             public void onPageScrollStateChanged(int state) {}
         });
-    }
-
-    public void fillImage() {
-        imageList = DataProvider.getImageList(3);
     }
 
     @Override
@@ -217,7 +194,7 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.name.setText(product.getName());
         viewHolder.stock.setText(product.getStock() + "");
         viewHolder.price.setText("$" + product.getPrice());
-        viewHolder.decription.setText(product.getDescription());
+        viewHolder.description.setText(product.getDescription());
 
     }
 
