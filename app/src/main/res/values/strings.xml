@@ -9,4 +9,5 @@
     <string name="confirm_password">Confirm Password</string>
     <string name="top_pick">Top Pick</string>
     <string name="recommended_for_you">Recommended For You</string>
+    <string name="shop_by_category">Shop By Category</string>
 </resources>

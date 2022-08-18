@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CategoryAdapter;
@@ -33,14 +35,13 @@ public class CategoryActivity extends AppCompatActivity
     private List<ICategory> categories;
     private ArrayList<IProduct> topProducts;
 
-    ViewHolder viewHolder;
-
     Drawer drawer;
     ProductSearcher productSearcher;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
+        ProgressBar topPickProgressbar = findViewById(R.id.top_pick_progressbar);;
     }
 
     public static void start(AppCompatActivity activity) {
@@ -48,6 +49,7 @@ public class CategoryActivity extends AppCompatActivity
         activity.startActivity(intent);
     }
 
+    ViewHolder viewHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,11 +61,10 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        this.fillTopPicks(5);
+        this.fillTopPicks(4);
         this.fillCategories();
 
         this.setCategoryAdapter();
-//        this.setTopProductAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
 
@@ -91,6 +92,8 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
         this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, list));
+        this.viewHolder.topPickProgressbar.setVisibility(View.GONE);
+        this.viewHolder.topPickRecyclerView.setVisibility(View.VISIBLE);
     }
 
     public void fillCategories() {

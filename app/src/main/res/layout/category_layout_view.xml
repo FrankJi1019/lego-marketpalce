@@ -11,21 +11,23 @@
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="150dp"
         android:padding="10dp">
 
         <ImageView
             android:id="@+id/category_imageview"
             android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="100dp"
+            android:layout_weight="1.5"
+            android:layout_height="130dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/image_placeholder"
             android:layout_marginRight="5dp"/>
 
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_weight="2"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:layout_marginStart="16dp">
             <TextView
                 android:id="@+id/category_title_textview"
                 android:layout_centerVertical="true"
