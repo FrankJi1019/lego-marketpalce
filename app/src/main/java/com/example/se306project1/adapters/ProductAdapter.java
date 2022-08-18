@@ -102,6 +102,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     holder.likeCountTextview.getText().toString().replace(" people liked", "")
             );
             holder.likeCountTextview.setText(initialLike + 1 + " people liked");
+            products.get(position).setLikesNumber(initialLike + 1);
         });
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
@@ -115,6 +116,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     holder.likeCountTextview.getText().toString().replace(" people liked", "")
             );
             holder.likeCountTextview.setText(initialLike - 1 + " people liked");
+            products.get(position).setLikesNumber(initialLike - 1);
         });
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());

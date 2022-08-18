@@ -130,14 +130,14 @@ public class ProductActivity extends AppCompatActivity
             String keyword = getSupportActionBar().getTitle().toString()
                     .replace("Items related to ", "")
                     .replaceAll("\"", "");
-            productAdapter = new ProductAdapter(this, list, keyword);
-            for (IProduct p: list) {
+            productAdapter = new ProductAdapter(this, this.products, keyword);
+            for (IProduct p: this.products) {
                 if (p.getName().contains(keyword)) {
                     this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
                 }
             }
         } else {
-            productAdapter = new ProductAdapter(this, list);
+            productAdapter = new ProductAdapter(this, this.products);
         }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -158,8 +158,8 @@ public class ProductActivity extends AppCompatActivity
                 products.clear();
                 defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
-                setProductAdapter(res);
                 products.addAll(res);
+                setProductAdapter(res);
                 defaultOrder.addAll(res);
             }
         }, categoryTitle);
