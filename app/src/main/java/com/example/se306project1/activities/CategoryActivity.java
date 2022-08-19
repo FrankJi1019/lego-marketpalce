@@ -114,7 +114,7 @@ public class CategoryActivity extends AppCompatActivity
                     }
                 });
                 List<IProduct> res = new ArrayList<>();
-                res.addAll(products);
+                res.addAll(products.subList(0, size));
                 setTopProductAdapter(res);
             }
         });
