@@ -112,38 +112,6 @@ public class ProductDatabase implements IPoductDatabase{
                   });
      }
 
-     //already get the all products,just select the products which categorytitle which equal to the parameter
-     public List<IProduct> getCatagoryProducts(List<IProduct> allProducts,String categoryTitle){
-           List<IProduct> res = new ArrayList<>();
-           for(int i=0;i<allProducts.size();i++){
-                if(allProducts.get(i).getCategoryTitle()==categoryTitle){
-                     res.add(allProducts.get(i));
-                }
-           }
-           return res;
-     }
-
-
-
-     //sort product descend according to price
-     public void sortDescendByPrice(List<IProduct> products){
-          Collections.sort(products, new Comparator<IProduct>() {
-               @Override
-               public int compare(IProduct p1, IProduct p2) {
-                    return (int)(p2.getPrice()-p1.getPrice());
-               }
-          });
-     }
-
-     //sort product ascend according to price
-     public void sortAscendByPrice(List<IProduct> products){
-          Collections.sort(products, new Comparator<IProduct>() {
-               @Override
-               public int compare(IProduct p1, IProduct p2) {
-                    return (int)(p1.getPrice()-p2.getPrice());
-               }
-          });
-     }
 
      //sort product descend according to likes number
      public void sortDescendByLikes(List<IProduct> products){
@@ -153,27 +121,5 @@ public class ProductDatabase implements IPoductDatabase{
                     return (p2.getLikesNumber()-p1.getLikesNumber());
                }
           });
-     }
-
-     //sort product ascend according to likes number
-     public void sortAscendByLikes(List<IProduct> products){
-          Collections.sort(products, new Comparator<IProduct>() {
-               @Override
-               public int compare(IProduct p1, IProduct p2) {
-                    return (p1.getLikesNumber()-p2.getLikesNumber());
-               }
-          });
-     }
-
-     //already get all products from the database,and then select the product name
-     //which contains the keyword
-     public List<IProduct> getProductsBySearch(List<IProduct> allProducts,String keyword){
-          List<IProduct> res = new ArrayList<>();
-          for(int i=0;i<allProducts.size();i++){
-               if(allProducts.get(i).getName().toLowerCase().indexOf(keyword.toLowerCase())!=-1){
-                    res.add(allProducts.get(i));
-               }
-          }
-          return res;
      }
 }

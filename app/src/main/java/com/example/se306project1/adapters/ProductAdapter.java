@@ -1,43 +1,34 @@
 package com.example.se306project1.adapters;
 
 import android.annotation.SuppressLint;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
-import com.example.se306project1.database.FireStoreCallback;
-import com.example.se306project1.database.LikesDatabase;
-import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    public class ProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView productNameTextview,price_textview, likeCountTextview;
-        private TextView inStockTextview, lowStockTextview, noStockTextview;
-        private MaterialButton likeButton, unlikeButton;
-        private ImageView product_image;
-        private CardView container;
+    class ProductViewHolder extends RecyclerView.ViewHolder {
+        private final TextView productNameTextview,price_textview, likeCountTextview;
+        private final TextView inStockTextview, lowStockTextview, noStockTextview;
+        private final MaterialButton likeButton, unlikeButton;
+        private final ImageView product_image;
+        private final CardView container;
         public ProductViewHolder(final View view) {
             super(view);
             this.productNameTextview = view.findViewById(R.id.product_name_textview);
@@ -53,18 +44,12 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    private List<IProduct> products;
-    private AppCompatActivity activity;
+    private final List<IProduct> products;
+    private final AppCompatActivity activity;
 
     public ProductAdapter(AppCompatActivity activity, List<IProduct> products) {
         this.activity = activity;
         this.products = products;
-    }
-
-    public ProductAdapter(AppCompatActivity activity, List<IProduct> products, String keyword) {
-        this.activity = activity;
-        ProductDatabase db = ProductDatabase.getInstance();
-        this.products = db.getProductsBySearch(products,keyword);
     }
 
     @NonNull
@@ -79,62 +64,96 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     @Override
     public void onBindViewHolder(@NonNull ProductViewHolder holder, int position) {
         IProduct product = this.products.get(position);
-        if (product.getCategoryTitle().equals("technic")) {
-            holder.unlikeButton.setIconResource(R.drawable.technic_icon);
-            holder.unlikeButton.setIconTintResource(R.color.technic);
-        } else if (product.getCategoryTitle().equals("star war")) {
-            holder.unlikeButton.setIconResource(R.drawable.starwar_icon);
-            holder.unlikeButton.setIconTintResource(R.color.star_war);
-        } else {
-            holder.unlikeButton.setIconResource(R.drawable.city_icon);
-            holder.unlikeButton.setIconTintResource(R.color.city);
-        }
         holder.productNameTextview.setText(product.getName());
-        holder.likeButton.setOnClickListener(view -> {
-            view.setVisibility(View.INVISIBLE);
-            holder.unlikeButton.setVisibility(View.VISIBLE);
-            UserState.getInstance().like(product.getName());
-            int initialLike = Integer.parseInt(
-                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
-            );
-            holder.likeCountTextview.setText(initialLike + 1 + " people liked");
-            products.get(position).setLikesNumber(initialLike + 1);
-        });
-        holder.unlikeButton.setOnClickListener(view -> {
-            view.setVisibility(View.INVISIBLE);
-            holder.likeButton.setVisibility(View.VISIBLE);
-            UserState.getInstance().unlike(product.getName());
-            int initialLike = Integer.parseInt(
-                    holder.likeCountTextview.getText().toString().replace(" people liked", "")
-            );
-            holder.likeCountTextview.setText(initialLike - 1 + " people liked");
-            products.get(position).setLikesNumber(initialLike - 1);
-        });
+        this.setLikeButtons(holder.unlikeButton, holder.likeButton, position);
+        this.setLikeAction(
+                holder.likeButton,
+                holder.unlikeButton,
+                holder.likeCountTextview,
+                position
+        );
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
         holder.container.setOnClickListener(view -> {
             DetailActivity.startWithName(this.activity, this.products.get(position).getName());
         });
         holder.likeCountTextview.setText(product.getLikesNumber() + " people liked");
-        if (product.getStock() == 0) {
-            holder.noStockTextview.setVisibility(View.VISIBLE);
-        } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {
-            holder.lowStockTextview.setVisibility(View.VISIBLE);
-        } else {
-            holder.inStockTextview.setVisibility(View.VISIBLE);
-        }
-        if (UserState.getInstance().hasLiked(product.getName())) {
-            holder.likeButton.setVisibility(View.INVISIBLE);
-            holder.unlikeButton.setVisibility(View.VISIBLE);
-        } else {
-            holder.unlikeButton.setVisibility(View.INVISIBLE);
-            holder.likeButton.setVisibility(View.VISIBLE);
-        }
+        this.setStockState(holder.noStockTextview, holder.lowStockTextview, holder.inStockTextview, position);
     }
 
     @Override
     public int getItemCount() {
         return this.products.size();
+    }
+
+    private void setLikeButtons(MaterialButton unlikeButton, MaterialButton likeButton, int position) {
+        IProduct product = this.products.get(position);
+        if (UserState.getInstance().hasLiked(product.getName())) {
+            likeButton.setVisibility(View.INVISIBLE);
+            unlikeButton.setVisibility(View.VISIBLE);
+            setUnlikeButtonIcon(unlikeButton, position);
+        } else {
+            unlikeButton.setVisibility(View.INVISIBLE);
+            likeButton.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void setUnlikeButtonIcon(MaterialButton unlikeButton, int position) {
+        IProduct product = this.products.get(position);
+        if (product.getCategoryTitle().equals("technic")) {
+            unlikeButton.setIconResource(R.drawable.technic_icon);
+            unlikeButton.setIconTintResource(R.color.technic);
+        } else if (product.getCategoryTitle().equals("star war")) {
+            unlikeButton.setIconResource(R.drawable.starwar_icon);
+            unlikeButton.setIconTintResource(R.color.star_war);
+        } else {
+            unlikeButton.setIconResource(R.drawable.city_icon);
+            unlikeButton.setIconTintResource(R.color.city);
+        }
+    }
+
+    private void setLikeAction(
+            MaterialButton likeButton,
+            MaterialButton unlikeButton,
+            TextView likeCountTextView,
+            int position
+    ) {
+        likeButton.setOnClickListener(view -> {
+            view.setVisibility(View.INVISIBLE);
+            unlikeButton.setVisibility(View.VISIBLE);
+            UserState.getInstance().like(this.products.get(position).getName());
+            int initialLike = Integer.parseInt(
+                    likeCountTextView.getText().toString().replace(" people liked", "")
+            );
+            likeCountTextView.setText(initialLike + 1 + " people liked");
+            products.get(position).setLikesNumber(initialLike + 1);
+        });
+        unlikeButton.setOnClickListener(view -> {
+            view.setVisibility(View.INVISIBLE);
+            likeButton.setVisibility(View.VISIBLE);
+            UserState.getInstance().unlike(this.products.get(position).getName());
+            int initialLike = Integer.parseInt(
+                    likeCountTextView.getText().toString().replace(" people liked", "")
+            );
+            likeCountTextView.setText(initialLike - 1 + " people liked");
+            products.get(position).setLikesNumber(initialLike - 1);
+        });
+    }
+
+    private void setStockState(
+            TextView noStockTextView,
+            TextView lowStockTextView,
+            TextView inStockTextView,
+            int position
+    ) {
+        IProduct product = this.products.get(position);
+        if (product.getStock() == 0) {
+            noStockTextView.setVisibility(View.VISIBLE);
+        } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {
+            lowStockTextView.setVisibility(View.VISIBLE);
+        } else {
+            inStockTextView.setVisibility(View.VISIBLE);
+        }
     }
 
 }
