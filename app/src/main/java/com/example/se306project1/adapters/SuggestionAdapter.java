@@ -14,13 +14,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder>
         implements Filterable {

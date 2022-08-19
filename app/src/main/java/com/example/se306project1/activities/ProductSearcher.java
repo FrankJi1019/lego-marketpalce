@@ -13,7 +13,6 @@ import com.example.se306project1.R;
 import com.example.se306project1.adapters.SuggestionAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
-import com.example.se306project1.dataproviders.DataProvider;
 import com.example.se306project1.models.IProduct;
 
 import java.util.ArrayList;

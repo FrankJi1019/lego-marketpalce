@@ -15,17 +15,24 @@ import com.example.se306project1.database.FireStoreCallback;
 
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
 
 public class MainActivity extends AppCompatActivity {
     private UserState userState;
     private User user;
-    private UserDatabase userDatabase= UserDatabase.getInstance();
+    private UserDatabase userDatabase = UserDatabase.getInstance();
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
         activity.startActivity(intent);
+
+//        List<IProduct> res = ProductData.getAllProducts();
+//        ProductDatabase dbk = ProductDatabase.getInstance();
+//        for (int i = 0; i < res.size(); i++) {
+//            dbk.addProductToDb(res.get(i));
+//        }
     }
 
     private class ViewHolder {
@@ -40,17 +47,29 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ActivityState.getInstance().setCurrentActivity(this);
+
         createView();
-        vh.registerLoginButton.setOnClickListener(view -> {getLoginPage();});
-        vh.loginSignUpButton.setOnClickListener(view -> {getSignUpPage();});
-        vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
-           if(!focus){ OnUserNotValid();}
+        vh.registerLoginButton.setOnClickListener(view -> {
+            getLoginPage();
         });
-        vh.registerSignUpButton.setOnClickListener(view -> {OnUserSignUp();});
-        vh.loginLoginButton.setOnClickListener(view -> {OnUserLogin();});
+        vh.loginSignUpButton.setOnClickListener(view -> {
+            getSignUpPage();
+        });
+        vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
+            if (!focus) {
+                OnUserNotValid();
+            }
+        });
+        vh.registerSignUpButton.setOnClickListener(view -> {
+            OnUserSignUp();
+        });
+        vh.loginLoginButton.setOnClickListener(view -> {
+            OnUserLogin();
+        });
     }
 
-    private void createView(){
+    private void createView() {
         vh.registerUsernameEditText = findViewById(R.id.register_username_edit_text);
         vh.registerPasswordEditText = findViewById(R.id.register_password_edit_text);
         vh.registerConfirmPasswordEditText = findViewById(R.id.confirm_password);
@@ -65,12 +84,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void switchToCategoryActivity(){
+    private void switchToCategoryActivity() {
         CategoryActivity.start(this);
     }
 
 
-    private void getLoginPage(){
+    private void getLoginPage() {
         vh.signUp.setVisibility(View.GONE);
         vh.login.setVisibility(View.VISIBLE);
         vh.registerUsernameEditText.setText("");
@@ -78,54 +97,55 @@ public class MainActivity extends AppCompatActivity {
         vh.registerConfirmPasswordEditText.setText("");
     }
 
-    private void getSignUpPage(){
+    private void getSignUpPage() {
         vh.signUp.setVisibility(View.VISIBLE);
         vh.login.setVisibility(View.GONE);
         vh.loginUsernameEditText.setText("");
         vh.loginPasswordEditText.setText("");
     }
 
-    private void OnUserNotValid(){
+    private void OnUserNotValid() {
         userDatabase.isUserExist(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
                 boolean isExist = (Boolean) value;
-                if(isExist){
+                if (isExist) {
                     usernameIsUsed();
                 }
-            }}, getRegisterUsername());
-    }
-
-    private void OnUserLogin(){
-            if(checkEmptyLogin()){
-                userDatabase.isUserExist(new FireStoreCallback() {
-                    @Override
-                    public <T> void Callback(T value) {
-                        boolean isExist = (Boolean) value;
-                        if(!isExist){
-                            userNotFound();
-                        }
-                    }
-                }, getLoginUsername());
-                userDatabase.isLoginValid(new FireStoreCallback() {
-                    @Override
-                    public <T> void Callback(T value) {
-                        boolean isValid = (Boolean) value;
-                        userLogin(isValid, getLoginUsername(), getLoginPassword());
-                    }
-                }, getLoginUsername(), getLoginPassword());
             }
+        }, getRegisterUsername());
     }
 
-    private void OnUserSignUp(){
-        if(checkRegisterEmptyInput()){
+    private void OnUserLogin() {
+        if (checkEmptyLogin()) {
             userDatabase.isUserExist(new FireStoreCallback() {
                 @Override
                 public <T> void Callback(T value) {
                     boolean isExist = (Boolean) value;
-                    if(isExist){
+                    if (!isExist) {
+                        userNotFound();
+                    }
+                }
+            }, getLoginUsername());
+            userDatabase.isLoginValid(new FireStoreCallback() {
+                @Override
+                public <T> void Callback(T value) {
+                    boolean isValid = (Boolean) value;
+                    userLogin(isValid, getLoginUsername(), getLoginPassword());
+                }
+            }, getLoginUsername(), getLoginPassword());
+        }
+    }
+
+    private void OnUserSignUp() {
+        if (checkRegisterEmptyInput()) {
+            userDatabase.isUserExist(new FireStoreCallback() {
+                @Override
+                public <T> void Callback(T value) {
+                    boolean isExist = (Boolean) value;
+                    if (isExist) {
                         usernameIsUsed();
-                    }else if (checkConfirmPassword()){
+                    } else if (checkConfirmPassword()) {
                         userSignUp(getRegisterUsername(), getRegisterPassword());
                     }
                 }
@@ -133,94 +153,94 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void userLogin(boolean isValid, String username, String password){
-        if (isValid){
+    private void userLogin(boolean isValid, String username, String password) {
+        if (isValid) {
             createCurrentUser(username);
             Toast.makeText(this, "Successfully login", Toast.LENGTH_SHORT).show();
             switchToCategoryActivity();
             vh.loginUsernameEditText.setText("");
             vh.loginPasswordEditText.setText("");
-        }else{
+        } else {
             Toast.makeText(this, "The combination of password and username is incorrect, please try agian", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void userSignUp(String username, String password){
-        Toast.makeText(this,"CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
+    private void userSignUp(String username, String password) {
+        Toast.makeText(this, "CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
         String encryptedPassword = getEncryptedPassword(password);
         createCurrentUser(username);
-        userDatabase.addUserToFireStore(username,encryptedPassword);
+        userDatabase.addUserToFireStore(username, encryptedPassword);
         vh.registerUsernameEditText.setText("");
         vh.registerPasswordEditText.setText("");
         vh.registerConfirmPasswordEditText.setText("");
         switchToCategoryActivity();
     }
 
-    private boolean checkEmptyLogin(){
-        if(vh.loginUsernameEditText.getText().length()==0){
-            Toast.makeText(this,"Please enter your username", Toast.LENGTH_SHORT).show();
+    private boolean checkEmptyLogin() {
+        if (vh.loginUsernameEditText.getText().length() == 0) {
+            Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
             return false;
-        }else if(vh.loginPasswordEditText.getText().length() == 0){
-            Toast.makeText(this,"Please enter your password", Toast.LENGTH_SHORT).show();
+        } else if (vh.loginPasswordEditText.getText().length() == 0) {
+            Toast.makeText(this, "Please enter your password", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private void createCurrentUser(String username){
+    private void createCurrentUser(String username) {
         userState = UserState.getInstance();
         user = new User(username);
         userState.setCurrentUser(user);
     }
 
-    private void userNotFound(){
+    private void userNotFound() {
         Toast.makeText(this, "User not found, please try again", Toast.LENGTH_SHORT).show();
     }
 
-    private void usernameIsUsed(){
-        Toast.makeText(this,"This username has been used", Toast.LENGTH_SHORT).show();
+    private void usernameIsUsed() {
+        Toast.makeText(this, "This username has been used", Toast.LENGTH_SHORT).show();
     }
 
-    private boolean checkRegisterEmptyInput(){
-        if(vh.registerUsernameEditText.getText().length()==0) {
+    private boolean checkRegisterEmptyInput() {
+        if (vh.registerUsernameEditText.getText().length() == 0) {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
             return false;
-        }else if(getRegisterPassword().isEmpty() || getConfirmPassword().isEmpty()){
-            Toast.makeText(this,"Please enter password", Toast.LENGTH_SHORT).show();
+        } else if (getRegisterPassword().isEmpty() || getConfirmPassword().isEmpty()) {
+            Toast.makeText(this, "Please enter password", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private boolean checkConfirmPassword(){
-        if (!getRegisterPassword().equals(getConfirmPassword())){
-            Toast.makeText(this,"Password and confirm password do not match, please try again", Toast.LENGTH_SHORT).show();
+    private boolean checkConfirmPassword() {
+        if (!getRegisterPassword().equals(getConfirmPassword())) {
+            Toast.makeText(this, "Password and confirm password do not match, please try again", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;
     }
 
-    private String getRegisterUsername(){
+    private String getRegisterUsername() {
         return vh.registerUsernameEditText.getText().toString();
     }
 
-    private String getRegisterPassword(){
+    private String getRegisterPassword() {
         return vh.registerPasswordEditText.getText().toString();
     }
 
-    private String getConfirmPassword(){
+    private String getConfirmPassword() {
         return vh.registerConfirmPasswordEditText.getText().toString();
     }
 
-    private String getLoginUsername(){
+    private String getLoginUsername() {
         return vh.loginUsernameEditText.getText().toString();
     }
 
-    private String getLoginPassword(){
+    private String getLoginPassword() {
         return vh.loginPasswordEditText.getText().toString();
     }
 
-    private String getEncryptedPassword(String password){
+    private String getEncryptedPassword(String password) {
         return PasswordEncripter.hashPassword(password);
     }
 

@@ -18,6 +18,10 @@ public class CartState {
         this.checkedProducts = new ArrayList<>();
     }
 
+    public static CartState getCartState() {
+        return cartState;
+    }
+
     public void setCartList(List<CartProduct> cartProducts) {
         this.cartProducts.clear();
         this.cartProducts.addAll(cartProducts);
@@ -96,10 +100,6 @@ public class CartState {
 
     public boolean isItemChecked(String productName) {
         return this.checkedProducts.contains(productName);
-    }
-
-    public static CartState getCartState() {
-        return cartState;
     }
 
 }

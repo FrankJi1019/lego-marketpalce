@@ -18,12 +18,12 @@ import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
-import com.example.se306project1.models.Category1;
-import com.example.se306project1.models.Category2;
-import com.example.se306project1.models.Category3;
+import com.example.se306project1.models.TechnicTheme;
+import com.example.se306project1.models.StarWarTheme;
+import com.example.se306project1.models.CityTheme;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
-import com.example.se306project1.utilities.UserState;
+import com.example.se306project1.utilities.ActivityState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -33,10 +33,10 @@ public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private List<ICategory> categories;
-    private ArrayList<IProduct> topProducts;
 
     Drawer drawer;
     ProductSearcher productSearcher;
+    ViewHolder viewHolder;
 
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
@@ -49,15 +49,14 @@ public class CategoryActivity extends AppCompatActivity
         activity.startActivity(intent);
     }
 
-    ViewHolder viewHolder;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
+        ActivityState.getInstance().setCurrentActivity(this);
 
         this.viewHolder = new ViewHolder();
         this.categories = new ArrayList<>();
-        this.topProducts = new ArrayList<>();
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
@@ -67,11 +66,9 @@ public class CategoryActivity extends AppCompatActivity
         this.setCategoryAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
-
-        UserState.getInstance().hasLiked("123");
     }
 
-    public void setCategoryAdapter() {
+    private void setCategoryAdapter() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(this, this.categories);
         RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -83,7 +80,7 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.categoryRecyclerView.setAdapter(categoryAdapter);
     }
 
-    public void setTopProductAdapter(List<IProduct> list) {
+    private void setTopProductAdapter(List<IProduct> list) {
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.HORIZONTAL,
@@ -96,13 +93,13 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.topPickRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    public void fillCategories() {
-        this.categories.add(new Category1("Technic", R.drawable.technic, "Technic"));
-        this.categories.add(new Category2("Star War", R.drawable.starwar, "Star War"));
-        this.categories.add(new Category3("City", R.drawable.city, "City"));
+    private void fillCategories() {
+        this.categories.add(new TechnicTheme());
+        this.categories.add(new StarWarTheme());
+        this.categories.add(new CityTheme());
     }
 
-    public void fillTopPicks(int size) {
+    private void fillTopPicks(int size) {
         LikesDatabase likesDatabase = LikesDatabase.getInstance();
         likesDatabase.getAllProducts(new FireStoreCallback() {
             @Override
