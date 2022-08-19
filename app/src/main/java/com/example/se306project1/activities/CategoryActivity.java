@@ -59,8 +59,8 @@ public class CategoryActivity extends AppCompatActivity
 
         this.viewHolder = new ViewHolder();
         this.categories = new ArrayList<>();
-        this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this);
+        this.drawer = new Drawer();
+        this.productSearcher = new ProductSearcher();
 
         this.fillTopPicks(4);
         this.fillCategories();
@@ -71,7 +71,7 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     private void setCategoryAdapter() {
-        CategoryAdapter categoryAdapter = new CategoryAdapter(this, this.categories);
+        CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
         RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
@@ -90,7 +90,7 @@ public class CategoryActivity extends AppCompatActivity
         );
         this.viewHolder.topPickRecyclerView.setLayoutManager(topPickLayoutManager);
         this.viewHolder.topPickRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(this, list));
+        this.viewHolder.topPickRecyclerView.setAdapter(new TopPickAdapter(list));
         this.viewHolder.topPickProgressbar.setVisibility(View.GONE);
         this.viewHolder.topPickRecyclerView.setVisibility(View.VISIBLE);
     }

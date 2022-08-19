@@ -22,6 +22,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -52,10 +53,11 @@ public class CartActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        ActivityState.getInstance().setCurrentActivity(this);
 
         this.viewHolder = new ViewHolder();
-        this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this);
+        this.drawer = new Drawer();
+        this.productSearcher = new ProductSearcher();
 
         fetchCartProducts();
 

@@ -18,8 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.ActivityState;
 
-        import java.util.List;
+import java.util.List;
 
 public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickViewHolder> {
 
@@ -37,10 +38,7 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
 
     private List<IProduct> products;
 
-    private AppCompatActivity activity;
-
-    public TopPickAdapter(AppCompatActivity activity, List<IProduct> products) {
-        this.activity = activity;
+    public TopPickAdapter(List<IProduct> products) {
         this.products = products;
     }
 
@@ -59,7 +57,10 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DetailActivity.startWithName(activity, product.getName());
+                DetailActivity.startWithName(
+                        ActivityState.getInstance().getCurrentActivity(),
+                        product.getName()
+                );
             }
         });
     }

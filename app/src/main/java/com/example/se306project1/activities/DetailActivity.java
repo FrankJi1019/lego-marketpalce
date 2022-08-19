@@ -74,8 +74,8 @@ public class DetailActivity extends AppCompatActivity
 
         this.product = new Product();
         this.viewHolder = new ViewHolder();
-        this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this);
+        this.drawer = new Drawer();
+        this.productSearcher = new ProductSearcher();
         this.activeDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot);
         this.inactiveDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.inactive_dot);
 

@@ -12,6 +12,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.se306project1.R;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -26,8 +27,8 @@ public class Drawer {
     DrawerViewHolder drawerViewHolder;
     AppCompatActivity activity;
 
-    public Drawer(AppCompatActivity activity) {
-        this.activity = activity;
+    public Drawer() {
+        this.activity = ActivityState.getInstance().getCurrentActivity();
         this.drawerViewHolder = new DrawerViewHolder();
         this.drawerViewHolder.toolbar = (Toolbar) this.activity.findViewById(R.id.app_toolbar);
         this.drawerViewHolder.drawerLayout = (DrawerLayout) this.activity.findViewById(R.id.drawerlayout);

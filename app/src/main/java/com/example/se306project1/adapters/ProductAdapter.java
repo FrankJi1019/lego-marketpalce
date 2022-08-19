@@ -16,6 +16,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
@@ -45,10 +46,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
     }
 
     private final List<IProduct> products;
-    private final AppCompatActivity activity;
 
-    public ProductAdapter(AppCompatActivity activity, List<IProduct> products) {
-        this.activity = activity;
+    public ProductAdapter(List<IProduct> products) {
         this.products = products;
     }
 
@@ -75,7 +74,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.product_image.setImageResource(product.getImages().get(0));
         holder.price_textview.setText("$"+product.getPrice());
         holder.container.setOnClickListener(view -> {
-            DetailActivity.startWithName(this.activity, this.products.get(position).getName());
+            DetailActivity.startWithName(
+                    ActivityState.getInstance().getCurrentActivity(),
+                    this.products.get(position).getName()
+            );
         });
         holder.likeCountTextview.setText(product.getLikesNumber() + " people liked");
         this.setStockState(holder.noStockTextview, holder.lowStockTextview, holder.inStockTextview, position);

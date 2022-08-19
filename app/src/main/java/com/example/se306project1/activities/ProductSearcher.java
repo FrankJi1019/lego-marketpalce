@@ -14,6 +14,7 @@ import com.example.se306project1.adapters.SuggestionAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.utilities.ActivityState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,23 +30,16 @@ public class ProductSearcher {
     private ViewHolder viewHolder;
     private SuggestionAdapter suggestionAdapter;
 
-    public ProductSearcher(AppCompatActivity activity) {
-        this.activity = activity;
+    public ProductSearcher() {
+        this.activity = ActivityState.getInstance().getCurrentActivity();
         this.viewHolder = new ViewHolder();
         this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
         this.productPool = new ArrayList<>();
         this.fillProductSearPool();
     }
 
-    public ProductSearcher(AppCompatActivity activity, List<IProduct> products) {
-        this.activity = activity;
-        this.viewHolder = new ViewHolder();
-        this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
-        this.productPool = products;
-    }
-
     public void initialise() {
-        this.suggestionAdapter = new SuggestionAdapter(this.activity, productPool);
+        this.suggestionAdapter = new SuggestionAdapter(productPool);
         this.viewHolder.suggestionListRecycler.setAdapter(this.suggestionAdapter);
         this.viewHolder.suggestionListRecycler.setLayoutManager(
                 new LinearLayoutManager(

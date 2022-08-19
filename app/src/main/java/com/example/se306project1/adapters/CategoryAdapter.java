@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.se306project1.R;
 import com.example.se306project1.activities.ProductActivity;
 import com.example.se306project1.models.ICategory;
+import com.example.se306project1.utilities.ActivityState;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
@@ -36,11 +37,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    private AppCompatActivity activity;
     private List<ICategory> categories;
 
-    public CategoryAdapter(AppCompatActivity activity, List<ICategory> categories) {
-        this.activity = activity;
+    public CategoryAdapter(List<ICategory> categories) {
         this.categories = categories;
     }
 
@@ -56,10 +55,16 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         String CategoryTitle = this.categories.get(position).getTitle();
         holder.categoryTitleTextview.setText(CategoryTitle);
         holder.forwardButton.setOnClickListener(view -> {
-            ProductActivity.startWithTheme(this.activity, this.categories.get(position).getTitle());
+            ProductActivity.startWithTheme(
+                    ActivityState.getInstance().getCurrentActivity(),
+                    this.categories.get(position).getTitle()
+            );
         });
         holder.cardView.setOnClickListener(view -> {
-            ProductActivity.startWithTheme(this.activity, this.categories.get(position).getTitle());
+            ProductActivity.startWithTheme(
+                    ActivityState.getInstance().getCurrentActivity(),
+                    this.categories.get(position).getTitle()
+            );
         });
         holder.imageView.setImageResource(this.categories.get(position).getImage());
     }

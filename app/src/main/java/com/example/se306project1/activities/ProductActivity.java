@@ -22,6 +22,7 @@ import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -81,13 +82,14 @@ public class ProductActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        ActivityState.getInstance().setCurrentActivity(this);
 
         this.products.clear();
         this.defaultOrder.clear();
 
         this.viewHolder = new ViewHolder();
-        this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this);
+        this.drawer = new Drawer();
+        this.productSearcher = new ProductSearcher();
 
         this.drawer.initialise();
         this.productSearcher.initialise();
@@ -124,7 +126,7 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void setProductAdapter() {
-        ProductAdapter productAdapter = new ProductAdapter(this, this.products);
+        ProductAdapter productAdapter = new ProductAdapter(this.products);
         if (activityState == ProductActivityState.SEARCH) {
             String keyword = getIntent().getStringExtra("keyword");
             this.viewHolder.noResultTextView.setVisibility(View.VISIBLE);

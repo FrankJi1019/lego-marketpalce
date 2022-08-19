@@ -16,6 +16,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+import com.example.se306project1.utilities.ActivityState;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,8 +27,6 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
     private List<IProduct> allProducts = new ArrayList<>();
     private List<IProduct> filteredProducts = new ArrayList<>();
     private List<IProduct> emptyProductList = new ArrayList<>();
-
-    private AppCompatActivity activity;
 
     class SuggestionViewHolder extends RecyclerView.ViewHolder {
         private TextView suggestedNameTextView;
@@ -40,8 +39,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         }
     }
 
-    public SuggestionAdapter(AppCompatActivity activity, List<IProduct> products) {
-        this.activity = activity;
+    public SuggestionAdapter(List<IProduct> products) {
         this.allProducts = products;
     }
 
@@ -58,7 +56,10 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         holder.suggestedNameTextView.setText(this.filteredProducts.get(position).getName());
         holder.suggestionItemContainer.setOnClickListener(view -> {
             if (holder.suggestedNameTextView.getText().toString().equalsIgnoreCase("no result")) return;
-            DetailActivity.startWithName(activity, holder.suggestedNameTextView.getText().toString());
+            DetailActivity.startWithName(
+                    ActivityState.getInstance().getCurrentActivity(),
+                    holder.suggestedNameTextView.getText().toString()
+            );
         });
     }
 
