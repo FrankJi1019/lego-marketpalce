@@ -162,8 +162,6 @@ public class DetailActivity extends AppCompatActivity
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
-            ProductDatabase productDatabase = ProductDatabase.getInstance();
-            productDatabase.updateIncrement(productName, "likesNumber", -1);
             IProduct product = new Product();
             product.setName(productName);
             UserState.getInstance().unlike(product);
@@ -171,14 +169,11 @@ public class DetailActivity extends AppCompatActivity
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
             LikesDatabase db = LikesDatabase.getInstance();
             db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
-            ProductDatabase productDatabase = ProductDatabase.getInstance();
-            productDatabase.updateIncrement(productName, "likesNumber", 1);
             IProduct product = new Product();
             product.setName(productName);
             UserState.getInstance().like(product);
         }
     }
-
 
     public void fetchDataAndSetAdapter(IProduct product) {
 

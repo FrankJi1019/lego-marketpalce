@@ -58,14 +58,14 @@ public class MainActivity extends AppCompatActivity {
         });
         vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
             if (!focus) {
-                OnUserNotValid();
+                onUserNotValid();
             }
         });
         vh.registerSignUpButton.setOnClickListener(view -> {
-            OnUserSignUp();
+            onUserSignUp();
         });
         vh.loginLoginButton.setOnClickListener(view -> {
-            OnUserLogin();
+            onUserLogin();
         });
     }
 
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginPasswordEditText.setText("");
     }
 
-    private void OnUserNotValid() {
+    private void onUserNotValid() {
         userDatabase.isUserExist(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
@@ -116,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }, getRegisterUsername());
     }
 
-    private void OnUserLogin() {
+    private void onUserLogin() {
         if (checkEmptyLogin()) {
             userDatabase.isUserExist(new FireStoreCallback() {
                 @Override
@@ -137,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void OnUserSignUp() {
+    private void onUserSignUp() {
         if (checkRegisterEmptyInput()) {
             userDatabase.isUserExist(new FireStoreCallback() {
                 @Override
