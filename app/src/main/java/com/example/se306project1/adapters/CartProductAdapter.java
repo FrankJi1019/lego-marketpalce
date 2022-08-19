@@ -25,11 +25,11 @@ import java.util.List;
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
 
     public class CartProductViewHolder extends RecyclerView.ViewHolder {
-        private TextView nameTextView, amountTextView, priceTextView;
-        private ImageView imageView;
-        private Button decreaseAmountButton, increaseAmountButton, deleteButton;
-        private CardView cartContainer;
-        private CheckBox checkBox;
+        private final TextView nameTextView, amountTextView, priceTextView;
+        private final ImageView imageView;
+        private final Button decreaseAmountButton, increaseAmountButton, deleteButton;
+        private final CardView cartContainer;
+        private final CheckBox checkBox;
 
         public CartProductViewHolder(final View view) {
             super(view);
@@ -45,9 +45,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         }
     }
 
-    private List<CartProduct> products;
-    private TextView totalPriceTextview;
-    private CheckBox selectAllCheckBox;
+    private final List<CartProduct> products;
+    private final TextView totalPriceTextview;
+    private final CheckBox selectAllCheckBox;
 
     public CartProductAdapter(List<CartProduct> products, TextView totalPriceTextview, CheckBox checkBox) {
         this.products = products;
@@ -72,37 +72,19 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         holder.decreaseAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartProduct cartProduct = products.get(position);
-                int newAmount = Math.max(cartProduct.getAmount() - 1, 1);
-                holder.amountTextView.setText(Integer.toString(newAmount));
-                cartProduct.setAmount(newAmount);
-                CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
-                CartDatabase db = CartDatabase.getInstance();
-                db.SubstractCartAmount(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
-                updatePrice();
+                updateAmount(view, holder.amountTextView, position, products.get(position).getAmount() - 1);
             }
         });
         holder.increaseAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartProduct cartProduct = products.get(position);
-                int newAmount = Math.min(cartProduct.getAmount() + 1, cartProduct.getStock());
-                holder.amountTextView.setText(Integer.toString(newAmount));
-                cartProduct.setAmount(newAmount);
-                CartState.getCartState().updateAmount(cartProduct.getName(), newAmount);
-                CartDatabase db = CartDatabase.getInstance();
-                db.addCartAmount(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
-                updatePrice();
+                updateAmount(view, holder.amountTextView, position, products.get(position).getAmount() + 1);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CartProduct cartProduct = products.get(position);
-                CartState.getCartState().uncheckItem(cartProduct.getName());
-                CartState.getCartState().removeCartProduct(cartProduct.getName());
-                products.remove(position);
-                updatePrice();
+                deleteProduct(position);
                 notifyDataSetChanged();
             }
         });
@@ -111,7 +93,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b) {
-                    System.out.println("check");
                     CartState.getCartState().checkItem(cartProduct.getName());
                 } else {
                     CartState.getCartState().uncheckItem(cartProduct.getName());
@@ -130,5 +111,25 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     private void updatePrice() {
         totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
+    }
+
+    private void updateAmount(View view, TextView amountTextView, int position, int amount) {
+        CartProduct cartProduct = products.get(position);
+        amount = Math.max(amount, 1);
+        amount = Math.min(amount, cartProduct.getStock());
+        amountTextView.setText(Integer.toString(amount));
+        cartProduct.setAmount(amount);
+        CartState.getCartState().updateAmount(cartProduct.getName(), amount);
+        CartDatabase db = CartDatabase.getInstance();
+        db.substractCartAmount(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
+        updatePrice();
+    }
+
+    private void deleteProduct(int position) {
+        CartProduct cartProduct = products.get(position);
+        products.remove(position);
+        CartState.getCartState().uncheckItem(cartProduct.getName());
+        CartState.getCartState().removeCartProduct(cartProduct.getName());
+        updatePrice();
     }
 }

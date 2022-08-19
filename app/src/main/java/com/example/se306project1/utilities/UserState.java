@@ -9,11 +9,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserState {
-    private static UserState userState = null;
-    private User currentUser = null;
-    private static List<IProduct> likedProducts = new ArrayList<>();
 
-    private UserState() {
+    private static UserState userState = null;
+
+    private final List<String> likedProducts = new ArrayList<>();
+    private User currentUser = null;
+
+    private UserState() {}
+
+    public static UserState getInstance() {
+        if (userState == null) {
+            userState = new UserState();
+        }
+        return userState;
     }
 
     public User getCurrentUser() {
@@ -35,8 +43,9 @@ public class UserState {
                     @Override
                     public <T> void Callback(T value) {
                         List<IProduct> temp = (List<IProduct>) value;
-                        for (IProduct p : temp) likedProducts.add(p);
-//                        hasLiked()
+                        for (IProduct p: temp) {
+                            likedProducts.add(p.getName());
+                        }
                     }
                 }, currentUser.getUsername(), allProducts);
             }
@@ -46,31 +55,26 @@ public class UserState {
 
     public boolean hasLiked(String productName) {
         for (int i = 0; i < likedProducts.size(); i++) {
-            if (likedProducts.get(i).getName().equals(productName)) {
+            if (likedProducts.get(i).equals(productName)) {
                 return true;
             }
         }
         return false;
     }
 
-    public void like(IProduct product) {
-        if (hasLiked(product.getName())) return;
-        likedProducts.add(product);
+    public boolean like(String productName) {
+        if (hasLiked(productName)) return false;
+        LikesDatabase db = LikesDatabase.getInstance();
+        db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
+        likedProducts.add(productName);
+        return true;
     }
 
-    public void unlike(IProduct product) {
-        if (!hasLiked(product.getName())) return;
-        for (int i = 0; i < likedProducts.size(); i++) {
-            if (likedProducts.get(i).getName().equals(product.getName())) {
-                likedProducts.remove(i);
-            }
-        }
-    }
-
-    public static UserState getInstance() {
-        if (userState == null) {
-            userState = new UserState();
-        }
-        return userState;
+    public boolean unlike(String productName) {
+        if (!hasLiked(productName)) return false;
+        LikesDatabase db = LikesDatabase.getInstance();
+        db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
+        likedProducts.removeIf(p -> p.equals(productName));
+        return true;
     }
 }

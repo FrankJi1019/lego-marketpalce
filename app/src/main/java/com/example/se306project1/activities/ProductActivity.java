@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.ProductAdapter;
@@ -22,20 +21,26 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
+import com.example.se306project1.models.Product;
+import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
+import java.lang.reflect.Field;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
 public class ProductActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static ProductActivityState state = ProductActivityState.UNDEFINED;
+    private static ProductActivityState activityState = ProductActivityState.UNDEFINED;
 
     private SortState sortState = SortState.NO_SORT;
-    private List<IProduct> defaultOrder = new ArrayList<>();
-    private List<IProduct> products = new ArrayList<>();
+    private final List<IProduct> defaultOrder = new ArrayList<>();
+    private final List<IProduct> products = new ArrayList<>();
 
     ViewHolder viewHolder;
     Drawer drawer;
@@ -50,30 +55,24 @@ public class ProductActivity extends AppCompatActivity
         private final Button priceSortAscButton = findViewById(R.id.sort_by_price_ascend_button);
         private final Button priceSortDscButton = findViewById(R.id.sort_by_price_descend_button);
         private final TextView noResultTextView = findViewById(R.id.no_search_result_message);
-        ProgressBar productProgressbar = findViewById(R.id.product_progressbar);
-    }
-
-    public static void start(AppCompatActivity activity) {
-        Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
-        activity.startActivity(thisIntent);
+        private final ProgressBar productProgressbar = findViewById(R.id.product_progressbar);
     }
 
     public static void startWithTheme(AppCompatActivity activity, String theme) {
-        state = ProductActivityState.THEME;
+        activityState = ProductActivityState.THEME;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("theme", theme);
         activity.startActivity(thisIntent);
-
     }
 
     public static void startWithLikes(AppCompatActivity activity) {
-        state = ProductActivityState.LIKE;
+        activityState = ProductActivityState.LIKE;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         activity.startActivity(thisIntent);
     }
 
     public static void startWithSearch(AppCompatActivity activity, String keyword) {
-        state = ProductActivityState.SEARCH;
+        activityState = ProductActivityState.SEARCH;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("keyword", keyword);
         activity.startActivity(thisIntent);
@@ -83,19 +82,19 @@ public class ProductActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
+        ActivityState.getInstance().setCurrentActivity(this);
 
         this.products.clear();
         this.defaultOrder.clear();
 
         this.viewHolder = new ViewHolder();
-        this.drawer = new Drawer(this);
-        this.productSearcher = new ProductSearcher(this);
+        this.drawer = new Drawer();
+        this.productSearcher = new ProductSearcher();
 
         this.drawer.initialise();
         this.productSearcher.initialise();
 
         updateProductList();
-
         updateSortingButtonStyle();
 
         this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
@@ -111,38 +110,31 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void updateProductList() {
-        if (state == ProductActivityState.THEME) {
-            getSupportActionBar().setTitle(getIntent().getStringExtra("theme"));
-            fetchAndRenderForCategory(getSupportActionBar().getTitle().toString().toLowerCase());
-        } else if (state == ProductActivityState.LIKE) {
-            getSupportActionBar().setTitle("Your Likes");
-            fetchAndRenderForLikes(UserState.getInstance().getCurrentUser().getUsername());
-        } else if (state == ProductActivityState.SEARCH) {
-            getSupportActionBar().setTitle(
+        if (activityState == ProductActivityState.THEME) {
+            Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra("theme"));
+            fetchCategoryProducts(getSupportActionBar().getTitle().toString().toLowerCase());
+        } else if (activityState == ProductActivityState.LIKE) {
+            Objects.requireNonNull(getSupportActionBar()).setTitle("Your Likes");
+            fetchLikedProducts(UserState.getInstance().getCurrentUser().getUsername());
+        } else if (activityState == ProductActivityState.SEARCH) {
+            Objects.requireNonNull(getSupportActionBar()).setTitle(
                     String.format("Items related to \"%s\"", getIntent().getStringExtra("keyword"))
             );
-            String keyword = getSupportActionBar().getTitle().toString()
-                    .replace("Items related to ", "")
-                    .replaceAll("\"", "");
-            fetchAndRenderForSearing(keyword);
+            String keyword = getIntent().getStringExtra("keyword");
+            fetchSearchingResults(keyword);
         }
     }
 
-    public void setProductAdapter(List<IProduct> list) {
-        ProductAdapter productAdapter;
-        if (state == ProductActivityState.SEARCH) {
-            String keyword = getSupportActionBar().getTitle().toString()
-                    .replace("Items related to ", "")
-                    .replaceAll("\"", "");
-            productAdapter = new ProductAdapter(this, this.products, keyword);
+    public void setProductAdapter() {
+        ProductAdapter productAdapter = new ProductAdapter(this.products);
+        if (activityState == ProductActivityState.SEARCH) {
+            String keyword = getIntent().getStringExtra("keyword");
             this.viewHolder.noResultTextView.setVisibility(View.VISIBLE);
             for (IProduct p: this.products) {
                 if (p.getName().contains(keyword)) {
                     this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
                 }
             }
-        } else {
-            productAdapter = new ProductAdapter(this, this.products);
         }
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -156,7 +148,7 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    public void fetchAndRenderForCategory(String categoryTitle) {
+    public void fetchCategoryProducts(String categoryTitle) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProductsByCategoryTitle(new FireStoreCallback() {
@@ -166,13 +158,13 @@ public class ProductActivity extends AppCompatActivity
                 defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
                 products.addAll(res);
-                setProductAdapter(res);
+                setProductAdapter();
                 defaultOrder.addAll(res);
             }
         }, categoryTitle);
     }
 
-    public void fetchAndRenderForSearing(String keyword) {
+    public void fetchSearchingResults(String keyword) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
@@ -181,29 +173,30 @@ public class ProductActivity extends AppCompatActivity
                 products.clear();
                 defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
+                res.removeIf(p -> !p.getName().contains(keyword));
                 products.addAll(res);
-                setProductAdapter(res);
+                setProductAdapter();
                 defaultOrder.addAll(res);
             }
         });
     }
 
-    public void fetchAndRenderForLikes(String userName) {
+    public void fetchLikedProducts(String userName) {
         this.products.clear();
-        ProductDatabase db = ProductDatabase.getInstance();
-        db.getAllProducts(new FireStoreCallback() {
+        ProductDatabase productDatabase = ProductDatabase.getInstance();
+        productDatabase.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
-                LikesDatabase ldb = LikesDatabase.getInstance();
-                ldb.getUsersAllLikes(new FireStoreCallback() {
+                LikesDatabase likesDatabase = LikesDatabase.getInstance();
+                likesDatabase.getUsersAllLikes(new FireStoreCallback() {
                     @Override
                     public <T> void Callback(T value) {
                         products.clear();
                         defaultOrder.clear();
-                        List<IProduct> tt = (List<IProduct>) value;
-                        setProductAdapter(tt);
-                        products.addAll(tt);
-                        defaultOrder.addAll(tt);
+                        List<IProduct> likedProducts = (List<IProduct>) value;
+                        setProductAdapter();
+                        products.addAll(likedProducts);
+                        defaultOrder.addAll(likedProducts);
                     }
                 }, userName, (List<IProduct>) value);
             }
@@ -233,7 +226,7 @@ public class ProductActivity extends AppCompatActivity
         updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
         updateSortingButtonStyle();
         sortProductList();
-        setProductAdapter(this.products);
+        setProductAdapter();
     }
 
     private void updateSortState(boolean isLikeClicked) {
@@ -300,18 +293,39 @@ public class ProductActivity extends AppCompatActivity
                 this.products.addAll(defaultOrder);
                 break;
             case LIKE_ASCEND:
-                LikesDatabase.getInstance().sortAscendByLikes(this.products);
+                this.sortProducts("likesNum", true);
                 break;
             case LIKE_DESCEND:
-                LikesDatabase.getInstance().sortDescendByLikes(this.products);
+                this.sortProducts("likesNum", false);
                 break;
             case PRICE_ASCEND:
-                LikesDatabase.getInstance().sortAscendByPrice(this.products);
+                this.sortProducts("price", true);
                 break;
             case PRICE_DESCEND:
-                LikesDatabase.getInstance().sortDescendByPrice(this.products);
+                this.sortProducts("price", false);
                 break;
         }
+    }
+
+    private void sortProducts(String fieldName, boolean ascend) {
+        this.products.sort(new Comparator<IProduct>() {
+            @Override
+            public int compare(IProduct productA, IProduct productB) {
+                Class<Product> productClass = Product.class;
+                try {
+                    Field field = productClass.getDeclaredField(fieldName);
+                    System.out.println("get the field");
+                    field.setAccessible(true);
+                    System.out.println("reset accessible");
+                    return new BigDecimal(field.get(productA).toString())
+                            .subtract(new BigDecimal(field.get(productB).toString()))
+                            .intValue() * (ascend ? 1 : -1);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
     }
 
 }

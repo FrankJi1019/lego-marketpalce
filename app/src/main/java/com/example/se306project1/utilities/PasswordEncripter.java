@@ -12,8 +12,8 @@ public class PasswordEncripter {
             byte[] bytes = messageDigest.digest();
 
             StringBuilder stringBuilder = new StringBuilder();
-            for (int i =0; i < bytes.length;i++){
-                stringBuilder.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
+            for (byte aByte : bytes) {
+                stringBuilder.append(Integer.toString((aByte & 0xff) + 0x100, 16).substring(1));
             }
             hashedPassword = stringBuilder.toString();
         } catch (NoSuchAlgorithmException e) {

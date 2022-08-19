@@ -13,68 +13,72 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class LikesDatabase extends ProductDatabase{
+public class LikesDatabase extends ProductDatabase {
 
-     FirebaseFirestore db = FirebaseFirestore.getInstance();
-     private static LikesDatabase likesDatabase;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private static LikesDatabase likesDatabase;
 
-     public static LikesDatabase getInstance(){
-         if(likesDatabase == null){
-             likesDatabase = new LikesDatabase();
-         }
-         return likesDatabase;
-     }
+    public static LikesDatabase getInstance() {
+        if (likesDatabase == null) {
+            likesDatabase = new LikesDatabase();
+        }
+        return likesDatabase;
+    }
 
-     public void addProductToLikesList(String userName,String productName){
-         DocumentReference likes = db.collection("likes").document(userName);
-         likes.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-             @Override
-             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                  if(documentSnapshot.exists()){
-                      likes.update("likeList", FieldValue.arrayUnion(productName));
-                  }else{
-                      Map<String, List<String>> map = new HashMap<>();
-                      List<String> likelist = new ArrayList<>();
-                      likelist.add(productName);
-                      map.put("likeList",likelist);
-                      likes.set(map);
-                  }
-             }
-         });
-     }
+    public void addProductToLikesList(String userName, String productName) {
+        DocumentReference likes = db.collection("likes").document(userName);
+        likes.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (documentSnapshot.exists()) {
+                    likes.update("likeList", FieldValue.arrayUnion(productName));
+                } else {
+                    Map<String, List<String>> map = new HashMap<>();
+                    List<String> likelist = new ArrayList<>();
+                    likelist.add(productName);
+                    map.put("likeList", likelist);
+                    likes.set(map);
+                }
+            }
+        });
+        ProductDatabase productDatabase = ProductDatabase.getInstance();
+        productDatabase.updateIncrement(productName, "likesNumber", 1);
+    }
 
-     public void removeProductFromLikesList(String userName,String productName){
-         DocumentReference likes = db.collection("likes").document(userName);
-         likes.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-             @Override
-             public void onSuccess(DocumentSnapshot documentSnapshot) {
-                 if(!documentSnapshot.exists()){
-                     return;
-                 }else{
-                     likes.update("likeList",FieldValue.arrayRemove(productName));
-                 }
-             }
-         });
-     }
+    public void removeProductFromLikesList(String userName, String productName) {
+        DocumentReference likes = db.collection("likes").document(userName);
+        likes.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                if (!documentSnapshot.exists()) {
+                    return;
+                } else {
+                    likes.update("likeList", FieldValue.arrayRemove(productName));
+                }
+            }
+        });
+        ProductDatabase productDatabase = ProductDatabase.getInstance();
+        productDatabase.updateIncrement(productName, "likesNumber", -1);
+    }
 
-     public void getUsersAllLikes(FireStoreCallback fireStoreCallback,String username,List<IProduct> products){
-         List<IProduct> tt = new ArrayList<>();
-           db.collection("likes").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-               @Override
-               public void onSuccess(DocumentSnapshot documentSnapshot) {
-                   List<String> likeList = (List<String>)documentSnapshot.get("likeList");
-                   if(likeList == null){
+    public void getUsersAllLikes(FireStoreCallback fireStoreCallback, String username, List<IProduct> products) {
+        List<IProduct> tt = new ArrayList<>();
+        db.collection("likes").document(username).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+            @Override
+            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                List<String> likeList = (List<String>) documentSnapshot.get("likeList");
+                if (likeList == null) {
 
-                   }else{
-                       for(int i=0;i<products.size();i++){
-                           if(likeList.contains(products.get(i).getName())){
-                               tt.add(products.get(i));
-                           }
-                       }
-                   }
-                   fireStoreCallback.Callback(tt);
-               }
-           });
-     }
+                } else {
+                    for (int i = 0; i < products.size(); i++) {
+                        if (likeList.contains(products.get(i).getName())) {
+                            tt.add(products.get(i));
+                        }
+                    }
+                }
+                fireStoreCallback.Callback(tt);
+            }
+        });
+    }
 
 }
