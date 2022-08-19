@@ -18,15 +18,16 @@ import com.example.se306project1.adapters.CategoryAdapter;
 import com.example.se306project1.adapters.TopPickAdapter;
 import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.LikesDatabase;
-import com.example.se306project1.models.TechnicTheme;
-import com.example.se306project1.models.StarWarTheme;
-import com.example.se306project1.models.CityTheme;
+import com.example.se306project1.models.TechnicCategory;
+import com.example.se306project1.models.StarWarCategory;
+import com.example.se306project1.models.CityCategory;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class CategoryActivity extends AppCompatActivity
@@ -41,7 +42,8 @@ public class CategoryActivity extends AppCompatActivity
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
-        ProgressBar topPickProgressbar = findViewById(R.id.top_pick_progressbar);;
+        ProgressBar topPickProgressbar = findViewById(R.id.top_pick_progressbar);
+        ;
     }
 
     public static void start(AppCompatActivity activity) {
@@ -94,9 +96,9 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     private void fillCategories() {
-        this.categories.add(new TechnicTheme());
-        this.categories.add(new StarWarTheme());
-        this.categories.add(new CityTheme());
+        this.categories.add(new TechnicCategory());
+        this.categories.add(new StarWarCategory());
+        this.categories.add(new CityCategory());
     }
 
     private void fillTopPicks(int size) {
@@ -105,11 +107,14 @@ public class CategoryActivity extends AppCompatActivity
             @Override
             public <T> void Callback(T value) {
                 List<IProduct> products = (List<IProduct>) value;
-                likesDatabase.sortDescendByLikes(products);
+                products.sort(new Comparator<IProduct>() {
+                    @Override
+                    public int compare(IProduct p1, IProduct p2) {
+                        return (p2.getLikesNumber() - p1.getLikesNumber());
+                    }
+                });
                 List<IProduct> res = new ArrayList<>();
-                for(int i=0;i<size;i++){
-                    res.add(products.get(i));
-                }
+                res.addAll(products);
                 setTopProductAdapter(res);
             }
         });

@@ -112,7 +112,7 @@ public class CartDatabase extends ProductDatabase {
         });
     }
 
-    public void SubstractCartAmount(String username,String productName){
+    public void substractCartAmount(String username, String productName){
         DocumentReference cartNum = db.collection("cartNum").document(username + "-" + productName);
         cartNum.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -140,73 +140,3 @@ public class CartDatabase extends ProductDatabase {
 
 
 }
-
-//class CartRecordList {
-//    public List<CartRecord> cartRecordList;
-//
-//    public CartRecordList() {
-//
-//    }
-//
-//    public List<CartRecord> getCartRecordList() {
-//        return cartRecordList;
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "CartRecordList{" +
-//                "cartRecordList=" + cartRecordList +
-//                '}';
-//    }
-//}
-//
-//class CartRecord {
-//    private String productName;
-//    private int amount;
-//
-//    public CartRecord() {
-//
-//    }
-//
-//    public CartRecord(String productName, int amount) {
-//        this.productName = productName;
-//        this.amount = amount;
-//    }
-//
-//    public void setProductName(String productName) {
-//        this.productName = productName;
-//    }
-//
-//    public String getProductName() {
-//        return productName;
-//    }
-//
-//    public void setAmount(int amount) {
-//        this.amount = amount;
-//    }
-//
-//    public int getAmount() {
-//        return amount;
-//    }
-//
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        CartRecord that = (CartRecord) o;
-//        return Objects.equals(productName, that.productName);
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return Objects.hash(productName);
-//    }
-//
-//    @Override
-//    public String toString() {
-//        return "CartRecord{" +
-//                "productName='" + productName + '\'' +
-//                ", amount=" + amount +
-//                '}';
-//    }
-//}

@@ -2,9 +2,9 @@ package com.example.se306project1.models;
 
 import com.example.se306project1.R;
 
-public class CityTheme extends Category{
+public class CityCategory extends Category{
 
-    public CityTheme() {
+    public CityCategory() {
         super("City", R.drawable.city, "City");
     }
 

@@ -2,9 +2,9 @@ package com.example.se306project1.models;
 
 import com.example.se306project1.R;
 
-public class TechnicTheme extends Category{
+public class TechnicCategory extends Category{
 
-    public TechnicTheme() {
+    public TechnicCategory() {
         super("Technic", R.drawable.technic, "Technic");
     }
 
