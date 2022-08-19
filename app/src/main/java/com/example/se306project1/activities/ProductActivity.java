@@ -181,8 +181,8 @@ public class ProductActivity extends AppCompatActivity
                 products.clear();
                 defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
-                setProductAdapter(res);
                 products.addAll(res);
+                setProductAdapter(res);
                 defaultOrder.addAll(res);
             }
         });
@@ -230,7 +230,6 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void onSortClick(View view) {
-        System.out.println(this.defaultOrder.size());
         updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
         updateSortingButtonStyle();
         sortProductList();
