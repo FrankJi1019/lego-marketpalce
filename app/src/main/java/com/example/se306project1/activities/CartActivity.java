@@ -32,19 +32,16 @@ import java.util.List;
 public class CartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private List<CartProduct> cartProducts;
-
-    ViewHolder viewHolder;
-
-    Drawer drawer;
-    ProductSearcher productSearcher;
-
     class ViewHolder {
         private final RecyclerView cartProductRecyclerView = findViewById(R.id.cart_product_recyclerview);
         private final TextView totalPriceTextview = findViewById(R.id.total_price_textview);
         private final CheckBox selectAllCheckBox = findViewById(R.id.select_all_checkbox);
         ProgressBar cartProductProgressbar = findViewById(R.id.cart_product_progressbar);
     }
+
+    ViewHolder viewHolder;
+    Drawer drawer;
+    ProductSearcher productSearcher;
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
@@ -56,18 +53,17 @@ public class CartActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
-        viewHolder = new ViewHolder();
-        this.cartProducts = new ArrayList<>();
+        this.viewHolder = new ViewHolder();
         this.drawer = new Drawer(this);
         this.productSearcher = new ProductSearcher(this);
 
-        fetchAndRender();
+        fetchCartProducts();
 
         this.drawer.initialise();
         this.productSearcher.initialise();
     }
 
-    public void fetchAndRender(){
+    public void fetchCartProducts(){
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
@@ -78,18 +74,20 @@ public class CartActivity extends AppCompatActivity
                     @Override
                     public <T> void Callback(T value) {
                         List<CartProduct> res = (List<CartProduct>) value;
-                        cartProducts.clear();
-                        cartProducts.addAll(res);
-                        setAdapter(res);
                         CartState.getCartState().setCartList(res);
+                        setAdapter();
                     }
                 }, UserState.getInstance().getCurrentUser().getUsername(),products);
             }
         });
     }
 
-    public void setAdapter(List<CartProduct> cartProducts) {
-        CartProductAdapter cartProductAdapter = new CartProductAdapter(cartProducts, this.viewHolder.totalPriceTextview, this.viewHolder.selectAllCheckBox);
+    public void setAdapter() {
+        CartProductAdapter cartProductAdapter = new CartProductAdapter(
+                CartState.getCartState().getCartProducts(),
+                this.viewHolder.totalPriceTextview,
+                this.viewHolder.selectAllCheckBox
+        );
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(
                 getApplicationContext(),
                 LinearLayoutManager.VERTICAL,
@@ -101,10 +99,6 @@ public class CartActivity extends AppCompatActivity
         this.viewHolder.cartProductProgressbar.setVisibility(View.GONE);
         this.viewHolder.cartProductRecyclerView.setVisibility(View.VISIBLE);
 
-    }
-
-    public void fillProducts() {
-        this.cartProducts = CartState.getCartState().getCartProducts();
     }
 
     @Override
@@ -122,14 +116,14 @@ public class CartActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    public void selectAll(View view) {
+    public void onSelectAll(View view) {
         CheckBox checkBox = (CheckBox) view;
         if (checkBox.isChecked()) {
             CartState.getCartState().checkAll();
         } else {
             CartState.getCartState().uncheckAll();
         }
-        setAdapter(this.cartProducts);
+        setAdapter();
         this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 

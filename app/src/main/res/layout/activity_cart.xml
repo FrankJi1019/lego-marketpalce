@@ -93,7 +93,7 @@
                                 android:layout_width="35dp"
                                 android:layout_height="wrap_content"
                                 android:layout_centerVertical="true"
-                                android:onClick="selectAll"/>
+                                android:onClick="onSelectAll"/>
                             <TextView
                                 android:layout_toRightOf="@+id/select_all_checkbox"
                                 android:layout_centerVertical="true"
