@@ -127,9 +127,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
 
     private void deleteProduct(int position) {
         CartProduct cartProduct = products.get(position);
+        products.remove(position);
         CartState.getCartState().uncheckItem(cartProduct.getName());
         CartState.getCartState().removeCartProduct(cartProduct.getName());
-        products.remove(position);
         updatePrice();
     }
 }
