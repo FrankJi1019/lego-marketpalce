@@ -93,9 +93,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.likeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.unlikeButton.setVisibility(View.VISIBLE);
-            LikesDatabase db = LikesDatabase.getInstance();
-            db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
-            UserState.getInstance().like(product);
+            UserState.getInstance().like(product.getName());
             int initialLike = Integer.parseInt(
                     holder.likeCountTextview.getText().toString().replace(" people liked", "")
             );
@@ -105,9 +103,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.unlikeButton.setOnClickListener(view -> {
             view.setVisibility(View.INVISIBLE);
             holder.likeButton.setVisibility(View.VISIBLE);
-            LikesDatabase db = LikesDatabase.getInstance();
-            db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(),product.getName());
-            UserState.getInstance().unlike(product);
+            UserState.getInstance().unlike(product.getName());
             int initialLike = Integer.parseInt(
                     holder.likeCountTextview.getText().toString().replace(" people liked", "")
             );

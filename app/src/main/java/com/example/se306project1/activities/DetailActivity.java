@@ -158,20 +158,10 @@ public class DetailActivity extends AppCompatActivity
 
     public void onToggleLike(View view) {
         view.setVisibility(View.INVISIBLE);
-        if (view.getId() == R.id.unlike_button) {
+        if (view.getId() == R.id.unlike_button && UserState.getInstance().unlike(productName)) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
-            LikesDatabase db = LikesDatabase.getInstance();
-            db.removeProductFromLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
-            IProduct product = new Product();
-            product.setName(productName);
-            UserState.getInstance().unlike(product);
-        } else {
+        } else if (UserState.getInstance().like(productName)) {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
-            LikesDatabase db = LikesDatabase.getInstance();
-            db.addProductToLikesList(UserState.getInstance().getCurrentUser().getUsername(), productName);
-            IProduct product = new Product();
-            product.setName(productName);
-            UserState.getInstance().like(product);
         }
     }
 
