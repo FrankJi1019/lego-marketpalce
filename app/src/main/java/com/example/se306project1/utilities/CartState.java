@@ -126,4 +126,9 @@ public class CartState {
         }
     }
 
+    public void userLogout() {
+        this.checkedProducts.clear();
+        this.cartProducts.clear();
+    }
+
 }
