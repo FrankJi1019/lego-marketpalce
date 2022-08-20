@@ -52,11 +52,11 @@ public class MainActivity extends AppCompatActivity {
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
-        List<IProduct> res = ProductData.getAllProducts();
-        ProductDatabase dbk = ProductDatabase.getInstance();
-        for (int i = 0; i < res.size(); i++) {
-            dbk.addProductToDb(res.get(i));
-        }
+//        List<IProduct> res = ProductData.getAllProducts();
+//        ProductDatabase dbk = ProductDatabase.getInstance();
+//        for (int i = 0; i < res.size(); i++) {
+//            dbk.addProductToDb(res.get(i));
+//        }
 
         createView();
         vh.registerLoginButton.setOnClickListener(view -> {
