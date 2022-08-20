@@ -23,6 +23,7 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -31,7 +32,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ProductActivity extends AppCompatActivity
@@ -84,6 +84,7 @@ public class ProductActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         this.products.clear();
         this.defaultOrder.clear();

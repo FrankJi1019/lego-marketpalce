@@ -24,10 +24,10 @@ import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
+import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity
@@ -54,6 +54,7 @@ public class CartActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         this.viewHolder = new ViewHolder();
         this.drawer = new Drawer();

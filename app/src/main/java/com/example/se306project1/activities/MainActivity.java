@@ -16,6 +16,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.UserDatabase;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         createView();
         vh.registerLoginButton.setOnClickListener(view -> {
