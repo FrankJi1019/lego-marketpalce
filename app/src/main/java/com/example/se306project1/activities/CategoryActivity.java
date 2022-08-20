@@ -24,6 +24,7 @@ import com.example.se306project1.models.CityCategory;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.ContextState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -70,6 +71,10 @@ public class CategoryActivity extends AppCompatActivity
         this.setCategoryAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
+
+        this.viewHolder.topPickRecyclerView.startAnimation(
+                new AnimationFactory().getSlideToLeftAnimation(1000)
+        );
     }
 
     private void setCategoryAdapter() {

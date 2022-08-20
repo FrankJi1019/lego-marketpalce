@@ -13,4 +13,11 @@ public class AnimationFactory {
         return animation;
     }
 
+    public Animation getFadeInAnimation(long duration) {
+        Context context = ContextState.getInstance().getCurrentContext();
+        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
+        animation.setDuration(duration);
+        return animation;
+    }
+
 }
