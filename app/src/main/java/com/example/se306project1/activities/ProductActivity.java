@@ -23,6 +23,7 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
@@ -148,6 +149,15 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
         this.viewHolder.productProgressbar.setVisibility(View.GONE);
         this.viewHolder.productRecyclerView.setVisibility(View.VISIBLE);
+        if (activityState == ProductActivityState.THEME) {
+            this.viewHolder.productRecyclerView.startAnimation(
+                    new AnimationFactory().getSlideFromBottomAnimation()
+            );
+        } else {
+            this.viewHolder.productRecyclerView.startAnimation(
+                    new AnimationFactory().getSlideFromLeftAnimation()
+            );
+        }
     }
 
     public void fetchCategoryProducts(String categoryTitle) {

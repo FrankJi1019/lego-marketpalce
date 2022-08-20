@@ -1,11 +1,8 @@
 package com.example.se306project1.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -71,7 +68,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         });
         holder.imageView.setImageResource(this.categories.get(position).getImage());
         holder.view.startAnimation(
-                new AnimationFactory().getSlideToLeftAnimation(1000)
+                new AnimationFactory().getSlideFromLeftAnimation()
         );
     }
 

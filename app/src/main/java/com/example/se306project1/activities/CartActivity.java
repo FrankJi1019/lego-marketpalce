@@ -23,6 +23,7 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
@@ -101,7 +102,9 @@ public class CartActivity extends AppCompatActivity
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
         this.viewHolder.cartProductProgressbar.setVisibility(View.GONE);
         this.viewHolder.cartProductRecyclerView.setVisibility(View.VISIBLE);
-
+        this.viewHolder.cartProductRecyclerView.startAnimation(
+                new AnimationFactory().getSlideFromLeftAnimation()
+        );
     }
 
     @Override

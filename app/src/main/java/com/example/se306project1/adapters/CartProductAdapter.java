@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.se306project1.R;
 import com.example.se306project1.database.CartDatabase;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 
@@ -72,13 +73,13 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         holder.decreaseAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAmount(view, holder.amountTextView, position, products.get(position).getAmount() - 1);
+                updateAmount(holder.amountTextView, position, products.get(position).getAmount() - 1);
             }
         });
         holder.increaseAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateAmount(view, holder.amountTextView, position, products.get(position).getAmount() + 1);
+                updateAmount(holder.amountTextView, position, products.get(position).getAmount() + 1);
             }
         });
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +114,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
-    private void updateAmount(View view, TextView amountTextView, int position, int amount) {
+    private void updateAmount(TextView amountTextView, int position, int amount) {
         CartProduct cartProduct = products.get(position);
         amount = Math.max(amount, 1);
         amount = Math.min(amount, cartProduct.getStock());

@@ -73,7 +73,7 @@ public class CategoryActivity extends AppCompatActivity
         this.productSearcher.initialise();
 
         this.viewHolder.topPickRecyclerView.startAnimation(
-                new AnimationFactory().getSlideToLeftAnimation(1000)
+                new AnimationFactory().getSlideFromLeftAnimation()
         );
     }
 

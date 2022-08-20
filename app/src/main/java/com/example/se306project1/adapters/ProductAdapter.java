@@ -17,6 +17,7 @@ import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
