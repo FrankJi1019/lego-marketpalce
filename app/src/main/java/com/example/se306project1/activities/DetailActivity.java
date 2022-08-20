@@ -117,6 +117,10 @@ public class DetailActivity extends AppCompatActivity
     }
 
     public void onAddToCart(View view) {
+        if (this.product.getStock() == 0) {
+            Toast.makeText(this, "No stock", Toast.LENGTH_SHORT).show();
+            return;
+        }
         ProductDatabase productDatabase = ProductDatabase.getInstance();
         productDatabase.getSpecificProduct(new FireStoreCallback() {
             @Override

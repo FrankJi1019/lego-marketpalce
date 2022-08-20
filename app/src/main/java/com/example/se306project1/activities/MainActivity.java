@@ -13,12 +13,17 @@ import android.widget.Toast;
 import com.example.se306project1.R;
 import com.example.se306project1.database.FireStoreCallback;
 
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.database.UserDatabase;
+import com.example.se306project1.dataproviders.ProductData;
+import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private UserState userState;
@@ -28,12 +33,6 @@ public class MainActivity extends AppCompatActivity {
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
         activity.startActivity(intent);
-
-//        List<IProduct> res = ProductData.getAllProducts();
-//        ProductDatabase dbk = ProductDatabase.getInstance();
-//        for (int i = 0; i < res.size(); i++) {
-//            dbk.addProductToDb(res.get(i));
-//        }
     }
 
     private class ViewHolder {
@@ -50,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
+
+        List<IProduct> res = ProductData.getAllProducts();
+        ProductDatabase dbk = ProductDatabase.getInstance();
+        for (int i = 0; i < res.size(); i++) {
+            dbk.addProductToDb(res.get(i));
+        }
 
         createView();
         vh.registerLoginButton.setOnClickListener(view -> {
