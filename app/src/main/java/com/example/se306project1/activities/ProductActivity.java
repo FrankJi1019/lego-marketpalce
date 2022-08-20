@@ -31,6 +31,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ProductActivity extends AppCompatActivity
@@ -173,7 +174,7 @@ public class ProductActivity extends AppCompatActivity
                 products.clear();
                 defaultOrder.clear();
                 List<IProduct> res = (List<IProduct>) value;
-                res.removeIf(p -> !p.getName().contains(keyword));
+                res.removeIf(p -> !p.getName().toLowerCase().contains(keyword.toLowerCase()));
                 products.addAll(res);
                 setProductAdapter();
                 defaultOrder.addAll(res);
