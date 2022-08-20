@@ -3,10 +3,12 @@ package com.example.se306project1.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -79,14 +81,21 @@ public class CategoryActivity extends AppCompatActivity
 
     private void setCategoryAdapter() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
-        RecyclerView.LayoutManager categoryLayoutManager = new LinearLayoutManager(
-                getApplicationContext(),
-                LinearLayoutManager.VERTICAL,
-                false
-        );
-        this.viewHolder.categoryRecyclerView.setLayoutManager(categoryLayoutManager);
         this.viewHolder.categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.categoryRecyclerView.setAdapter(categoryAdapter);
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            this.viewHolder.categoryRecyclerView.setLayoutManager(
+                    new GridLayoutManager(this, 2)
+            );
+        } else {
+            this.viewHolder.categoryRecyclerView.setLayoutManager(
+                    new LinearLayoutManager(
+                            getApplicationContext(),
+                            LinearLayoutManager.VERTICAL,
+                            false
+                    )
+            );
+        }
     }
 
     private void setTopProductAdapter(List<IProduct> list) {

@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.se306project1.R;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -89,6 +90,7 @@ public class Drawer {
             ProductActivity.startWithTheme(this.activity, "City");
         } else if (item.getItemId() ==  R.id.nav_logout) {
             UserState.getInstance().logoutCurrentUser();
+            CartState.getCartState().userLogout();
             MainActivity.start(this.activity);
         }
         this.drawerViewHolder.drawerLayout.closeDrawer(GravityCompat.START);

@@ -5,9 +5,10 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:paddingVertical="10dp"
         android:layout_width="match_parent"
         android:layout_height="190dp"
         android:id="@+id/imageSlide"
-        android:scaleType="fitXY"/>
+        android:scaleType="centerInside"/>
 
 </LinearLayout>

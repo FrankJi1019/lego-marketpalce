@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se306project1.R;
@@ -38,7 +39,8 @@ public class MainActivity extends AppCompatActivity {
     private class ViewHolder {
         ConstraintLayout signUp, login;
         EditText registerUsernameEditText, registerPasswordEditText, registerConfirmPasswordEditText, loginUsernameEditText, loginPasswordEditText;
-        Button registerSignUpButton, registerLoginButton, loginLoginButton, loginSignUpButton;
+        Button registerSignUpButton, loginLoginButton;
+        TextView loginSignUpTextView, registerLoginButton;
     }
 
     private ViewHolder vh = new ViewHolder();
@@ -50,17 +52,17 @@ public class MainActivity extends AppCompatActivity {
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
-        List<IProduct> res = ProductData.getAllProducts();
-        ProductDatabase dbk = ProductDatabase.getInstance();
-        for (int i = 0; i < res.size(); i++) {
-            dbk.addProductToDb(res.get(i));
-        }
+//        List<IProduct> res = ProductData.getAllProducts();
+//        ProductDatabase dbk = ProductDatabase.getInstance();
+//        for (int i = 0; i < res.size(); i++) {
+//            dbk.addProductToDb(res.get(i));
+//        }
 
         createView();
         vh.registerLoginButton.setOnClickListener(view -> {
             getLoginPage();
         });
-        vh.loginSignUpButton.setOnClickListener(view -> {
+        vh.loginSignUpTextView.setOnClickListener(view -> {
             getSignUpPage();
         });
         vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginUsernameEditText = findViewById(R.id.login_username_edit_text);
         vh.loginPasswordEditText = findViewById(R.id.login_password_edit_text);
         vh.loginLoginButton = findViewById(R.id.login_login_button);
-        vh.loginSignUpButton = findViewById(R.id.login_sign_up_button);
+        vh.loginSignUpTextView = findViewById(R.id.login_sign_up_button);
         vh.signUp = findViewById(R.id.sign_up_page);
         vh.login = findViewById(R.id.login_page);
     }

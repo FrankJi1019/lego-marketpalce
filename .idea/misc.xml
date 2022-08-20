@@ -3,8 +3,18 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/drawable-v24/outline_favorite_border_24.xml" value="0.238" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/font/antic_didone.xml" value="0.2796875" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/font/roboto.xml" value="0.2786458333333333" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout-land/activity_main.xml" value="0.1" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout-land/activity_product.xml" value="0.2755208333333333" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout-land/product_list_item.xml" value="0.1" />
         <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/activity_cart.xml" value="0.24947916666666667" />
-        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/activity_detail.xml" value="0.1" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/activity_category.xml" value="0.24947916666666667" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/activity_detail.xml" value="0.4" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/cart_product_list_item.xml" value="0.536" />
+        <entry key="..\:/UoA/2022-S2/SOFTENG 306/Android-Project/project-1-java-new-team22/app/src/main/res/layout/product_list_item.xml" value="0.1" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="..\:/Users/15651/AndroidStudioProjects/se306project1/app/src/main/res/layout/activity_main.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_cart.xml" value="0.25" />
