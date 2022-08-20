@@ -3,6 +3,7 @@ package com.example.se306project1.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -149,6 +150,9 @@ public class ProductActivity extends AppCompatActivity
         this.viewHolder.productRecyclerView.setAdapter(productAdapter);
         this.viewHolder.productProgressbar.setVisibility(View.GONE);
         this.viewHolder.productRecyclerView.setVisibility(View.VISIBLE);
+        this.viewHolder.productRecyclerView.setLayoutManager(
+                new GridLayoutManager(this, 2)
+        );
         if (activityState == ProductActivityState.THEME) {
             this.viewHolder.productRecyclerView.startAnimation(
                     new AnimationFactory().getSlideFromBottomAnimation()
