@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CartProductAdapter;
@@ -23,11 +24,12 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.CartState;
+import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CartActivity extends AppCompatActivity
@@ -44,6 +46,8 @@ public class CartActivity extends AppCompatActivity
     Drawer drawer;
     ProductSearcher productSearcher;
 
+    private CartProductAdapter cartProductAdapter;
+
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
         activity.startActivity(intent);
@@ -54,6 +58,7 @@ public class CartActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         this.viewHolder = new ViewHolder();
         this.drawer = new Drawer();
@@ -77,15 +82,15 @@ public class CartActivity extends AppCompatActivity
                     public <T> void Callback(T value) {
                         List<CartProduct> res = (List<CartProduct>) value;
                         CartState.getCartState().setCartList(res);
-                        setAdapter();
+                        setAdapter(true);
                     }
                 }, UserState.getInstance().getCurrentUser().getUsername(),products);
             }
         });
     }
 
-    public void setAdapter() {
-        CartProductAdapter cartProductAdapter = new CartProductAdapter(
+    public void setAdapter(boolean shouldAnimate) {
+        cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
                 this.viewHolder.totalPriceTextview,
                 this.viewHolder.selectAllCheckBox
@@ -100,7 +105,11 @@ public class CartActivity extends AppCompatActivity
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
         this.viewHolder.cartProductProgressbar.setVisibility(View.GONE);
         this.viewHolder.cartProductRecyclerView.setVisibility(View.VISIBLE);
-
+        if (shouldAnimate) {
+            this.viewHolder.cartProductRecyclerView.startAnimation(
+                    new AnimationFactory().getSlideFromLeftAnimation()
+            );
+        }
     }
 
     @Override
@@ -125,13 +134,20 @@ public class CartActivity extends AppCompatActivity
         } else {
             CartState.getCartState().uncheckAll();
         }
-        setAdapter();
+        setAdapter(false);
         this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
     public void onGoBack(View view) {
         CartState.getCartState().uncheckAll();
         finish();
+    }
+
+    public void onCheckOut(View view) {
+        CartState.getCartState().checkout();
+        Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();
+        this.fetchCartProducts();
+        this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
 }

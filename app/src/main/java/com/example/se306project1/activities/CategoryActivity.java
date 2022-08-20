@@ -24,6 +24,8 @@ import com.example.se306project1.models.CityCategory;
 import com.example.se306project1.models.ICategory;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
+import com.example.se306project1.utilities.ContextState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class CategoryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         this.viewHolder = new ViewHolder();
         this.categories = new ArrayList<>();
@@ -68,6 +71,10 @@ public class CategoryActivity extends AppCompatActivity
         this.setCategoryAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
+
+        this.viewHolder.topPickRecyclerView.startAnimation(
+                new AnimationFactory().getSlideFromLeftAnimation()
+        );
     }
 
     private void setCategoryAdapter() {

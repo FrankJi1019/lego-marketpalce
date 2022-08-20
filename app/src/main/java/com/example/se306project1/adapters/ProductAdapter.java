@@ -17,6 +17,7 @@ import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
@@ -90,10 +91,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private void setLikeButtons(MaterialButton unlikeButton, MaterialButton likeButton, int position) {
         IProduct product = this.products.get(position);
+        setUnlikeButtonIcon(unlikeButton, position);
         if (UserState.getInstance().hasLiked(product.getName())) {
             likeButton.setVisibility(View.INVISIBLE);
             unlikeButton.setVisibility(View.VISIBLE);
-            setUnlikeButtonIcon(unlikeButton, position);
         } else {
             unlikeButton.setVisibility(View.INVISIBLE);
             likeButton.setVisibility(View.VISIBLE);

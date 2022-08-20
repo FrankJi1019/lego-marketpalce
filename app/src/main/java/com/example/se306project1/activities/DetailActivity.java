@@ -23,6 +23,7 @@ import com.example.se306project1.database.FireStoreCallback;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
+import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.models.IProduct;
@@ -71,6 +72,7 @@ public class DetailActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
         ActivityState.getInstance().setCurrentActivity(this);
+        ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         this.product = new Product();
         this.viewHolder = new ViewHolder();

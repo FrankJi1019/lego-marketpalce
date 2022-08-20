@@ -1,17 +1,13 @@
 package com.example.se306project1.adapters;
 
 
-import android.content.res.Resources;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ActionMenuView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +15,7 @@ import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
+import com.example.se306project1.utilities.AnimationFactory;
 
 import java.util.List;
 
@@ -28,11 +25,13 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
         private ImageView topPickImageView;
         private TextView topPickNameTextView;
         private CardView container;
+        private View view;
         public TopPickViewHolder(final View view) {
             super(view);
             this.topPickImageView = view.findViewById(R.id.top_pick_imageview);
             this.topPickNameTextView = view.findViewById(R.id.top_pick_text_view);
             this.container = view.findViewById(R.id.top_pick_container);
+            this.view = view;
         }
     }
 
