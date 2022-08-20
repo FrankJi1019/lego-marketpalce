@@ -1,10 +1,13 @@
 package com.example.se306project1.utilities;
 
 import com.example.se306project1.database.CartDatabase;
+import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
+import com.example.se306project1.models.IProduct;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class CartState {
 
@@ -100,6 +103,27 @@ public class CartState {
 
     public boolean isItemChecked(String productName) {
         return this.checkedProducts.contains(productName);
+    }
+
+    public void checkout() {
+        for (String productName: this.checkedProducts) {
+            CartProduct cartProduct = this.cartProducts
+                    .stream()
+                    .filter(c -> c.getName().equals(productName))
+                    .findFirst()
+                    .orElseGet(null);
+            if (cartProduct == null) continue;
+            this.uncheckItem(productName);
+            ProductDatabase.getInstance().updateProductInfo(
+                    productName,
+                    "stock",
+                    cartProduct.getStock() - cartProduct.getAmount()
+            );
+            CartDatabase.getInstance().removeProductFromCart(
+                    UserState.getInstance().getCurrentUser().getUsername(),
+                    productName
+            );
+        }
     }
 
 }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.se306project1.R;
 import com.example.se306project1.adapters.CartProductAdapter;
@@ -44,6 +45,8 @@ public class CartActivity extends AppCompatActivity
     ViewHolder viewHolder;
     Drawer drawer;
     ProductSearcher productSearcher;
+
+    private CartProductAdapter cartProductAdapter;
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
@@ -87,7 +90,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void setAdapter() {
-        CartProductAdapter cartProductAdapter = new CartProductAdapter(
+        cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
                 this.viewHolder.totalPriceTextview,
                 this.viewHolder.selectAllCheckBox
@@ -136,6 +139,13 @@ public class CartActivity extends AppCompatActivity
     public void onGoBack(View view) {
         CartState.getCartState().uncheckAll();
         finish();
+    }
+
+    public void onCheckOut(View view) {
+        CartState.getCartState().checkout();
+        Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();
+        this.fetchCartProducts();
+        this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
 }
