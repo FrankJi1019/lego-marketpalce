@@ -82,14 +82,14 @@ public class CartActivity extends AppCompatActivity
                     public <T> void Callback(T value) {
                         List<CartProduct> res = (List<CartProduct>) value;
                         CartState.getCartState().setCartList(res);
-                        setAdapter();
+                        setAdapter(true);
                     }
                 }, UserState.getInstance().getCurrentUser().getUsername(),products);
             }
         });
     }
 
-    public void setAdapter() {
+    public void setAdapter(boolean shouldAnimate) {
         cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
                 this.viewHolder.totalPriceTextview,
@@ -105,9 +105,11 @@ public class CartActivity extends AppCompatActivity
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
         this.viewHolder.cartProductProgressbar.setVisibility(View.GONE);
         this.viewHolder.cartProductRecyclerView.setVisibility(View.VISIBLE);
-        this.viewHolder.cartProductRecyclerView.startAnimation(
-                new AnimationFactory().getSlideFromLeftAnimation()
-        );
+        if (shouldAnimate) {
+            this.viewHolder.cartProductRecyclerView.startAnimation(
+                    new AnimationFactory().getSlideFromLeftAnimation()
+            );
+        }
     }
 
     @Override
@@ -132,7 +134,7 @@ public class CartActivity extends AppCompatActivity
         } else {
             CartState.getCartState().uncheckAll();
         }
-        setAdapter();
+        setAdapter(false);
         this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
     }
 
