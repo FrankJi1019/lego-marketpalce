@@ -28,11 +28,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ScrollView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="10dp">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <View
+                        android:id="@+id/category_title_image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="300dp"
+                        android:background="@drawable/title_lego_xl"
+                        />
                     <RelativeLayout
+                        android:padding="10dp"
+                        android:layout_below="@+id/category_title_image_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:scrollbars="vertical">
@@ -41,11 +52,11 @@
                             android:id="@+id/recommended_for_you"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="sans-serif"
                             android:text="@string/recommended_for_you"
-                            android:textSize="30sp"
+                            android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <LinearLayout
@@ -78,11 +89,11 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_below="@id/top_pick_product"
-                            android:layout_marginTop="8dp"
+                            android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
                             android:fontFamily="sans-serif"
                             android:text="@string/shop_by_category"
-                            android:textSize="30sp"
+                            android:textSize="24sp"
                             android:textStyle="bold" />
 
                         <androidx.recyclerview.widget.RecyclerView
@@ -94,7 +105,11 @@
 
                     </RelativeLayout>
 
-                </ScrollView>
+                </RelativeLayout>
+
+
+
+            </ScrollView>
 
         </LinearLayout>
 
