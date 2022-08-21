@@ -2,6 +2,7 @@ package com.example.se306project1.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.splashscreen.SplashScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -48,15 +49,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_main);
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
-
-//        List<IProduct> res = ProductData.getAllProducts();
-//        ProductDatabase dbk = ProductDatabase.getInstance();
-//        for (int i = 0; i < res.size(); i++) {
-//            dbk.addProductToDb(res.get(i));
-//        }
 
         createView();
         vh.registerLoginButton.setOnClickListener(view -> {
