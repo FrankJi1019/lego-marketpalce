@@ -106,6 +106,7 @@ public class CartState {
     }
 
     public void checkout() {
+        List<String> productToCheckout = new ArrayList<>();
         for (String productName: this.checkedProducts) {
             CartProduct cartProduct = this.cartProducts
                     .stream()
@@ -113,7 +114,7 @@ public class CartState {
                     .findFirst()
                     .orElseGet(null);
             if (cartProduct == null) continue;
-            this.uncheckItem(productName);
+            productToCheckout.add(productName);
             ProductDatabase.getInstance().updateProductInfo(
                     productName,
                     "stock",
@@ -123,6 +124,9 @@ public class CartState {
                     UserState.getInstance().getCurrentUser().getUsername(),
                     productName
             );
+        }
+        for (String product: productToCheckout) {
+            this.uncheckItem(product);
         }
     }
 
