@@ -150,11 +150,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int position
     ) {
         IProduct product = this.products.get(position);
-        if (product.getStock() == 0) {
+        if (this.products.get(position).getStock() == 0) {
+            lowStockTextView.setVisibility(View.INVISIBLE);
+            inStockTextView.setVisibility(View.INVISIBLE);
             noStockTextView.setVisibility(View.VISIBLE);
-        } else if (product.getStock() <= Product.LOW_STOCK_BOUNDARY) {
+        } else if (this.products.get(position).getStock() <= Product.LOW_STOCK_BOUNDARY) {
+            noStockTextView.setVisibility(View.INVISIBLE);
+            inStockTextView.setVisibility(View.INVISIBLE);
             lowStockTextView.setVisibility(View.VISIBLE);
         } else {
+            noStockTextView.setVisibility(View.INVISIBLE);
+            lowStockTextView.setVisibility(View.INVISIBLE);
             inStockTextView.setVisibility(View.VISIBLE);
         }
     }
