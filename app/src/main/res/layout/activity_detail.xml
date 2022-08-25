@@ -73,6 +73,8 @@
                             >
 
                             <TextView
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true"
                                 android:id="@+id/detail_name_textView"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -86,14 +88,13 @@
                             <RelativeLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toEndOf="@+id/detail_name_textView"
-                                android:layout_centerVertical="true"
-                                android:layout_marginStart="10dp">
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentEnd="true">
                                 <Button
                                     android:id="@+id/like_button"
                                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                                    android:layout_width="37dp"
-                                    android:layout_height="28dp"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
                                     android:layout_marginTop="0dp"
                                     app:icon="@drawable/outline_favorite_border_24"
                                     app:iconSize="23sp"
@@ -103,8 +104,8 @@
                                 <Button
                                     android:id="@+id/unlike_button"
                                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                                    android:layout_width="37dp"
-                                    android:layout_height="28dp"
+                                    android:layout_width="48dp"
+                                    android:layout_height="48dp"
                                     android:layout_marginTop="0dp"
                                     android:onClick="onToggleLike"
                                     android:visibility="invisible"
@@ -121,8 +122,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
                             android:layout_marginBottom="12dp"
-                            android:layout_below="@+id/product_name_container"
-                            >
+                            android:layout_below="@+id/product_name_container" >
 
                             <TextView
                                 android:id="@+id/stock"
@@ -159,30 +159,35 @@
                             android:layout_below="@+id/product_info_container">
                         </View>
 
-                        <TextView
-                            android:id="@+id/description"
-                            android:layout_width="match_parent"
+                        <ScrollView
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Build and discover the Taj Mahal! The huge ivory-white marble mausoleum,renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal.This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials,and the raised platform is lined with recessed arches."
-                            android:textColor="@android:color/black"
-                            android:layout_below="@id/product_info_container"
-                            android:layout_marginTop="18dp"
-                            />
+                            android:layout_above="@+id/AddToCart"
+                            android:layout_below="@id/product_info_container">
+
+                            <TextView
+                                android:id="@+id/description"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="18dp"
+                                android:text="Build and discover the Taj Mahal! The huge ivory-white marble mausoleum,renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal.This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials,and the raised platform is lined with recessed arches."
+                                android:textColor="@android:color/black" />
+                        </ScrollView>
 
                         <Button
                             android:id="@+id/AddToCart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
-                            android:layout_marginTop="25dp"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginBottom="10dp"
                             android:backgroundTint="@color/orange_main"
                             android:onClick="onAddToCart"
-                            android:padding="8dp"
+                            android:padding="5dp"
                             android:text="Add to Cart"
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
-                            app:cornerRadius="50dp"
-                            android:layout_marginBottom="20dp"/>
+                            app:cornerRadius="50dp" />
 
                     </RelativeLayout>
 
