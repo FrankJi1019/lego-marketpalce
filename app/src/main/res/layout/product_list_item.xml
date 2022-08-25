@@ -42,6 +42,7 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
+                android:id="@+id/like_button_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/product_name_textview"
@@ -77,17 +78,18 @@
             <TextView
                 android:id="@+id/like_count_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
-                android:text="0 people liked"
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:layout_below="@+id/product_name_textview"
+                android:layout_toLeftOf="@+id/like_button_group"
+                android:text="0"
                 android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/price_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="20dp"
                 android:text="$299.90"

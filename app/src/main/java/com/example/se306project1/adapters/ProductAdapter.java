@@ -80,7 +80,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     this.products.get(position).getName()
             );
         });
-        holder.likeCountTextview.setText(product.getLikesNumber() + " people liked");
+        holder.likeCountTextview.setText(product.getLikesNumber() + "");
         this.setStockState(holder.noStockTextview, holder.lowStockTextview, holder.inStockTextview, position);
     }
 
@@ -128,7 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int initialLike = Integer.parseInt(
                     likeCountTextView.getText().toString().replace(" people liked", "")
             );
-            likeCountTextView.setText(initialLike + 1 + " people liked");
+            likeCountTextView.setText(initialLike + 1 + "");
             products.get(position).setLikesNumber(initialLike + 1);
         });
         unlikeButton.setOnClickListener(view -> {
@@ -136,9 +136,9 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             likeButton.setVisibility(View.VISIBLE);
             UserState.getInstance().unlike(this.products.get(position).getName());
             int initialLike = Integer.parseInt(
-                    likeCountTextView.getText().toString().replace(" people liked", "")
+                    likeCountTextView.getText().toString()
             );
-            likeCountTextView.setText(initialLike - 1 + " people liked");
+            likeCountTextView.setText(initialLike - 1 + "");
             products.get(position).setLikesNumber(initialLike - 1);
         });
     }
