@@ -27,16 +27,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
-            <ScrollView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content">
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:layout_height="match_parent">
 
                     <RelativeLayout
+                        android:id="@+id/view_pager_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
@@ -58,13 +58,16 @@
                     </RelativeLayout>
 
 
-                    <LinearLayout
+                    <RelativeLayout
+                        android:layout_below="@+id/view_pager_container"
+                        android:layout_alignParentBottom="true"
                         android:layout_height="wrap_content"
                         android:layout_width="match_parent"
                         android:paddingHorizontal="24dp"
                         android:orientation="vertical">
 
                         <RelativeLayout
+                            android:id="@+id/product_name_container"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             >
@@ -113,10 +116,12 @@
                         </RelativeLayout>
 
                         <RelativeLayout
+                            android:id="@+id/product_info_container"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="18dp"
                             android:layout_marginBottom="12dp"
+                            android:layout_below="@+id/product_name_container"
                             >
 
                             <TextView
@@ -150,7 +155,8 @@
                         <View
                             android:layout_height="1px"
                             android:background="@color/gray_300"
-                            android:layout_width="fill_parent">
+                            android:layout_width="fill_parent"
+                            android:layout_below="@+id/product_info_container">
                         </View>
 
                         <TextView
@@ -159,7 +165,7 @@
                             android:layout_height="wrap_content"
                             android:text="Build and discover the Taj Mahal! The huge ivory-white marble mausoleum,renowned as one of the world’s architectural wonders, was commissioned in 1631 by the Emperor Shah Jahan in memory of his wife, the Empress Mumtaz Mahal.This relaunched 2008 LEGO® Creator Expert interpretation features the structure's 4 facades with sweeping arches, balconies and arched windows. The central dome, subsidiary domed chambers and surrounding minarets are topped with decorative finials,and the raised platform is lined with recessed arches."
                             android:textColor="@android:color/black"
-
+                            android:layout_below="@id/product_info_container"
                             android:layout_marginTop="18dp"
                             />
 
@@ -167,20 +173,22 @@
                             android:id="@+id/AddToCart"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="25dp"
                             android:backgroundTint="@color/orange_main"
+                            android:onClick="onAddToCart"
                             android:padding="8dp"
                             android:text="Add to Cart"
                             android:textColor="@android:color/white"
                             android:textSize="20sp"
                             app:cornerRadius="50dp"
-                            android:layout_marginTop="25dp"
-                            android:onClick="onAddToCart" />
+                            android:layout_marginBottom="20dp"/>
 
-                    </LinearLayout>
+                    </RelativeLayout>
 
-                </LinearLayout>
+                </RelativeLayout>
 
-            </ScrollView>
+            </LinearLayout>
 
         </LinearLayout>
 
