@@ -85,7 +85,16 @@
                                 android:textSize="20sp"
                                 android:textStyle="bold" />
 
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="48dp"
+                                android:layout_toStartOf="@+id/like_button_group"
+                                android:gravity="center"
+                                android:text="0"
+                                android:textSize="21sp" />
+
                             <RelativeLayout
+                                android:id="@+id/like_button_group"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_alignParentTop="true"
