@@ -70,6 +70,12 @@ public class CartActivity extends AppCompatActivity
         this.productSearcher.initialise();
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        CartState.getCartState().uncheckAll();
+    }
+
     public void fetchCartProducts(){
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
@@ -136,11 +142,6 @@ public class CartActivity extends AppCompatActivity
         }
         setAdapter(false);
         this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
-    }
-
-    public void onGoBack(View view) {
-        CartState.getCartState().uncheckAll();
-        finish();
     }
 
     public void onCheckOut(View view) {

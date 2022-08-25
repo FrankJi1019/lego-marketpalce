@@ -112,10 +112,6 @@ public class DetailActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    public void onGoBack(View view) {
-        finish();
-    }
-
     public void onAddToCart(View view) {
         if (this.product.getStock() == 0) {
             Toast.makeText(this, "No stock", Toast.LENGTH_SHORT).show();
