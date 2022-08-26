@@ -157,7 +157,7 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.viewPager.setAdapter(detailAdapter);
         viewHolder.name.setText(product.getName());
         viewHolder.stock.setText(product.getStock() + "");
-        viewHolder.price.setText("$" + product.getPrice());
+        viewHolder.price.setText("$" + String.format("%.2f", product.getPrice()));
         viewHolder.description.setText(product.getDescription());
         viewHolder.likeCount.setText(product.getLikesNumber() + "");
         this.setLikeButtonState();
