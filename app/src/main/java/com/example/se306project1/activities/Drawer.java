@@ -46,7 +46,7 @@ public class Drawer {
                 (TextView) this.drawerViewHolder.navigationView
                         .getHeaderView(0)
                         .findViewById(R.id.drawer_greet_textview)
-        ).setText("Welcome! " + UserState.getInstance().getCurrentUser().getUsername());
+        ).setText("Welcome, " + UserState.getInstance().getCurrentUser().getUsername() + "!");
         // click event handler for the items in the navigation
         this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {

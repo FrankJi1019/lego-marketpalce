@@ -42,40 +42,48 @@
                 android:textStyle="bold" />
 
             <RelativeLayout
+                android:id="@+id/like_button_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true">
+                android:layout_below="@+id/product_name_textview"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true">
+
                 <Button
                     android:id="@+id/unlike_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="0dp"
-                    android:translationY="-10dp"
+                    android:visibility="invisible"
                     app:icon="@drawable/like_button"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconSize="22sp"
-                    app:iconTint="@color/red_100"
-                    android:visibility="invisible"/>
+                    app:iconTint="@color/red_100" />
+
                 <Button
                     android:id="@+id/like_button"
                     style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_marginTop="0dp"
-                    android:translationY="-10dp"
                     app:icon="@drawable/outline_favorite_border_24"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
                     app:iconSize="22sp"
                     app:iconTint="@color/gray_300" />
             </RelativeLayout>
+
             <TextView
                 android:id="@+id/like_count_textview"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="0 people liked"
-                android:textSize="20dp" />
+                android:layout_height="48dp"
+                android:layout_toLeftOf="@id/like_button_group"
+                android:layout_below="@+id/product_name_textview"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/price_textview"

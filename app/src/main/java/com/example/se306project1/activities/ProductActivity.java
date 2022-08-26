@@ -234,10 +234,6 @@ public class ProductActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    public void onGoBack(View view) {
-        finish();
-    }
-
     public void onSortClick(View view) {
         updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
         updateSortingButtonStyle();

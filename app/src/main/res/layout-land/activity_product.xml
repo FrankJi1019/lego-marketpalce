@@ -33,26 +33,10 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <Button
-                    android:id="@+id/back_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    android:text="BACK"
-                    android:textColor="@android:color/black"
-                    android:textSize="20sp"
-                    app:icon="@drawable/arrow_back_ios"
-                    app:iconSize="20sp"
-                    app:iconTint="@android:color/black"
-                    android:onClick="onGoBack"/>
-
                 <LinearLayout
                     android:id="@+id/sorter_linearlayout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/back_button"
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
                     android:orientation="horizontal">
