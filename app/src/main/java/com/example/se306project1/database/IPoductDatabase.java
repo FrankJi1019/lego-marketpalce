@@ -8,4 +8,7 @@ public interface IPoductDatabase {
     public void deleteProductFromDb(IProduct product);
     public <T> void updateProductInfo(String productName,String fieldName,T value);
     public <T> void updateIncrement(String productName,String fieldName,T step);
+    public void getAllProducts(FireStoreCallback fireStoreCallback);
+    public void getSpecificProduct(FireStoreCallback fireStoreCallback, String productName);
+    public void getAllProductsByCategoryTitle(FireStoreCallback fireStoreCallback, String categorytitle);
 }
