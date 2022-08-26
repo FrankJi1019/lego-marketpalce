@@ -141,14 +141,14 @@ public class CartActivity extends AppCompatActivity
             CartState.getCartState().uncheckAll();
         }
         setAdapter(false);
-        this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
+        this.viewHolder.totalPriceTextview.setText("$" + String.format("%.2f", CartState.getCartState().getPrice()));
     }
 
     public void onCheckOut(View view) {
         CartState.getCartState().checkout();
         Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();
         this.fetchCartProducts();
-        this.viewHolder.totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
+        this.viewHolder.totalPriceTextview.setText("$" + String.format("%.2f", CartState.getCartState().getPrice()));
     }
 
 }

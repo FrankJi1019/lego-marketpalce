@@ -68,7 +68,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     public void onBindViewHolder(@NonNull CartProductViewHolder holder, @SuppressLint("RecyclerView") int position) {
         CartProduct cartProduct = this.products.get(position);
         holder.nameTextView.setText(cartProduct.getName());
-        holder.priceTextView.setText("$" + cartProduct.getPrice());
+        holder.priceTextView.setText("$" + String.format("%.2f", cartProduct.getPrice()));
         holder.amountTextView.setText(Integer.toString(cartProduct.getAmount()));
         holder.decreaseAmountButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     }
 
     private void updatePrice() {
-        totalPriceTextview.setText("$" + CartState.getCartState().getPrice());
+        totalPriceTextview.setText("$" + String.format("%.2f", CartState.getCartState().getPrice()));
     }
 
     private void updateAmount(TextView amountTextView, int position, int amount) {

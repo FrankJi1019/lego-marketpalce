@@ -73,7 +73,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 position
         );
         holder.product_image.setImageResource(product.getImages().get(0));
-        holder.price_textview.setText("$"+product.getPrice());
+        holder.price_textview.setText("$" + String.format("%.2f", product.getPrice()));
         holder.container.setOnClickListener(view -> {
             DetailActivity.startWithName(
                     ActivityState.getInstance().getCurrentActivity(),
@@ -149,7 +149,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             TextView inStockTextView,
             int position
     ) {
-        IProduct product = this.products.get(position);
         if (this.products.get(position).getStock() == 0) {
             lowStockTextView.setVisibility(View.INVISIBLE);
             inStockTextView.setVisibility(View.INVISIBLE);

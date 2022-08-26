@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -25,9 +26,12 @@ import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.UserState;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -37,11 +41,13 @@ public class DetailActivity extends AppCompatActivity
     class ViewHolder {
         private final ViewPager viewPager = findViewById(R.id.viewPager);
         private final Button likeButton = findViewById(R.id.like_button);
-        private final Button unlikeButton = findViewById(R.id.unlike_button);
+        @SuppressLint("WrongViewCast")
+        private final MaterialButton unlikeButton = findViewById(R.id.unlike_button);
         private final TextView name = findViewById(R.id.detail_name_textView);
         private final TextView stock = findViewById(R.id.stockNumber);
         private final TextView price = findViewById(R.id.price);
         private final TextView description = findViewById(R.id.description);
+        private final TextView likeCount = findViewById(R.id.like_number);
         private final LinearLayout dots = findViewById(R.id.dots);
     }
 
@@ -136,8 +142,14 @@ public class DetailActivity extends AppCompatActivity
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button && UserState.getInstance().unlike(product.getName())) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+            viewHolder.likeCount.setText(
+                    Integer.parseInt(viewHolder.likeCount.getText().toString()) - 1 + ""
+            );
         } else if (UserState.getInstance().like(product.getName())) {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+            viewHolder.likeCount.setText(
+                    Integer.parseInt(viewHolder.likeCount.getText().toString()) + 1 + ""
+            );
         }
     }
 
@@ -148,8 +160,9 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.viewPager.setAdapter(detailAdapter);
         viewHolder.name.setText(product.getName());
         viewHolder.stock.setText(product.getStock() + "");
-        viewHolder.price.setText("$" + product.getPrice());
+        viewHolder.price.setText("$" + String.format("%.2f", product.getPrice()));
         viewHolder.description.setText(product.getDescription());
+        viewHolder.likeCount.setText(product.getLikesNumber() + "");
         this.setLikeButtonState();
     }
 
@@ -167,6 +180,16 @@ public class DetailActivity extends AppCompatActivity
     }
 
     private void setLikeButtonState() {
+        if (product.getCategoryTitle().equals("technic")) {
+            this.viewHolder.unlikeButton.setIconResource(R.drawable.technic_icon);
+            this.viewHolder.unlikeButton.setIconTintResource(R.color.technic);
+        } else if (product.getCategoryTitle().equals("star war")) {
+            this.viewHolder.unlikeButton.setIconResource(R.drawable.starwar_icon);
+            this.viewHolder.unlikeButton.setIconTintResource(R.color.star_war);
+        } else {
+            this.viewHolder.unlikeButton.setIconTintResource(R.color.city);
+            this.viewHolder.unlikeButton.setIconResource(R.drawable.city_icon);
+        }
         if (UserState.getInstance().hasLiked(this.product.getName())) {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
             this.viewHolder.likeButton.setVisibility(View.INVISIBLE);
