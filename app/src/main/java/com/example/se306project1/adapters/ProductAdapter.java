@@ -149,7 +149,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             TextView inStockTextView,
             int position
     ) {
-        IProduct product = this.products.get(position);
         if (this.products.get(position).getStock() == 0) {
             lowStockTextView.setVisibility(View.INVISIBLE);
             inStockTextView.setVisibility(View.INVISIBLE);
