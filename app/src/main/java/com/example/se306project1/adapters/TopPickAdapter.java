@@ -15,27 +15,25 @@ import com.example.se306project1.R;
 import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
-import com.example.se306project1.utilities.AnimationFactory;
 
 import java.util.List;
 
 public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickViewHolder> {
 
-    public class TopPickViewHolder extends RecyclerView.ViewHolder {
-        private ImageView topPickImageView;
-        private TextView topPickNameTextView;
-        private CardView container;
-        private View view;
+    public static class TopPickViewHolder extends RecyclerView.ViewHolder {
+        private final ImageView topPickImageView;
+        private final TextView topPickNameTextView;
+        private final CardView container;
+
         public TopPickViewHolder(final View view) {
             super(view);
             this.topPickImageView = view.findViewById(R.id.top_pick_imageview);
             this.topPickNameTextView = view.findViewById(R.id.top_pick_text_view);
             this.container = view.findViewById(R.id.top_pick_container);
-            this.view = view;
         }
     }
 
-    private List<IProduct> products;
+    private final List<IProduct> products;
 
     public TopPickAdapter(List<IProduct> products) {
         this.products = products;
@@ -53,15 +51,10 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
         IProduct product = this.products.get(position);
         holder.topPickImageView.setImageResource(product.getImages().get(0));
         holder.topPickNameTextView.setText(product.getName());
-        holder.container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DetailActivity.startWithName(
-                        ActivityState.getInstance().getCurrentActivity(),
-                        product.getName()
-                );
-            }
-        });
+        holder.container.setOnClickListener(view -> DetailActivity.startWithName(
+                ActivityState.getInstance().getCurrentActivity(),
+                product.getName()
+        ));
     }
 
     @Override

@@ -17,18 +17,6 @@ public class AnimationFactory {
         return animation;
     }
 
-    public Animation getFadeInAnimation() {
-        Context context = ContextState.getInstance().getCurrentContext();
-        Animation animation = AnimationUtils.loadAnimation(context, android.R.anim.fade_in);
-        animation.setDuration(duration);
-        return animation;
-    }
-
-    public Animation getSlideFromTopAnimation() {
-        Context context = ContextState.getInstance().getCurrentContext();
-        return AnimationUtils.loadAnimation(context, R.anim.slide_from_top);
-    }
-
     public Animation getSlideFromBottomAnimation() {
         Context context = ContextState.getInstance().getCurrentContext();
         return AnimationUtils.loadAnimation(context, R.anim.slide_from_bottom);

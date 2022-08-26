@@ -1,29 +1,22 @@
 package com.example.se306project1.database;
 
 
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.example.se306project1.models.CartProduct;
-import com.example.se306project1.models.IUser;
 import com.example.se306project1.models.User;
 
 import com.example.se306project1.utilities.PasswordEncripter;
-import com.google.android.gms.tasks.OnSuccessListener;
 
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class UserDatabase implements IUserDatabase{
     private static UserDatabase userDatabase = null;
-    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     private UserDatabase(){}
 
@@ -36,12 +29,7 @@ public class UserDatabase implements IUserDatabase{
 
     public void isUserExist(FireStoreCallback fireStoreCallback,String username){
         DocumentReference docRef = db.collection("Users").document(username);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                fireStoreCallback.Callback((Boolean)documentSnapshot.exists());
-            }
-        });
+        docRef.get().addOnSuccessListener(documentSnapshot -> fireStoreCallback.Callback(documentSnapshot.exists()));
    }
 
     public void addUserToFireStore(String username, String password){
@@ -58,14 +46,15 @@ public class UserDatabase implements IUserDatabase{
 
     public void isLoginValid(FireStoreCallback fireStoreCallback,String username, String password){
         DocumentReference docRef = db.collection("Users").document(username);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                if(documentSnapshot.exists()){
-                   boolean isValid = documentSnapshot.toObject(User.class).getPassword().equals(PasswordEncripter.hashPassword(password));
-                    fireStoreCallback.Callback((Boolean)isValid);
-               }
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            if (documentSnapshot.exists()) {
+                boolean isValid = Objects.requireNonNull(
+                        documentSnapshot.toObject(User.class))
+                        .getPassword()
+                        .equals(PasswordEncripter.hashPassword(password)
+                );
+                fireStoreCallback.Callback(isValid);
             }
-       });
+        });
     }
 }

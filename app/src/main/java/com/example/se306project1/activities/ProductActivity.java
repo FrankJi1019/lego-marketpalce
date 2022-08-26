@@ -32,7 +32,6 @@ import com.google.android.material.navigation.NavigationView;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -116,7 +115,7 @@ public class ProductActivity extends AppCompatActivity
     public void updateProductList() {
         if (activityState == ProductActivityState.THEME) {
             Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra("theme"));
-            fetchCategoryProducts(getSupportActionBar().getTitle().toString().toLowerCase());
+            fetchCategoryProducts(getIntent().getStringExtra("theme").toLowerCase());
         } else if (activityState == ProductActivityState.LIKE) {
             Objects.requireNonNull(getSupportActionBar()).setTitle("Your Likes");
             fetchLikedProducts(UserState.getInstance().getCurrentUser().getUsername());
@@ -235,7 +234,7 @@ public class ProductActivity extends AppCompatActivity
     }
 
     public void onSortClick(View view) {
-        updateSortState(((Button) view).getText().toString().toLowerCase().equals("likes"));
+        updateSortState(((Button) view).getText().toString().equalsIgnoreCase("likes"));
         updateSortingButtonStyle();
         sortProductList();
         setProductAdapter();
@@ -320,23 +319,20 @@ public class ProductActivity extends AppCompatActivity
     }
 
     private void sortProducts(String fieldName, boolean ascend) {
-        this.products.sort(new Comparator<IProduct>() {
-            @Override
-            public int compare(IProduct productA, IProduct productB) {
-                Class<Product> productClass = Product.class;
-                try {
-                    Field field = productClass.getDeclaredField(fieldName);
-                    System.out.println("get the field");
-                    field.setAccessible(true);
-                    System.out.println("reset accessible");
-                    return new BigDecimal(field.get(productA).toString())
-                            .subtract(new BigDecimal(field.get(productB).toString()))
-                            .intValue() * (ascend ? 1 : -1);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return 0;
+        this.products.sort((productA, productB) -> {
+            Class<Product> productClass = Product.class;
+            try {
+                Field field = productClass.getDeclaredField(fieldName);
+                System.out.println("get the field");
+                field.setAccessible(true);
+                System.out.println("reset accessible");
+                return new BigDecimal(Objects.requireNonNull(field.get(productA)).toString())
+                        .subtract(new BigDecimal(Objects.requireNonNull(field.get(productB)).toString()))
+                        .intValue() * (ascend ? 1 : -1);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
+            return 0;
         });
     }
 

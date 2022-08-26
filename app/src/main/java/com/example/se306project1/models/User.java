@@ -1,17 +1,18 @@
 package com.example.se306project1.models;
 
-import com.example.se306project1.utilities.PasswordEncripter;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class User implements IUser{
+
     private String username;
     private String password;
 
-    public User(){}
+    // No-arg constructor is not used anywhere, but it is necessary for Firestore deserialization
+    @SuppressWarnings("unused")
+    public User() {}
 
-    public User(String username){this.username = username;}
+    public User(String username) {
+        this.username = username;
+    }
 
     public User(String username, String password) {
         this.username = username;
@@ -23,8 +24,4 @@ public class User implements IUser{
 
     @Override
     public String getPassword() {return password;}
-
-    public void setUsername(String username) {this.username = username;}
-
-    public void setPassword(String password) {this.password = password;}
 }

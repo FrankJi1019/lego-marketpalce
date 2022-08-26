@@ -27,6 +27,7 @@ import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.ContextState;
+import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -45,8 +46,6 @@ public class CartActivity extends AppCompatActivity
     ViewHolder viewHolder;
     Drawer drawer;
     ProductSearcher productSearcher;
-
-    private CartProductAdapter cartProductAdapter;
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
@@ -96,7 +95,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     public void setAdapter(boolean shouldAnimate) {
-        cartProductAdapter = new CartProductAdapter(
+        CartProductAdapter cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
                 this.viewHolder.totalPriceTextview,
                 this.viewHolder.selectAllCheckBox
@@ -141,14 +140,22 @@ public class CartActivity extends AppCompatActivity
             CartState.getCartState().uncheckAll();
         }
         setAdapter(false);
-        this.viewHolder.totalPriceTextview.setText("$" + String.format("%.2f", CartState.getCartState().getPrice()));
+        this.viewHolder.totalPriceTextview.setText(
+                new StringBuilder(R.string.price_tag)
+                        .set("price", CartState.getCartState().getPriceString())
+                        .toString()
+        );
     }
 
     public void onCheckOut(View view) {
         CartState.getCartState().checkout();
         Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();
         this.fetchCartProducts();
-        this.viewHolder.totalPriceTextview.setText("$" + String.format("%.2f", CartState.getCartState().getPrice()));
+        this.viewHolder.totalPriceTextview.setText(
+                new StringBuilder(R.string.price_tag)
+                        .set("price", CartState.getCartState().getPriceString())
+                        .toString()
+        );
     }
 
 }

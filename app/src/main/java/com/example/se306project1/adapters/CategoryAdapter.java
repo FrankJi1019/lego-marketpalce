@@ -21,12 +21,12 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
-    public class CategoryViewHolder extends RecyclerView.ViewHolder {
-        private TextView categoryTitleTextview;
-        private FloatingActionButton forwardButton;
-        private ImageView imageView;
-        private CardView cardView;
-        private View view;
+    public static class CategoryViewHolder extends RecyclerView.ViewHolder {
+        private final TextView categoryTitleTextview;
+        private final FloatingActionButton forwardButton;
+        private final ImageView imageView;
+        private final CardView cardView;
+        private final View view;
         public CategoryViewHolder(final View view) {
             super(view);
             this.categoryTitleTextview = view.findViewById(R.id.category_title_textview);
@@ -37,7 +37,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    private List<ICategory> categories;
+    private final List<ICategory> categories;
 
     public CategoryAdapter(List<ICategory> categories) {
         this.categories = categories;
@@ -54,18 +54,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(@NonNull CategoryViewHolder holder, int position) {
         String CategoryTitle = this.categories.get(position).getTitle();
         holder.categoryTitleTextview.setText(CategoryTitle);
-        holder.forwardButton.setOnClickListener(view -> {
-            ProductActivity.startWithTheme(
-                    ActivityState.getInstance().getCurrentActivity(),
-                    this.categories.get(position).getTitle()
-            );
-        });
-        holder.cardView.setOnClickListener(view -> {
-            ProductActivity.startWithTheme(
-                    ActivityState.getInstance().getCurrentActivity(),
-                    this.categories.get(position).getTitle()
-            );
-        });
+        holder.forwardButton.setOnClickListener(view -> ProductActivity.startWithTheme(
+                ActivityState.getInstance().getCurrentActivity(),
+                this.categories.get(position).getTitle()
+        ));
+        holder.cardView.setOnClickListener(view -> ProductActivity.startWithTheme(
+                ActivityState.getInstance().getCurrentActivity(),
+                this.categories.get(position).getTitle()
+        ));
         holder.imageView.setImageResource(this.categories.get(position).getImage());
         holder.view.startAnimation(
                 new AnimationFactory().getSlideFromLeftAnimation()

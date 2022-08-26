@@ -15,63 +15,49 @@ import android.widget.Toast;
 import com.example.se306project1.R;
 import com.example.se306project1.database.FireStoreCallback;
 
-import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.database.UserDatabase;
-import com.example.se306project1.dataproviders.ProductData;
-import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.User;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
 
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private UserState userState;
-    private User user;
-    private UserDatabase userDatabase = UserDatabase.getInstance();
+    private final UserDatabase userDatabase = UserDatabase.getInstance();
 
     public static void start(AppCompatActivity activity) {
         Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
         activity.startActivity(intent);
     }
 
-    private class ViewHolder {
+    private static class ViewHolder {
         ConstraintLayout signUp, login;
         EditText registerUsernameEditText, registerPasswordEditText, registerConfirmPasswordEditText, loginUsernameEditText, loginPasswordEditText;
         Button registerSignUpButton, loginLoginButton;
         TextView loginSignUpTextView, registerLoginButton;
     }
 
-    private ViewHolder vh = new ViewHolder();
+    private final ViewHolder vh = new ViewHolder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        SplashScreen.installSplashScreen(this);
         setContentView(R.layout.activity_main);
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
         createView();
-        vh.registerLoginButton.setOnClickListener(view -> {
-            getLoginPage();
-        });
-        vh.loginSignUpTextView.setOnClickListener(view -> {
-            getSignUpPage();
-        });
+        vh.registerLoginButton.setOnClickListener(view -> getLoginPage());
+        vh.loginSignUpTextView.setOnClickListener(view -> getSignUpPage());
         vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
             if (!focus) {
                 onUserNotValid();
             }
         });
-        vh.registerSignUpButton.setOnClickListener(view -> {
-            onUserSignUp();
-        });
-        vh.loginLoginButton.setOnClickListener(view -> {
-            onUserLogin();
-        });
+        vh.registerSignUpButton.setOnClickListener(view -> onUserSignUp());
+        vh.loginLoginButton.setOnClickListener(view -> onUserLogin());
     }
 
     private void createView() {
@@ -136,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public <T> void Callback(T value) {
                     boolean isValid = (Boolean) value;
-                    userLogin(isValid, getLoginUsername(), getLoginPassword());
+                    userLogin(isValid, getLoginUsername());
                 }
             }, getLoginUsername(), getLoginPassword());
         }
@@ -158,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void userLogin(boolean isValid, String username, String password) {
+    private void userLogin(boolean isValid, String username) {
         if (isValid) {
             createCurrentUser(username);
             Toast.makeText(this, "Successfully login", Toast.LENGTH_SHORT).show();
@@ -193,8 +179,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void createCurrentUser(String username) {
-        userState = UserState.getInstance();
-        user = new User(username);
+        UserState userState = UserState.getInstance();
+        User user = new User(username);
         userState.setCurrentUser(user);
     }
 

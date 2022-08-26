@@ -4,7 +4,7 @@ import android.content.Context;
 
 public class ContextState {
 
-    private static ContextState contextState = new ContextState();
+    private static final ContextState contextState = new ContextState();
 
     private Context currentContext;
 

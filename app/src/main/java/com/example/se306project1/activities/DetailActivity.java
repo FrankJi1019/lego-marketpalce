@@ -25,15 +25,15 @@ import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
 import com.example.se306project1.utilities.ContextState;
+import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
+import java.util.Locale;
 
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -142,14 +142,16 @@ public class DetailActivity extends AppCompatActivity
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button && UserState.getInstance().unlike(product.getName())) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
-            viewHolder.likeCount.setText(
-                    Integer.parseInt(viewHolder.likeCount.getText().toString()) - 1 + ""
-            );
+            String likeCount = new StringBuilder(R.string.like_number)
+                    .set("likeCount", Integer.parseInt(viewHolder.likeCount.getText().toString()) - 1)
+                    .toString();
+            viewHolder.likeCount.setText(likeCount);
         } else if (UserState.getInstance().like(product.getName())) {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
-            viewHolder.likeCount.setText(
-                    Integer.parseInt(viewHolder.likeCount.getText().toString()) + 1 + ""
-            );
+            String likeCount = new StringBuilder(R.string.like_number)
+                    .set("likeCount", Integer.parseInt(viewHolder.likeCount.getText().toString()) + 1)
+                    .toString();
+            viewHolder.likeCount.setText(likeCount);
         }
     }
 
@@ -159,10 +161,19 @@ public class DetailActivity extends AppCompatActivity
         DetailAdapter detailAdapter = new DetailAdapter(imageList);
         viewHolder.viewPager.setAdapter(detailAdapter);
         viewHolder.name.setText(product.getName());
-        viewHolder.stock.setText(product.getStock() + "");
-        viewHolder.price.setText("$" + String.format("%.2f", product.getPrice()));
+        String stockCount = new StringBuilder(R.string.stock_number)
+                .set("stockCount", product.getStock())
+                .toString();
+        viewHolder.stock.setText(stockCount);
+        String priceTag = new StringBuilder(R.string.price_tag)
+                .set("price", String.format(Locale.ENGLISH, "%.2f", product.getPrice()))
+                .toString();
+        viewHolder.price.setText(priceTag);
         viewHolder.description.setText(product.getDescription());
-        viewHolder.likeCount.setText(product.getLikesNumber() + "");
+        String likeCount = new StringBuilder(R.string.like_number)
+                .set("likeCount", product.getLikesNumber())
+                .toString();
+        viewHolder.likeCount.setText(likeCount);
         this.setLikeButtonState();
     }
 

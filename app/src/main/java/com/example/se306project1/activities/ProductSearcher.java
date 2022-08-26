@@ -21,19 +21,19 @@ import java.util.List;
 
 public class ProductSearcher {
 
-    class ViewHolder {
+    static class ViewHolder {
         private RecyclerView suggestionListRecycler;
     }
 
-    private List<IProduct> productPool;
-    private AppCompatActivity activity;
-    private ViewHolder viewHolder;
+    private final List<IProduct> productPool;
+    private final AppCompatActivity activity;
+    private final ViewHolder viewHolder;
     private SuggestionAdapter suggestionAdapter;
 
     public ProductSearcher() {
         this.activity = ActivityState.getInstance().getCurrentActivity();
         this.viewHolder = new ViewHolder();
-        this.viewHolder.suggestionListRecycler = (RecyclerView) this.activity.findViewById(R.id.suggestion_recyclerview);
+        this.viewHolder.suggestionListRecycler = this.activity.findViewById(R.id.suggestion_recyclerview);
         this.productPool = new ArrayList<>();
         this.fillProductSearPool();
     }
@@ -77,9 +77,7 @@ public class ProductSearcher {
             @Override
             public <T> void Callback(T value) {
                 List<IProduct> products = (List<IProduct>) value;
-                for (IProduct product: products) {
-                    productPool.add(product);
-                }
+                productPool.addAll(products);
             }
         });
     }
