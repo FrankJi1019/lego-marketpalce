@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/product_item_container"
     android:layout_width="match_parent"
-    android:layout_height="260dp"
+    android:layout_height="240dp"
     android:layout_margin="10dp"
     android:orientation="horizontal"
     app:cardCornerRadius="5dp"
@@ -18,7 +18,7 @@
         <ImageView
             android:id="@+id/product_imageview"
             android:layout_width="wrap_content"
-            android:layout_height="100dp"
+            android:layout_height="110dp"
             android:layout_marginRight="7dp"
             android:layout_weight="1"
             android:layout_marginBottom="7dp"
@@ -32,13 +32,14 @@
 
             <TextView
                 android:id="@+id/product_name_textview"
-                android:layout_width="160dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
                 android:ellipsize="end"
                 android:singleLine="true"
                 android:text="Product name"
+                android:textAlignment="textStart"
                 android:textSize="22sp"
                 android:textStyle="bold" />
 
@@ -94,7 +95,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="20dp"
                 android:text="$299.90"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textStyle="bold" />
 
             <RelativeLayout
