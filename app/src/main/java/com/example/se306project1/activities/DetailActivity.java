@@ -29,6 +29,8 @@ import com.google.android.material.navigation.NavigationView;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 
+import org.w3c.dom.Text;
+
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity
@@ -42,6 +44,7 @@ public class DetailActivity extends AppCompatActivity
         private final TextView stock = findViewById(R.id.stockNumber);
         private final TextView price = findViewById(R.id.price);
         private final TextView description = findViewById(R.id.description);
+        private final TextView likeCount = findViewById(R.id.like_number);
         private final LinearLayout dots = findViewById(R.id.dots);
     }
 
@@ -136,8 +139,14 @@ public class DetailActivity extends AppCompatActivity
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button && UserState.getInstance().unlike(product.getName())) {
             this.viewHolder.likeButton.setVisibility(View.VISIBLE);
+            viewHolder.likeCount.setText(
+                    Integer.parseInt(viewHolder.likeCount.getText().toString()) - 1 + ""
+            );
         } else if (UserState.getInstance().like(product.getName())) {
             this.viewHolder.unlikeButton.setVisibility(View.VISIBLE);
+            viewHolder.likeCount.setText(
+                    Integer.parseInt(viewHolder.likeCount.getText().toString()) + 1 + ""
+            );
         }
     }
 
@@ -150,6 +159,7 @@ public class DetailActivity extends AppCompatActivity
         viewHolder.stock.setText(product.getStock() + "");
         viewHolder.price.setText("$" + product.getPrice());
         viewHolder.description.setText(product.getDescription());
+        viewHolder.likeCount.setText(product.getLikesNumber() + "");
         this.setLikeButtonState();
     }
 

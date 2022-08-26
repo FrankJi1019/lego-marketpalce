@@ -86,6 +86,7 @@
                                 android:textStyle="bold" />
 
                             <TextView
+                                android:id="@+id/like_number"
                                 android:layout_width="wrap_content"
                                 android:layout_height="48dp"
                                 android:layout_toStartOf="@+id/like_button_group"
