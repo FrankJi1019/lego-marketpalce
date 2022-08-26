@@ -34,7 +34,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:padding="10dp">
+                    android:padding="10dp"
+                    tools:ignore="UselessParent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -45,7 +46,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:id="@+id/top_pick_product"
-                            android:layout_below="@id/sorter_linearlayout"
                             android:orientation="vertical">
                             <ProgressBar
                                 android:id="@+id/cart_product_progressbar"
@@ -84,30 +84,32 @@
                                 android:layout_centerVertical="true"
                                 android:onClick="onSelectAll"/>
                             <TextView
-                                android:layout_toRightOf="@+id/select_all_checkbox"
+                                android:layout_toEndOf="@+id/select_all_checkbox"
                                 android:layout_centerVertical="true"
                                 android:textSize="20sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Select All" />
+                                android:text="@string/cart_select_all"
+                                tools:ignore="RelativeOverlap" />
                             <Button
                                 android:id="@+id/checkout_button"
                                 android:layout_alignParentEnd="true"
                                 android:layout_centerVertical="true"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="CHECKOUT"
+                                android:text="@string/cart_checkout"
                                 android:backgroundTint="@color/orange_main"
                                 android:onClick="onCheckOut"/>
                             <TextView
                                 android:id="@+id/total_price_textview"
-                                android:layout_toLeftOf="@+id/checkout_button"
+                                android:layout_toStartOf="@+id/checkout_button"
                                 android:layout_centerVertical="true"
                                 android:layout_marginEnd="10dp"
                                 android:textSize="20sp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="$0.00" />
+                                android:text="@string/price_tag"
+                                tools:ignore="RelativeOverlap" />
                         </RelativeLayout>
 
                     </com.google.android.material.bottomnavigation.BottomNavigationView>

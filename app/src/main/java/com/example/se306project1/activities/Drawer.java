@@ -2,9 +2,7 @@ package com.example.se306project1.activities;
 
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,12 +12,13 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.se306project1.R;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.CartState;
+import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 public class Drawer {
 
-    class DrawerViewHolder {
+    static class DrawerViewHolder {
         private Toolbar toolbar;
         private DrawerLayout drawerLayout;
         private NavigationView navigationView;
@@ -31,14 +30,15 @@ public class Drawer {
     public Drawer() {
         this.activity = ActivityState.getInstance().getCurrentActivity();
         this.drawerViewHolder = new DrawerViewHolder();
-        this.drawerViewHolder.toolbar = (Toolbar) this.activity.findViewById(R.id.app_toolbar);
-        this.drawerViewHolder.drawerLayout = (DrawerLayout) this.activity.findViewById(R.id.drawerlayout);
-        this.drawerViewHolder.navigationView = (NavigationView) this.activity.findViewById(R.id.app_drawer_navigation);
+        this.drawerViewHolder.toolbar = this.activity.findViewById(R.id.app_toolbar);
+        this.drawerViewHolder.drawerLayout = this.activity.findViewById(R.id.drawerlayout);
+        this.drawerViewHolder.navigationView = this.activity.findViewById(R.id.app_drawer_navigation);
     }
 
     public void initialise() {
         this.activity.setSupportActionBar(this.drawerViewHolder.toolbar);
         ActionBar tb = this.activity.getSupportActionBar();
+        assert tb != null;
         tb.setHomeAsUpIndicator(R.drawable.menu);
         tb.setTitle(R.string.app_title);
         tb.setDisplayHomeAsUpEnabled(true);
@@ -46,18 +46,18 @@ public class Drawer {
                 (TextView) this.drawerViewHolder.navigationView
                         .getHeaderView(0)
                         .findViewById(R.id.drawer_greet_textview)
-        ).setText("Welcome, " + UserState.getInstance().getCurrentUser().getUsername() + "!");
+        ).setText(new StringBuilder(R.string.greeting)
+                .set("username", UserState.getInstance().getCurrentUser().getUsername())
+                .toString()
+        );
         // click event handler for the items in the navigation
         this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                        drawerViewHolder.drawerLayout.closeDrawers();
-                        drawerViewHolder.drawerLayout.setSelected(true);
-                        return true;
-                    }
+                item -> {
+                    drawerViewHolder.drawerLayout.closeDrawers();
+                    drawerViewHolder.drawerLayout.setSelected(true);
+                    return true;
                 });
-        for (Class c: this.activity.getClass().getInterfaces()) {
+        for (Class<?> c: this.activity.getClass().getInterfaces()) {
             if (c.equals(NavigationView.OnNavigationItemSelectedListener.class)) {
                 this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
                         (NavigationView.OnNavigationItemSelectedListener) this.activity

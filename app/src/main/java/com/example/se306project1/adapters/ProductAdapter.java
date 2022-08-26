@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +16,16 @@ import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.models.IProduct;
 import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
-import com.example.se306project1.utilities.AnimationFactory;
+import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.List;
+import java.util.Locale;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
-    class ProductViewHolder extends RecyclerView.ViewHolder {
+    static class ProductViewHolder extends RecyclerView.ViewHolder {
         private final TextView productNameTextview,price_textview, likeCountTextview;
         private final TextView inStockTextview, lowStockTextview, noStockTextview;
         private final MaterialButton likeButton, unlikeButton;
@@ -73,14 +73,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 position
         );
         holder.product_image.setImageResource(product.getImages().get(0));
-        holder.price_textview.setText("$" + String.format("%.2f", product.getPrice()));
-        holder.container.setOnClickListener(view -> {
-            DetailActivity.startWithName(
-                    ActivityState.getInstance().getCurrentActivity(),
-                    this.products.get(position).getName()
-            );
-        });
-        holder.likeCountTextview.setText(product.getLikesNumber() + "");
+        String priceTag = new StringBuilder(R.string.price_tag)
+                .set("price", String.format(Locale.ENGLISH, "%.2f", product.getPrice()))
+                .toString();
+        holder.price_textview.setText(priceTag);
+        holder.container.setOnClickListener(view -> DetailActivity.startWithName(
+                ActivityState.getInstance().getCurrentActivity(),
+                this.products.get(position).getName()
+        ));
+        holder.likeCountTextview.setText(new StringBuilder(R.string.like_number)
+                .set("likeCount", product.getLikesNumber()).toString()
+        );
         this.setStockState(holder.noStockTextview, holder.lowStockTextview, holder.inStockTextview, position);
     }
 
@@ -128,7 +131,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int initialLike = Integer.parseInt(
                     likeCountTextView.getText().toString().replace(" people liked", "")
             );
-            likeCountTextView.setText(initialLike + 1 + "");
+            likeCountTextView.setText(new StringBuilder(R.string.like_number)
+                    .set("likeCount", initialLike + 1).toString());
             products.get(position).setLikesNumber(initialLike + 1);
         });
         unlikeButton.setOnClickListener(view -> {
@@ -138,7 +142,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             int initialLike = Integer.parseInt(
                     likeCountTextView.getText().toString()
             );
-            likeCountTextView.setText(initialLike - 1 + "");
+            likeCountTextView.setText(new StringBuilder(R.string.like_number)
+                    .set("likeCount", initialLike - 1).toString());
             products.get(position).setLikesNumber(initialLike - 1);
         });
     }

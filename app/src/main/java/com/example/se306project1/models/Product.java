@@ -1,5 +1,7 @@
 package com.example.se306project1.models;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Product implements IProduct {
@@ -14,6 +16,7 @@ public class Product implements IProduct {
     private int stock;
     private int likesNum;
 
+    @NonNull
     @Override
     public String toString() {
         return "Product{" + name + "}\n";

@@ -47,7 +47,6 @@ public class CategoryActivity extends AppCompatActivity
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
         ProgressBar topPickProgressbar = findViewById(R.id.top_pick_progressbar);
-        ;
     }
 
     public static void start(AppCompatActivity activity) {
@@ -67,7 +66,7 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
 
-        this.fillTopPicks(4);
+        this.fillTopPicks();
         this.fillCategories();
 
         this.setCategoryAdapter();
@@ -77,6 +76,12 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.topPickRecyclerView.startAnimation(
                 new AnimationFactory().getSlideFromLeftAnimation()
         );
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        this.fillTopPicks();
     }
 
     private void setCategoryAdapter() {
@@ -117,20 +122,15 @@ public class CategoryActivity extends AppCompatActivity
         this.categories.add(new CityCategory());
     }
 
-    private void fillTopPicks(int size) {
+    private void fillTopPicks() {
+        int size = 4;
         LikesDatabase likesDatabase = LikesDatabase.getInstance();
         likesDatabase.getAllProducts(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {
                 List<IProduct> products = (List<IProduct>) value;
-                products.sort(new Comparator<IProduct>() {
-                    @Override
-                    public int compare(IProduct p1, IProduct p2) {
-                        return (p2.getLikesNumber() - p1.getLikesNumber());
-                    }
-                });
-                List<IProduct> res = new ArrayList<>();
-                res.addAll(products.subList(0, size));
+                products.sort((p1, p2) -> (p2.getLikesNumber() - p1.getLikesNumber()));
+                List<IProduct> res = new ArrayList<>(products.subList(0, size));
                 setTopProductAdapter(res);
             }
         });

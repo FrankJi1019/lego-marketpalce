@@ -3,18 +3,17 @@ package com.example.se306project1.utilities;
 import com.example.se306project1.database.CartDatabase;
 import com.example.se306project1.database.ProductDatabase;
 import com.example.se306project1.models.CartProduct;
-import com.example.se306project1.models.IProduct;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Locale;
 
 public class CartState {
 
-    private static CartState cartState = new CartState();
+    private static final CartState cartState = new CartState();
 
-    private List<CartProduct> cartProducts;
-    private List<String> checkedProducts;
+    private final List<CartProduct> cartProducts;
+    private final List<String> checkedProducts;
 
     private CartState() {
         this.cartProducts = new ArrayList<>();
@@ -65,7 +64,7 @@ public class CartState {
     public void checkItem(String productName) {
         if (this.checkedProducts.contains(productName)) {
             return;
-        };
+        }
         for (int i = 0; i < this.cartProducts.size(); i++) {
             if (this.cartProducts.get(i).getName().equals(productName)) {
                 this.checkedProducts.add(this.cartProducts.get(i).getName());
@@ -80,10 +79,23 @@ public class CartState {
     public double getPrice() {
         double total = 0;
         for (String productName: this.checkedProducts) {
-            CartProduct cartProduct = this.cartProducts.stream().filter(c -> c.getName().equals(productName)).findFirst().get();
+            CartProduct cartProduct = this.cartProducts.stream().filter(
+                    c -> c.getName().equals(productName)
+            ).findFirst().orElseGet(null);
             total += cartProduct.getPrice() * cartProduct.getAmount();
         }
         return total;
+    }
+
+    public String getPriceString() {
+        double total = 0;
+        for (String productName: this.checkedProducts) {
+            CartProduct cartProduct = this.cartProducts.stream().filter(
+                    c -> c.getName().equals(productName)
+            ).findFirst().orElseGet(null);
+            total += cartProduct.getPrice() * cartProduct.getAmount();
+        }
+        return String.format(Locale.ENGLISH, "%.2f", total);
     }
 
     public void checkAll() {

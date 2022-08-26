@@ -4,7 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class ActivityState {
 
-    private static ActivityState activityState = new ActivityState();
+    private static final ActivityState activityState = new ActivityState();
 
     private AppCompatActivity currentActivity;
 

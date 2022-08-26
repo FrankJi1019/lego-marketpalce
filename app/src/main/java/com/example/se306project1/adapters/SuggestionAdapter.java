@@ -1,5 +1,6 @@
 package com.example.se306project1.adapters;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,7 +9,6 @@ import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,13 +24,13 @@ import java.util.List;
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder>
         implements Filterable {
 
-    private List<IProduct> allProducts = new ArrayList<>();
+    private final List<IProduct> allProducts;
     private List<IProduct> filteredProducts = new ArrayList<>();
-    private List<IProduct> emptyProductList = new ArrayList<>();
+    private final List<IProduct> emptyProductList = new ArrayList<>();
 
-    class SuggestionViewHolder extends RecyclerView.ViewHolder {
-        private TextView suggestedNameTextView;
-        private CardView suggestionItemContainer;
+    static class SuggestionViewHolder extends RecyclerView.ViewHolder {
+        private final TextView suggestedNameTextView;
+        private final CardView suggestionItemContainer;
 
         public SuggestionViewHolder(View view) {
             super(view);
@@ -94,6 +94,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
                 filterResults.values = filteredProducts;
                 return filterResults;
             }
+            @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
                 filteredProducts = (ArrayList<IProduct>) filterResults.values;

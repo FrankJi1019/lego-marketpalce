@@ -2,6 +2,7 @@ package com.example.se306project1.utilities;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.lang.StringBuilder;
 
 public class PasswordEncripter {
     public static String hashPassword(String password){
