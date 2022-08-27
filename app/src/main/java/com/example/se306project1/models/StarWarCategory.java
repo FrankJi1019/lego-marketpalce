@@ -1,6 +1,7 @@
 package com.example.se306project1.models;
 
 import com.example.se306project1.R;
+
 /**
  * @Description: This is StarWarCategory class which is one of our three category class
  * @author: XiaoXiao Zhuang

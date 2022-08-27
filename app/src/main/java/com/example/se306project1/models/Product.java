@@ -3,6 +3,7 @@ package com.example.se306project1.models;
 import androidx.annotation.NonNull;
 
 import java.util.List;
+
 /**
  * @Description: This is Product class which is implemented IProduct interface
  * @author: Frank Ji
@@ -26,7 +27,7 @@ public class Product implements IProduct {
         return "Product{" + name + "}\n";
     }
 
-    public Product(){
+    public Product() {
 
     }
 

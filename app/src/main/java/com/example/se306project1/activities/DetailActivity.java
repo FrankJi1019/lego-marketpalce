@@ -38,13 +38,16 @@ import java.util.Locale;
 /**
  * @Description: This is DetailActivity class which used to manage DetailActivity pages
  * @author: Qingyang Li
- * @date:  10/08/2022
- *
+ * @date: 10/08/2022
  */
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //this inner class is used to retrieve all used ui elements by id
+    /**
+     * @Description: the inner class which is used to retrieve the ui element by id.
+     * @author: Qingyang Li
+     * @date: 10/08/2022
+     */
     class ViewHolder {
         private final ViewPager viewPager = findViewById(R.id.viewPager);
         private final Button likeButton = findViewById(R.id.like_button);
@@ -120,6 +123,10 @@ public class DetailActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
         this.drawer.initialise();
     }
 
@@ -155,13 +162,10 @@ public class DetailActivity extends AppCompatActivity
         }, product.getName());
     }
 
-
-    //the message for add to cart successfully
     private void addToCartSuccess() {
         Toast.makeText(this, "The lego is in your cart now", Toast.LENGTH_SHORT).show();
     }
 
-    //like functionality in detail activity
     public void onToggleLike(View view) {
         view.setVisibility(View.INVISIBLE);
         if (view.getId() == R.id.unlike_button && UserState.getInstance().unlike(product.getName())) {
@@ -179,8 +183,11 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
-    //this function is used for adjust the size and layout of the product info in detail pages
-    // and set adapter for the view page
+
+    /**
+     * @Description: this function is used for adjust the size and layout of the product info in detail
+     * pages and set adapter for the view page
+     */
     public void renderProductInfo() {
         List<Integer> imageList = product.getImages();
         setViewPagerDots(imageList.size());
@@ -203,7 +210,10 @@ public class DetailActivity extends AppCompatActivity
         this.setLikeButtonState();
     }
 
-    //render the dots of view pager
+    /**
+     * @param : int  the size of the imageList, number of image
+     * @Description: render the dots of view pager
+     */
     private void setViewPagerDots(int size) {
         dotsCount = size;
         sliderDots = new ImageView[size];
@@ -219,7 +229,9 @@ public class DetailActivity extends AppCompatActivity
         sliderDots[0].setImageDrawable(activeDot);
     }
 
-    //set the likes button state, As the different category product have different images after liked
+    /**
+     * @Description: set the likes button state, As the different category product have different images after liked
+     */
     private void setLikeButtonState() {
         if (product.getCategoryTitle().equals("technic")) {
             this.viewHolder.unlikeButton.setIconResource(R.drawable.technic_icon);
@@ -240,7 +252,9 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
-    //set page change listener for the view page and change the dots status;
+    /**
+     * @Description: set page change listener for the view page and change the dots status;
+     */
     private void setViewPager() {
         viewHolder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

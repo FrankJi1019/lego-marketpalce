@@ -13,8 +13,7 @@ import java.util.Map;
 /**
  * @Description: This is LikeDatabase class which used for crud operation for likes products
  * @author: Qingyang Li
- * @date:  18/08/2022
- *
+ * @date: 18/08/2022
  */
 public class LikesDatabase extends ProductDatabase {
 
@@ -32,7 +31,11 @@ public class LikesDatabase extends ProductDatabase {
         return likesDatabase;
     }
 
-    //this function add the product to the user's likes list
+    /**
+     * @param userName    String
+     * @param productName String
+     * @Description: this function add the product to the user's likes list
+     */
     public void addProductToLikesList(String userName, String productName) {
         DocumentReference likes = db.collection(LIKES).document(userName);
         likes.get().addOnSuccessListener(documentSnapshot -> {
@@ -50,7 +53,11 @@ public class LikesDatabase extends ProductDatabase {
         productDatabase.updateIncrement(productName, LIKE_NUM, 1);
     }
 
-    //remove the product from the user's like list
+    /**
+     * @param userName    String
+     * @param productName String
+     * @Description: remove the product from the user's like list
+     */
     public void removeProductFromLikesList(String userName, String productName) {
         DocumentReference likes = db.collection(LIKES).document(userName);
         likes.get().addOnSuccessListener(documentSnapshot -> {
@@ -62,7 +69,13 @@ public class LikesDatabase extends ProductDatabase {
         productDatabase.updateIncrement(productName, LIKE_NUM, -1);
     }
 
-    //retrieve all likes products of this user
+
+    /**
+     * @param fireStoreCallback fireStoreCallback interface used by callback for retrieve data from database
+     * @param username          String
+     * @param products          String
+     * @Description: retrieve all likes products of this user
+     */
     public void getUsersAllLikes(FireStoreCallback fireStoreCallback, String username, List<IProduct> products) {
         List<IProduct> tt = new ArrayList<>();
         db.collection(LIKES).document(username).get().addOnSuccessListener(documentSnapshot -> {

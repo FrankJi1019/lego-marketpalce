@@ -7,6 +7,7 @@ import com.example.se306project1.models.CartProduct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+
 /**
  * @Description: This is CartState class which is used for managing the cart state in cartActivity
  * @author: Frank Ji
@@ -39,17 +40,17 @@ public class CartState {
 
     //add this cart product to user's shopping cart
     public void addToCart(CartProduct cartProduct) {
-        for (CartProduct c: cartProducts) {
+        for (CartProduct c : cartProducts) {
             if (c.getName().equals(cartProduct.getName())) return;
         }
         this.cartProducts.add(cartProduct);
         CartDatabase db = CartDatabase.getInstance();
-        db.addProductToCart(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
+        db.addProductToCart(UserState.getInstance().getCurrentUser().getUsername(), cartProduct.getName());
     }
 
     //update the amount of cart products
     public void updateAmount(String productName, int newAmount) {
-        for (CartProduct c: this.cartProducts) {
+        for (CartProduct c : this.cartProducts) {
             if (c.getName().equals(productName)) {
                 c.setAmount(newAmount);
             }
@@ -58,14 +59,14 @@ public class CartState {
 
     //remove this product from the user's shopping cart
     public void removeCartProduct(String productName) {
-        for (CartProduct c: this.cartProducts) {
+        for (CartProduct c : this.cartProducts) {
             if (c.getName().equals(productName)) {
                 this.cartProducts.remove(c);
                 break;
             }
         }
         CartDatabase db = CartDatabase.getInstance();
-        db.removeProductFromCart(UserState.getInstance().getCurrentUser().getUsername(),productName);
+        db.removeProductFromCart(UserState.getInstance().getCurrentUser().getUsername(), productName);
     }
 
     //check whether product is checked
@@ -86,7 +87,7 @@ public class CartState {
 
     public double getPrice() {
         double total = 0;
-        for (String productName: this.checkedProducts) {
+        for (String productName : this.checkedProducts) {
             CartProduct cartProduct = this.cartProducts.stream().filter(
                     c -> c.getName().equals(productName)
             ).findFirst().orElseGet(null);
@@ -97,7 +98,7 @@ public class CartState {
 
     public String getPriceString() {
         double total = 0;
-        for (String productName: this.checkedProducts) {
+        for (String productName : this.checkedProducts) {
             CartProduct cartProduct = this.cartProducts.stream().filter(
                     c -> c.getName().equals(productName)
             ).findFirst().orElseGet(null);
@@ -108,7 +109,7 @@ public class CartState {
 
     public void checkAll() {
         this.checkedProducts.clear();
-        for (CartProduct c: this.cartProducts) {
+        for (CartProduct c : this.cartProducts) {
             this.checkedProducts.add(c.getName());
         }
     }
@@ -127,7 +128,7 @@ public class CartState {
 
     public void checkout() {
         List<String> productToCheckout = new ArrayList<>();
-        for (String productName: this.checkedProducts) {
+        for (String productName : this.checkedProducts) {
             CartProduct cartProduct = this.cartProducts
                     .stream()
                     .filter(c -> c.getName().equals(productName))
@@ -145,7 +146,7 @@ public class CartState {
                     productName
             );
         }
-        for (String product: productToCheckout) {
+        for (String product : productToCheckout) {
             this.uncheckItem(product);
         }
     }

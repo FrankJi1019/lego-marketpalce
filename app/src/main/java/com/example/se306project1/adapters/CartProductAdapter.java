@@ -25,8 +25,7 @@ import java.util.Locale;
 /**
  * @Description: This is CartProductAdapter class which used for cart product in cartActivity
  * @author: Frank ji
- * @date:  12/08/2022
- *
+ * @date: 12/08/2022
  */
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
 
@@ -36,7 +35,11 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         private final Button decreaseAmountButton, increaseAmountButton, deleteButton;
         private final CheckBox checkBox;
 
-        //retrieve the used UI element by id
+        /**
+         * @Description: retrieve the used UI element by id
+         * @author: Frank ji
+         * @date: 12/08/2022
+         */
         public CartProductViewHolder(final View view) {
             super(view);
             this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
@@ -116,7 +119,12 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         totalPriceTextview.setText(priceTag);
     }
 
-    //manage the amount of the product which is in your shopping cart. And update the data in database
+    /**
+     * @param amountTextView TextView
+     * @param position       int
+     * @param amount         int
+     * @Description: manage the amount of the product which is in your shopping cart. And update the data in database
+     */
     private void updateAmount(TextView amountTextView, int position, int amount) {
         CartProduct cartProduct = products.get(position);
         //the amount of product you want to buy must at least 1 and no more than stock number
@@ -133,7 +141,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         updatePrice();
     }
 
-    //delete product from your shopping cart for the delete button in product card
+    /**
+     * @param position int
+     * @Description: delete product from your shopping cart for the delete button in product card
+     */
     private void deleteProduct(int position) {
         CartProduct cartProduct = products.get(position);
         products.remove(position);

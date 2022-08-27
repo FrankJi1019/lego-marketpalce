@@ -1,6 +1,7 @@
 package com.example.se306project1.utilities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 /**
  * @Description: This is ActivityState class which is used for every Activity class
  * @author: Frank Ji
@@ -12,7 +13,8 @@ public class ActivityState {
 
     private AppCompatActivity currentActivity;
 
-    private ActivityState() {}
+    private ActivityState() {
+    }
 
     public static ActivityState getInstance() {
         return activityState;

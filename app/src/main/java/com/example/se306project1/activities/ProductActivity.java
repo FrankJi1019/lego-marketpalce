@@ -26,6 +26,8 @@ import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.ContextState;
+import com.example.se306project1.utilities.ProductActivityState;
+import com.example.se306project1.utilities.SortState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -40,8 +42,7 @@ import java.util.Stack;
 /**
  * @Description: This is ProductActivity class which used to manage productActivity pages
  * @author: Frank Ji
- * @date:  12/08/2022
- *
+ * @date: 12/08/2022
  */
 public class ProductActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -57,7 +58,11 @@ public class ProductActivity extends AppCompatActivity
     Drawer drawer;
     ProductSearcher productSearcher;
 
-    //inner class for retrieve the UI element by id
+    /**
+     * @Description: inner class for retrieve the UI element by id
+     * @author: Frank Ji
+     * @date: 12/08/2022
+     */
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
         private final Button likeSortButton = findViewById(R.id.sort_by_likes_button);
@@ -70,7 +75,7 @@ public class ProductActivity extends AppCompatActivity
         private final ProgressBar productProgressbar = findViewById(R.id.product_progressbar);
     }
 
-   // this is for three category listActivity
+    // this is for three category listActivity
     public static void startWithTheme(AppCompatActivity activity, String theme) {
         activityState = ProductActivityState.THEME;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
@@ -134,7 +139,10 @@ public class ProductActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
-        System.out.println("resume");
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
         this.drawer.initialise();
         Bundle bundle = getIntent().getExtras();
         System.out.println(bundle == null ? "bundle" : "not bundle");
@@ -175,14 +183,17 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
-    //set the adapter for product recyclerView, this adapter is used for three category
-    // listActivity and also for like pages and search result pages of products
+
+    /**
+     * @Description: set the adapter for product recyclerView, this adapter is used for three category
+     * listActivity and also for like pages and search result pages of products
+     */
     public void setProductAdapter() {
         ProductAdapter productAdapter = new ProductAdapter(this.products);
         if (activityState == ProductActivityState.SEARCH) {
             String keyword = getIntent().getStringExtra("keyword");
             this.viewHolder.noResultTextView.setVisibility(View.VISIBLE);
-            for (IProduct p: this.products) {
+            for (IProduct p : this.products) {
                 if (p.getName().contains(keyword)) {
                     this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
                 }
@@ -212,7 +223,10 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
-    //get all specific category product from the database
+    /**
+     * @param : String  the category Title  which is used find its product in database
+     * @Description: get all specific category product from the database
+     */
     public void fetchCategoryProducts(String categoryTitle) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
@@ -229,7 +243,10 @@ public class ProductActivity extends AppCompatActivity
         }, categoryTitle);
     }
 
-    //get product list according to the searching
+    /**
+     * @param : String  the keyword  which is used find its result in database
+     * @Description: get product list according to the searching
+     */
     public void fetchSearchingResults(String keyword) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
@@ -247,7 +264,10 @@ public class ProductActivity extends AppCompatActivity
         });
     }
 
-    //get the product list according to user likes
+    /**
+     * @param : String  the username  which is used find its liked products in database
+     * @Description: get the product list according to user likes
+     */
     public void fetchLikedProducts(String userName) {
         this.products.clear();
         ProductDatabase productDatabase = ProductDatabase.getInstance();
@@ -391,14 +411,4 @@ public class ProductActivity extends AppCompatActivity
         });
     }
 
-}
-
-//enum class for product state, which is the listActivity is come from which functionality.
-enum ProductActivityState {
-    UNDEFINED, THEME, LIKE, SEARCH
-}
-
-//enum class for the sort status.
-enum SortState {
-    NO_SORT, LIKE_ASCEND, LIKE_DESCEND, PRICE_ASCEND, PRICE_DESCEND
 }

@@ -3,13 +3,14 @@ package com.example.se306project1.utilities;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.lang.StringBuilder;
+
 /**
  * @Description: This is PasswordEncripter class which is used for Encryption of passwords
  * @author: XiaoXiao Zhuang
  * @date: 13/08/2022
  */
 public class PasswordEncripter {
-    public static String hashPassword(String password){
+    public static String hashPassword(String password) {
         String hashedPassword = null;
         try {
             MessageDigest messageDigest = MessageDigest.getInstance("MD5");

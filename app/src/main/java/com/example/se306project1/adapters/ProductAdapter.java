@@ -26,13 +26,12 @@ import java.util.Locale;
 /**
  * @Description: This is ProductAdapter class which used for render the product list in productActivity
  * @author: Frank Ji
- * @date:  13/08/2022
- *
+ * @date: 13/08/2022
  */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
-        private final TextView productNameTextview,price_textview, likeCountTextview;
+        private final TextView productNameTextview, price_textview, likeCountTextview;
         private final TextView inStockTextview, lowStockTextview, noStockTextview;
         private final MaterialButton likeButton, unlikeButton;
         private final ImageView product_image;
@@ -128,7 +127,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
-    // set the action when people like or unlike the product
+    /**
+     * @param likeButton
+     * @param unlikeButton
+     * @param likeCountTextView
+     * @param position
+     * @Description: set the action when people like or unlike the product
+     */
     private void setLikeAction(
             MaterialButton likeButton,
             MaterialButton unlikeButton,
@@ -159,7 +164,13 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         });
     }
 
-    //set up the stockState for the product( in stock, low stock and no stock)
+    /**
+     * @param noStockTextView
+     * @param lowStockTextView
+     * @param inStockTextView
+     * @param position
+     * @Description: set up the stockState for the product( in stock, low stock and no stock)
+     */
     private void setStockState(
             TextView noStockTextView,
             TextView lowStockTextView,

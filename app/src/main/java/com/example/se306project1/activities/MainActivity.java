@@ -21,11 +21,11 @@ import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
+
 /**
  * @Description: This is MainActivity class which used to manage mainActivity.xml
  * @author: XiaoXiao Zhuang
- * @date:  11/08/2022
- *
+ * @date: 11/08/2022
  */
 public class MainActivity extends AppCompatActivity {
     private final UserDatabase userDatabase = UserDatabase.getInstance();
@@ -65,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         vh.loginLoginButton.setOnClickListener(view -> onUserLogin());
     }
 
-    //retrieve all used ui element by id
     private void createView() {
         vh.registerUsernameEditText = findViewById(R.id.register_username_edit_text);
         vh.registerPasswordEditText = findViewById(R.id.register_password_edit_text);
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
         switchToCategoryActivity();
     }
 
-    //check if  no fill username or password
+    //check if no fill username or password
     private boolean checkEmptyLogin() {
         if (vh.loginUsernameEditText.getText().length() == 0) {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();

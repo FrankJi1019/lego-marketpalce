@@ -7,6 +7,7 @@ import com.example.se306project1.models.User;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * @Description: This is UserState class which is used for managing the User state.
  * @author: XiaoXiao Zhuang
@@ -20,7 +21,8 @@ public class UserState {
     private final List<String> likedProducts = new ArrayList<>();
     private User currentUser = null;
 
-    private UserState() {}
+    private UserState() {
+    }
 
     public static UserState getInstance() {
         if (userState == null) {
@@ -51,7 +53,7 @@ public class UserState {
                     @Override
                     public <T> void Callback(T value) {
                         List<IProduct> temp = (List<IProduct>) value;
-                        for (IProduct p: temp) {
+                        for (IProduct p : temp) {
                             likedProducts.add(p.getName());
                         }
                     }

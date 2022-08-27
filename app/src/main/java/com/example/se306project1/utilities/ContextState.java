@@ -1,6 +1,7 @@
 package com.example.se306project1.utilities;
 
 import android.content.Context;
+
 /**
  * @Description: This is ContextState class which is used for context
  * @author: Frank Ji
@@ -12,7 +13,8 @@ public class ContextState {
 
     private Context currentContext;
 
-    private ContextState() {}
+    private ContextState() {
+    }
 
     public static ContextState getInstance() {
         return contextState;

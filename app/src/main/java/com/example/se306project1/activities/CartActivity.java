@@ -36,13 +36,17 @@ import java.util.List;
 /**
  * @Description: This is cartActivity class which used to manage cartActivity pages
  * @author: Frank Ji
- * @date:  12/08/2022
- *
+ * @date: 12/08/2022
  */
 public class CartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //the inner class which is used to retrieve the ui element by id.
+
+    /**
+     * @Description: the inner class which is used to retrieve the ui element by id.
+     * @author: Frank Ji
+     * @date: 12/08/2022
+     */
     class ViewHolder {
         private final RecyclerView cartProductRecyclerView = findViewById(R.id.cart_product_recyclerview);
         private final TextView totalPriceTextview = findViewById(R.id.total_price_textview);
@@ -86,6 +90,10 @@ public class CartActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
         this.drawer.initialise();
     }
 
@@ -95,7 +103,9 @@ public class CartActivity extends AppCompatActivity
         CartState.getCartState().uncheckAll();
     }
 
-    //retrieve the cart product from the database and send to matching adapter
+    /**
+     * @Description: retrieve the cart product from the database and send to matching adapter
+     */
     public void fetchCartProducts() {
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
@@ -115,7 +125,10 @@ public class CartActivity extends AppCompatActivity
         });
     }
 
-    //set the adapter for this pages
+    /**
+     * @param : boolean  a boolean value should do the animation
+     * @Description: set the adapter for this pages
+     */
     public void setAdapter(boolean shouldAnimate) {
         CartProductAdapter cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
@@ -156,7 +169,6 @@ public class CartActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
-    //The selectAll functionality in the cart pages
     public void onSelectAll(View view) {
         CheckBox checkBox = (CheckBox) view;
         if (checkBox.isChecked()) {
@@ -172,7 +184,10 @@ public class CartActivity extends AppCompatActivity
         );
     }
 
-    //The checkout functionality for the checkout button
+    /**
+     * @param : View  the view object of event target
+     * @Description: The checkout functionality for the checkout button
+     */
     public void onCheckOut(View view) {
         CartState.getCartState().checkout();
         Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();

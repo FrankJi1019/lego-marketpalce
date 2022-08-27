@@ -3,6 +3,7 @@ package com.example.se306project1.utilities;
 import android.content.Context;
 
 import androidx.annotation.NonNull;
+
 /**
  * @Description: This is StringBuilder class which is used for processing the context string
  * @author: Frank Ji

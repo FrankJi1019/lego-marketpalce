@@ -28,6 +28,7 @@ import com.example.se306project1.models.IProduct;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.ContextState;
+import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.ArrayList;
@@ -37,8 +38,7 @@ import java.util.List;
 /**
  * @Description: This is CategoryActivity class which used to manage CategoryActivity pages
  * @author: XiaoXiao Zhuang
- * @date:  10/08/2022
- *
+ * @date: 10/08/2022
  */
 public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,7 +50,11 @@ public class CategoryActivity extends AppCompatActivity
     ProductSearcher productSearcher;
     ViewHolder viewHolder;
 
-    //this inner class is used for retrieve the ui element by id
+    /**
+     * @Description: the inner class which is used to retrieve the ui element by id.
+     * @author: XiaoXiao Zhuang
+     * @date: 10/08/2022
+     */
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
@@ -91,11 +95,17 @@ public class CategoryActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
         this.fillTopPicks();
         this.drawer.initialise();
     }
 
-    //set up the adapter for category recyclerView
+    /**
+     * @Description: set up the adapter for category recyclerView
+     */
     private void setCategoryAdapter() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
         this.viewHolder.categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -115,7 +125,10 @@ public class CategoryActivity extends AppCompatActivity
         }
     }
 
-    //set up the adapter for top likes product recyclerView
+    /**
+     * @param : List<IProduct>  the list of IProduct used for adapter
+     * @Description: set up the adapter for top likes product recyclerView
+     */
     private void setTopProductAdapter(List<IProduct> list) {
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -129,14 +142,18 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.topPickRecyclerView.setVisibility(View.VISIBLE);
     }
 
-    //retrieve three categories
+    /**
+     * @Description: retrieve three categories
+     */
     private void fillCategories() {
         this.categories.add(new TechnicCategory());
         this.categories.add(new StarWarCategory());
         this.categories.add(new CityCategory());
     }
 
-    //get the first 4 top likes product from the database
+    /**
+     * @Description: get the first 4 top likes product from the database
+     */
     private void fillTopPicks() {
         int size = 4;
         LikesDatabase likesDatabase = LikesDatabase.getInstance();

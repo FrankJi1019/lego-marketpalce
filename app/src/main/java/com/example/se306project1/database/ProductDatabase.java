@@ -13,8 +13,7 @@ import java.util.List;
 /**
  * @Description: This is ProductDatabase class which used for crud operation for products
  * @author: Qingyang Li
- * @date:  18/08/2022
- *
+ * @date: 18/08/2022
  */
 public class ProductDatabase implements IProductDatabase {
 
@@ -31,14 +30,23 @@ public class ProductDatabase implements IProductDatabase {
         return productDatabase;
     }
 
-    //update the product's specific field's value to new value
-    //As the product name is key value,therefore,we just need the product name
+    /**
+     * @param productName String
+     * @param fieldName   String
+     * @param value
+     * @param <T>         Generic type
+     * @Description: update the product's specific field's value to new value
+     * As the product name is key value,therefore,we just need the product name
+     */
     public <T> void updateProductInfo(String productName, String fieldName, T value) {
         DocumentReference prod = db.collection(PRODUCT).document(productName);
         prod.update(fieldName, value);
     }
 
-    //get all products in database
+    /**
+     * @param fireStoreCallback FireStoreCallback interface used by callback for retrieving data from database
+     * @Description: get all products in database
+     */
     public void getAllProducts(FireStoreCallback fireStoreCallback) {
         List<IProduct> products = new ArrayList<>();
         db.collection(PRODUCT).get().addOnSuccessListener(queryDocumentSnapshots -> {
@@ -53,7 +61,11 @@ public class ProductDatabase implements IProductDatabase {
         });
     }
 
-    //get the specific product in db according to its name using call back
+    /**
+     * @param fireStoreCallback FireStoreCallback
+     * @param productName       String
+     * @Description: get the specific product in db according to its name using call back
+     */
     public void getSpecificProduct(FireStoreCallback fireStoreCallback, String productName) {
         db.collection(PRODUCT).document(productName).get().addOnSuccessListener(documentSnapshot -> {
             IProduct product = documentSnapshot.toObject(Product.class);
@@ -61,7 +73,12 @@ public class ProductDatabase implements IProductDatabase {
         });
     }
 
-    //get the all products of specific category according to its title directly from database
+
+    /**
+     * @param fireStoreCallback FireStoreCallback
+     * @param categoryTitle     String
+     * @Description: get the all products of specific category according to its title directly from database
+     */
     public void getAllProductsByCategoryTitle(FireStoreCallback fireStoreCallback, String categoryTitle) {
         List<IProduct> products = new ArrayList<>();
         db.collection(PRODUCT)
@@ -78,7 +95,13 @@ public class ProductDatabase implements IProductDatabase {
                 });
     }
 
-    //increment the product's field amount by step in database
+    /**
+     * @param productName String
+     * @param fieldName   String
+     * @param step
+     * @param <T>
+     * @Description: increment the product's field amount by step in database
+     */
     public <T> void updateIncrement(String productName, String fieldName, T step) {
         DocumentReference products = db.collection(PRODUCT).document(productName);
         products.update(fieldName, FieldValue.increment((int) step));
