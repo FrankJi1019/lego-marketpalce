@@ -6,6 +6,11 @@ import android.view.animation.AnimationUtils;
 
 import com.example.se306project1.R;
 
+/**
+ * @Description: This is AnimationFactory class which is used for animation in some activity pages
+ * @author: Frank Ji
+ * @date: 17/08/2022
+ */
 public class AnimationFactory {
 
     private static final long duration = 1000;

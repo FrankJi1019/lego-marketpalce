@@ -1,6 +1,10 @@
 package com.example.se306project1.database;
 
-//use for the call back
+/**
+ * @Description: This is FireStoreCallback interface, which is used for callback
+ * @author: Qingyang Li
+ * @date: 17/08/2022
+ */
 public interface FireStoreCallback {
-     <T> void Callback(T value);
+    <T> void Callback(T value);
 }

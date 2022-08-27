@@ -35,9 +35,19 @@ import com.example.se306project1.models.Product;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @Description: This is DetailActivity class which used to manage DetailActivity pages
+ * @author: Qingyang Li
+ * @date: 10/08/2022
+ */
 public class DetailActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    /**
+     * @Description: the inner class which is used to retrieve the ui element by id.
+     * @author: Qingyang Li
+     * @date: 10/08/2022
+     */
     class ViewHolder {
         private final ViewPager viewPager = findViewById(R.id.viewPager);
         private final Button likeButton = findViewById(R.id.like_button);
@@ -51,11 +61,13 @@ public class DetailActivity extends AppCompatActivity
         private final LinearLayout dots = findViewById(R.id.dots);
     }
 
+    //this is used for the image slide dots
     private Drawable activeDot;
     private Drawable inactiveDot;
     private int dotsCount;
     private ImageView[] sliderDots;
 
+    //get the current product.
     private IProduct product;
 
     private ViewHolder viewHolder;
@@ -84,12 +96,15 @@ public class DetailActivity extends AppCompatActivity
         this.viewHolder = new ViewHolder();
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
+        //get the drawable element from the xml file
         this.activeDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.active_dot);
         this.inactiveDot = ContextCompat.getDrawable(getApplicationContext(), R.drawable.inactive_dot);
 
+        //initialise the top bar
         this.drawer.initialise();
         this.productSearcher.initialise();
 
+        //get the specificProduct from the database according to their name
         ProductDatabase db = ProductDatabase.getInstance();
         db.getSpecificProduct(new FireStoreCallback() {
             @Override
@@ -99,8 +114,20 @@ public class DetailActivity extends AppCompatActivity
             }
         }, getIntent().getStringExtra("name"));
 
+
+        //set page change listener for the view page and change the dots status;
         this.setViewPager();
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
+        this.drawer.initialise();
     }
 
     @Override
@@ -118,6 +145,7 @@ public class DetailActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
+    //add to cart functionality
     public void onAddToCart(View view) {
         if (this.product.getStock() == 0) {
             Toast.makeText(this, "No stock", Toast.LENGTH_SHORT).show();
@@ -155,6 +183,11 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * @Description: this function is used for adjust the size and layout of the product info in detail
+     * pages and set adapter for the view page
+     */
     public void renderProductInfo() {
         List<Integer> imageList = product.getImages();
         setViewPagerDots(imageList.size());
@@ -177,9 +210,14 @@ public class DetailActivity extends AppCompatActivity
         this.setLikeButtonState();
     }
 
+    /**
+     * @param : int  the size of the imageList, number of image
+     * @Description: render the dots of view pager
+     */
     private void setViewPagerDots(int size) {
         dotsCount = size;
         sliderDots = new ImageView[size];
+        // set all the dots is inactive dots
         for (int i = 0; i < dotsCount; i++) {
             sliderDots[i] = new ImageView(this);
             sliderDots[i].setImageDrawable(inactiveDot);
@@ -187,9 +225,13 @@ public class DetailActivity extends AppCompatActivity
             params.setMargins(10, 0, 10, 0);
             viewHolder.dots.addView(sliderDots[i], params);
         }
+        //at first, the first dots will set to active dot
         sliderDots[0].setImageDrawable(activeDot);
     }
 
+    /**
+     * @Description: set the likes button state, As the different category product have different images after liked
+     */
     private void setLikeButtonState() {
         if (product.getCategoryTitle().equals("technic")) {
             this.viewHolder.unlikeButton.setIconResource(R.drawable.technic_icon);
@@ -210,6 +252,9 @@ public class DetailActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * @Description: set page change listener for the view page and change the dots status;
+     */
     private void setViewPager() {
         viewHolder.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

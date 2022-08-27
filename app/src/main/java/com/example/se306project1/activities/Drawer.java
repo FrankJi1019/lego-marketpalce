@@ -16,6 +16,11 @@ import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * @Description: This is Drawer class which used to manage top bar of app( slide bar, search button)
+ * @author: Frank Ji
+ * @date: 13/08/2022
+ */
 public class Drawer {
 
     static class DrawerViewHolder {
@@ -35,7 +40,9 @@ public class Drawer {
         this.drawerViewHolder.navigationView = this.activity.findViewById(R.id.app_drawer_navigation);
     }
 
+    // initialise the top bar
     public void initialise() {
+
         this.activity.setSupportActionBar(this.drawerViewHolder.toolbar);
         ActionBar tb = this.activity.getSupportActionBar();
         assert tb != null;
@@ -57,7 +64,7 @@ public class Drawer {
                     drawerViewHolder.drawerLayout.setSelected(true);
                     return true;
                 });
-        for (Class<?> c: this.activity.getClass().getInterfaces()) {
+        for (Class<?> c : this.activity.getClass().getInterfaces()) {
             if (c.equals(NavigationView.OnNavigationItemSelectedListener.class)) {
                 this.drawerViewHolder.navigationView.setNavigationItemSelectedListener(
                         (NavigationView.OnNavigationItemSelectedListener) this.activity
@@ -75,20 +82,26 @@ public class Drawer {
         return toBeReturned;
     }
 
+    /**
+     * @param : MenuItem  the menuItem object
+     * @param : boolean  check whether to be returned
+     * @return : boolean  the value of to be returned
+     * @Description: set up the slide bar ( navigate to different activity according to the item selected)
+     */
     public boolean onNavigationItemSelected(MenuItem item, boolean toBeReturned) {
-        if (item.getItemId() ==  R.id.nav_homepage) {
+        if (item.getItemId() == R.id.nav_homepage) {
             CategoryActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_likes) {
+        } else if (item.getItemId() == R.id.nav_likes) {
             ProductActivity.startWithLikes(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_cart) {
+        } else if (item.getItemId() == R.id.nav_cart) {
             CartActivity.start(this.activity);
-        } else if (item.getItemId() ==  R.id.nav_technic) {
+        } else if (item.getItemId() == R.id.nav_technic) {
             ProductActivity.startWithTheme(this.activity, "Technic");
-        } else if (item.getItemId() ==  R.id.nav_starwar) {
+        } else if (item.getItemId() == R.id.nav_starwar) {
             ProductActivity.startWithTheme(this.activity, "Star War");
-        } else if (item.getItemId() ==  R.id.nav_friends) {
+        } else if (item.getItemId() == R.id.nav_friends) {
             ProductActivity.startWithTheme(this.activity, "City");
-        } else if (item.getItemId() ==  R.id.nav_logout) {
+        } else if (item.getItemId() == R.id.nav_logout) {
             UserState.getInstance().logoutCurrentUser();
             CartState.getCartState().userLogout();
             MainActivity.start(this.activity);

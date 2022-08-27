@@ -4,6 +4,11 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+/**
+ * @Description: This is Product class which is implemented IProduct interface
+ * @author: Frank Ji
+ * @date: 9/08/2022
+ */
 public class Product implements IProduct {
 
     public static int LOW_STOCK_BOUNDARY = 50;
@@ -22,7 +27,7 @@ public class Product implements IProduct {
         return "Product{" + name + "}\n";
     }
 
-    public Product(){
+    public Product() {
 
     }
 
@@ -94,6 +99,7 @@ public class Product implements IProduct {
         return likesNum;
     }
 
+    //convert the product object to cart product which the initial amount equal to 0
     public CartProduct toCartProduct() {
         CartProduct cartProduct = new CartProduct();
         cartProduct.setCategoryTitle(this.categoryTitle);

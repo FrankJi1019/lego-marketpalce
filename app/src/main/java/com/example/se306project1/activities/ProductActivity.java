@@ -26,6 +26,8 @@ import com.example.se306project1.models.Product;
 import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.AnimationFactory;
 import com.example.se306project1.utilities.ContextState;
+import com.example.se306project1.utilities.ProductActivityState;
+import com.example.se306project1.utilities.SortState;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
@@ -34,12 +36,20 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
+
+/**
+ * @Description: This is ProductActivity class which used to manage productActivity pages
+ * @author: Frank Ji
+ * @date: 12/08/2022
+ */
 public class ProductActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static ProductActivityState activityState = ProductActivityState.UNDEFINED;
 
+    //sort status
     private SortState sortState = SortState.NO_SORT;
     private final List<IProduct> defaultOrder = new ArrayList<>();
     private final List<IProduct> products = new ArrayList<>();
@@ -48,6 +58,11 @@ public class ProductActivity extends AppCompatActivity
     Drawer drawer;
     ProductSearcher productSearcher;
 
+    /**
+     * @Description: inner class for retrieve the UI element by id
+     * @author: Frank Ji
+     * @date: 12/08/2022
+     */
     class ViewHolder {
         private final RecyclerView productRecyclerView = findViewById(R.id.product_recycler_view);
         private final Button likeSortButton = findViewById(R.id.sort_by_likes_button);
@@ -60,6 +75,7 @@ public class ProductActivity extends AppCompatActivity
         private final ProgressBar productProgressbar = findViewById(R.id.product_progressbar);
     }
 
+    // this is for three category listActivity
     public static void startWithTheme(AppCompatActivity activity, String theme) {
         activityState = ProductActivityState.THEME;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
@@ -67,12 +83,14 @@ public class ProductActivity extends AppCompatActivity
         activity.startActivity(thisIntent);
     }
 
+    //this is for the like product pages
     public static void startWithLikes(AppCompatActivity activity) {
         activityState = ProductActivityState.LIKE;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         activity.startActivity(thisIntent);
     }
 
+    //this is for the search all product result pages
     public static void startWithSearch(AppCompatActivity activity, String keyword) {
         activityState = ProductActivityState.SEARCH;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
@@ -87,6 +105,19 @@ public class ProductActivity extends AppCompatActivity
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                if (key.equals("theme") && getIntent().getStringExtra("theme") != null) {
+                    activityState = ProductActivityState.THEME;
+                } else if (key.equals("keyword") && getIntent().getStringExtra("keyword") != null) {
+                    activityState = ProductActivityState.SEARCH;
+                } else {
+                    activityState = ProductActivityState.LIKE;
+                }
+            }
+        }
+
         this.products.clear();
         this.defaultOrder.clear();
 
@@ -94,6 +125,7 @@ public class ProductActivity extends AppCompatActivity
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
 
+        //initialise the top bar
         this.drawer.initialise();
         this.productSearcher.initialise();
 
@@ -107,11 +139,34 @@ public class ProductActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this);
+            return;
+        }
+        this.drawer.initialise();
+        Bundle bundle = getIntent().getExtras();
+        System.out.println(bundle == null ? "bundle" : "not bundle");
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                System.out.println(key);
+                System.out.println(getIntent().getStringExtra(key));
+                if (key.equals("theme") && getIntent().getStringExtra("theme") != null) {
+                    activityState = ProductActivityState.THEME;
+                } else if (key.equals("keyword") && getIntent().getStringExtra("keyword") != null) {
+                    activityState = ProductActivityState.SEARCH;
+                } else {
+                    activityState = ProductActivityState.LIKE;
+                }
+            }
+        } else {
+            activityState = ProductActivityState.LIKE;
+        }
         this.products.clear();
         this.defaultOrder.clear();
         updateProductList();
     }
 
+    //retrieve the product list which will display in this page
     public void updateProductList() {
         if (activityState == ProductActivityState.THEME) {
             Objects.requireNonNull(getSupportActionBar()).setTitle(getIntent().getStringExtra("theme"));
@@ -128,12 +183,17 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
+
+    /**
+     * @Description: set the adapter for product recyclerView, this adapter is used for three category
+     * listActivity and also for like pages and search result pages of products
+     */
     public void setProductAdapter() {
         ProductAdapter productAdapter = new ProductAdapter(this.products);
         if (activityState == ProductActivityState.SEARCH) {
             String keyword = getIntent().getStringExtra("keyword");
             this.viewHolder.noResultTextView.setVisibility(View.VISIBLE);
-            for (IProduct p: this.products) {
+            for (IProduct p : this.products) {
                 if (p.getName().contains(keyword)) {
                     this.viewHolder.noResultTextView.setVisibility(View.INVISIBLE);
                 }
@@ -163,6 +223,10 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
+    /**
+     * @param : String  the category Title  which is used find its product in database
+     * @Description: get all specific category product from the database
+     */
     public void fetchCategoryProducts(String categoryTitle) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
@@ -179,6 +243,10 @@ public class ProductActivity extends AppCompatActivity
         }, categoryTitle);
     }
 
+    /**
+     * @param : String  the keyword  which is used find its result in database
+     * @Description: get product list according to the searching
+     */
     public void fetchSearchingResults(String keyword) {
         this.products.clear();
         ProductDatabase db = ProductDatabase.getInstance();
@@ -196,6 +264,10 @@ public class ProductActivity extends AppCompatActivity
         });
     }
 
+    /**
+     * @param : String  the username  which is used find its liked products in database
+     * @Description: get the product list according to user likes
+     */
     public void fetchLikedProducts(String userName) {
         this.products.clear();
         ProductDatabase productDatabase = ProductDatabase.getInstance();
@@ -233,6 +305,7 @@ public class ProductActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
+    //this is function is used for sort product list
     public void onSortClick(View view) {
         updateSortState(((Button) view).getText().toString().equalsIgnoreCase("likes"));
         updateSortingButtonStyle();
@@ -240,6 +313,7 @@ public class ProductActivity extends AppCompatActivity
         setProductAdapter();
     }
 
+    //update the sort state(descend, ascend,random)
     private void updateSortState(boolean isLikeClicked) {
         if (isLikeClicked) {
             switch (sortState) {
@@ -318,6 +392,7 @@ public class ProductActivity extends AppCompatActivity
         }
     }
 
+    //sort product according to the specific fieldName
     private void sortProducts(String fieldName, boolean ascend) {
         this.products.sort((productA, productB) -> {
             Class<Product> productClass = Product.class;
@@ -336,12 +411,4 @@ public class ProductActivity extends AppCompatActivity
         });
     }
 
-}
-
-enum ProductActivityState {
-    UNDEFINED, THEME, LIKE, SEARCH
-}
-
-enum SortState {
-    NO_SORT, LIKE_ASCEND, LIKE_DESCEND, PRICE_ASCEND, PRICE_DESCEND
 }
