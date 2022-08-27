@@ -54,7 +54,7 @@
                         android:layout_alignParentTop="true"
                         android:ellipsize="end"
                         android:singleLine="true"
-                        android:textSize="23sp"
+                        android:textSize="20sp"
                         android:textStyle="bold"
                         android:text="@string/product_name_placeholder"/>
 
@@ -76,7 +76,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
                         app:icon="@drawable/close"
-                        app:iconSize="22sp"
+                        app:iconSize="20sp"
                         app:iconPadding="0dp"
                         app:iconGravity="textEnd"
                         app:iconTint="@android:color/black" />
@@ -114,7 +114,7 @@
                         app:icon="@drawable/add"
                         app:iconPadding="0dp"
                         app:iconGravity="textStart"
-                        app:iconSize="22sp"
+                        app:iconSize="20sp"
                         app:iconTint="@android:color/black" />
 
                 </RelativeLayout>

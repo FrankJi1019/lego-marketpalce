@@ -13,7 +13,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/greeting_text_placeholder"
-        android:textSize="30sp"
+        android:textSize="34sp"
         android:textStyle="bold" />
 
 

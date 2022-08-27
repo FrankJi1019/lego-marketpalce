@@ -74,12 +74,8 @@ public class DetailActivity extends AppCompatActivity
     private Drawer drawer;
     private ProductSearcher productSearcher;
 
-    public static void start(AppCompatActivity activity) {
-        Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
-        activity.startActivity(intent);
-    }
-
-    public static void startWithName(AppCompatActivity activity, String name) {
+    public static void startWithName(String name) {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         Intent intent = new Intent(activity.getBaseContext(), DetailActivity.class);
         intent.putExtra("name", name);
         activity.startActivity(intent);
@@ -124,7 +120,7 @@ public class DetailActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         if (UserState.getInstance().getCurrentUser() == null) {
-            MainActivity.start(this);
+            MainActivity.start();
             return;
         }
         this.drawer.initialise();

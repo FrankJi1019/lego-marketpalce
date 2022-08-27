@@ -43,7 +43,7 @@ import java.util.List;
 public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //This is list is used for the category recyclerview
+    // This is list is used for the category recyclerview
     private List<ICategory> categories;
 
     Drawer drawer;
@@ -61,7 +61,11 @@ public class CategoryActivity extends AppCompatActivity
         ProgressBar topPickProgressbar = findViewById(R.id.top_pick_progressbar);
     }
 
-    public static void start(AppCompatActivity activity) {
+    /**
+     * @Description: the method that directs to this page
+     */
+    public static void start() {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         Intent intent = new Intent(activity.getBaseContext(), CategoryActivity.class);
         activity.startActivity(intent);
     }
@@ -96,7 +100,7 @@ public class CategoryActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         if (UserState.getInstance().getCurrentUser() == null) {
-            MainActivity.start(this);
+            MainActivity.start();
             return;
         }
         this.fillTopPicks();
@@ -126,7 +130,7 @@ public class CategoryActivity extends AppCompatActivity
     }
 
     /**
-     * @param : List<IProduct>  the list of IProduct used for adapter
+     * @param list : List<IProduct>  the list of IProduct used for adapter
      * @Description: set up the adapter for top likes product recyclerView
      */
     private void setTopProductAdapter(List<IProduct> list) {

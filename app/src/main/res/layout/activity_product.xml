@@ -54,7 +54,7 @@
                             android:textColor="@color/gray_300"
                             android:textSize="20sp"
                             app:icon="@drawable/swap_vert"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/gray_300"
                             android:onClick="onSortClick" />
                         <Button
@@ -68,7 +68,7 @@
                             android:textColor="@color/dark_gray"
                             android:textSize="20sp"
                             app:icon="@drawable/arrow_upward"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick" />
                         <Button
@@ -82,7 +82,7 @@
                             android:textColor="@color/dark_gray"
                             android:textSize="20sp"
                             app:icon="@drawable/arrow_downward"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick" />
                     </RelativeLayout>
@@ -101,7 +101,7 @@
                             android:textColor="@color/gray_300"
                             android:textSize="20sp"
                             app:icon="@drawable/swap_vert"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/gray_300"
                             android:onClick="onSortClick"/>
                         <Button
@@ -115,7 +115,7 @@
                             android:textColor="@color/dark_gray"
                             android:textSize="20sp"
                             app:icon="@drawable/arrow_upward"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick"/>
                         <Button
@@ -129,7 +129,7 @@
                             android:textColor="@color/dark_gray"
                             android:textSize="20sp"
                             app:icon="@drawable/arrow_downward"
-                            app:iconSize="25sp"
+                            app:iconSize="24sp"
                             app:iconTint="@color/dark_gray"
                             android:onClick="onSortClick"/>
                     </RelativeLayout>
@@ -142,7 +142,7 @@
                     android:layout_below="@id/sorter_linearlayout"
                     android:text="@string/no_searching_result"
                     android:visibility="visible"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:layout_marginTop="10dp"
                     android:textAlignment="center"/>
 

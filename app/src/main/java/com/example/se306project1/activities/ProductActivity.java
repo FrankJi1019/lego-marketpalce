@@ -76,7 +76,8 @@ public class ProductActivity extends AppCompatActivity
     }
 
     // this is for three category listActivity
-    public static void startWithTheme(AppCompatActivity activity, String theme) {
+    public static void startWithTheme(String theme) {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         activityState = ProductActivityState.THEME;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("theme", theme);
@@ -84,14 +85,16 @@ public class ProductActivity extends AppCompatActivity
     }
 
     //this is for the like product pages
-    public static void startWithLikes(AppCompatActivity activity) {
+    public static void startWithLikes() {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         activityState = ProductActivityState.LIKE;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         activity.startActivity(thisIntent);
     }
 
     //this is for the search all product result pages
-    public static void startWithSearch(AppCompatActivity activity, String keyword) {
+    public static void startWithSearch(String keyword) {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         activityState = ProductActivityState.SEARCH;
         Intent thisIntent = new Intent(activity.getBaseContext(), ProductActivity.class);
         thisIntent.putExtra("keyword", keyword);
@@ -140,7 +143,7 @@ public class ProductActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         if (UserState.getInstance().getCurrentUser() == null) {
-            MainActivity.start(this);
+            MainActivity.start();
             return;
         }
         this.drawer.initialise();

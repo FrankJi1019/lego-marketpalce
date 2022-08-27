@@ -18,6 +18,7 @@ import java.util.List;
  * @date: 11/08/2022
  */
 public class DetailAdapter extends PagerAdapter {
+
     //this list of image is used for the viewPager recyclerView
     List<Integer> imageList;
 

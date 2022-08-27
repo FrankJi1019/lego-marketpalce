@@ -10,9 +10,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se306project1.R;
+import com.example.se306project1.activities.DetailActivity;
 import com.example.se306project1.database.CartDatabase;
 import com.example.se306project1.models.CartProduct;
 import com.example.se306project1.utilities.CartState;
@@ -34,6 +36,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         private final ImageView imageView;
         private final Button decreaseAmountButton, increaseAmountButton, deleteButton;
         private final CheckBox checkBox;
+        private final CardView cartContainer;
 
         /**
          * @Description: retrieve the used UI element by id
@@ -50,6 +53,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             this.increaseAmountButton = view.findViewById(R.id.increase_amount_button);
             this.deleteButton = view.findViewById(R.id.delete_button);
             this.checkBox = view.findViewById(R.id.cart_product_checkbox);
+            this.cartContainer = view.findViewById(R.id.cart_item_container);
         }
     }
 
@@ -57,7 +61,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private final TextView totalPriceTextview;
     private final CheckBox selectAllCheckBox;
 
-    // initialise the adapter
     public CartProductAdapter(List<CartProduct> products, TextView totalPriceTextview, CheckBox checkBox) {
         this.products = products;
         this.totalPriceTextview = totalPriceTextview;
@@ -104,6 +107,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
             updatePrice();
         });
         holder.checkBox.setChecked(CartState.getCartState().isItemChecked(cartProduct.getName()));
+        holder.cartContainer.setOnClickListener(v -> DetailActivity.startWithName(cartProduct.getName()));
     }
 
     @Override
@@ -111,7 +115,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return this.products.size();
     }
 
-    //update the total price in cart activity
+    /**
+     * @Description: update the total price in cart activity
+     */
     private void updatePrice() {
         String priceTag = new StringBuilder(R.string.price_tag)
                 .set("price", CartState.getCartState().getPriceString())
