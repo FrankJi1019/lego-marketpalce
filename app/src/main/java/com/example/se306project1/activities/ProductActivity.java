@@ -148,11 +148,8 @@ public class ProductActivity extends AppCompatActivity
         }
         this.drawer.initialise();
         Bundle bundle = getIntent().getExtras();
-        System.out.println(bundle == null ? "bundle" : "not bundle");
         if (bundle != null) {
             for (String key : bundle.keySet()) {
-                System.out.println(key);
-                System.out.println(getIntent().getStringExtra(key));
                 if (key.equals("theme") && getIntent().getStringExtra("theme") != null) {
                     activityState = ProductActivityState.THEME;
                 } else if (key.equals("keyword") && getIntent().getStringExtra("keyword") != null) {
@@ -401,9 +398,7 @@ public class ProductActivity extends AppCompatActivity
             Class<Product> productClass = Product.class;
             try {
                 Field field = productClass.getDeclaredField(fieldName);
-                System.out.println("get the field");
                 field.setAccessible(true);
-                System.out.println("reset accessible");
                 return new BigDecimal(Objects.requireNonNull(field.get(productA)).toString())
                         .subtract(new BigDecimal(Objects.requireNonNull(field.get(productB)).toString()))
                         .intValue() * (ascend ? 1 : -1);
