@@ -56,10 +56,7 @@ public class TopPickAdapter extends RecyclerView.Adapter<TopPickAdapter.TopPickV
         IProduct product = this.products.get(position);
         holder.topPickImageView.setImageResource(product.getImages().get(0));
         holder.topPickNameTextView.setText(product.getName());
-        holder.container.setOnClickListener(view -> DetailActivity.startWithName(
-                ActivityState.getInstance().getCurrentActivity(),
-                product.getName()
-        ));
+        holder.container.setOnClickListener(view -> DetailActivity.startWithName(product.getName()));
     }
 
     @Override

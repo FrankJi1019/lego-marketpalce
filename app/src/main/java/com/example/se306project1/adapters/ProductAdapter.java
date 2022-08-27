@@ -85,7 +85,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                 .toString();
         holder.price_textview.setText(priceTag);
         holder.container.setOnClickListener(view -> DetailActivity.startWithName(
-                ActivityState.getInstance().getCurrentActivity(),
                 this.products.get(position).getName()
         ));
         holder.likeCountTextview.setText(new StringBuilder(R.string.like_number)
