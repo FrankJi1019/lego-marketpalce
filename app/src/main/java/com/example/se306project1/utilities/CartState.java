@@ -7,7 +7,11 @@ import com.example.se306project1.models.CartProduct;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-
+/**
+ * @Description: This is CartState class which is used for managing the cart state in cartActivity
+ * @author: Frank Ji
+ * @date: 18/08/2022
+ */
 public class CartState {
 
     private static final CartState cartState = new CartState();
@@ -33,6 +37,7 @@ public class CartState {
         return this.cartProducts;
     }
 
+    //add this cart product to user's shopping cart
     public void addToCart(CartProduct cartProduct) {
         for (CartProduct c: cartProducts) {
             if (c.getName().equals(cartProduct.getName())) return;
@@ -42,6 +47,7 @@ public class CartState {
         db.addProductToCart(UserState.getInstance().getCurrentUser().getUsername(),cartProduct.getName());
     }
 
+    //update the amount of cart products
     public void updateAmount(String productName, int newAmount) {
         for (CartProduct c: this.cartProducts) {
             if (c.getName().equals(productName)) {
@@ -50,6 +56,7 @@ public class CartState {
         }
     }
 
+    //remove this product from the user's shopping cart
     public void removeCartProduct(String productName) {
         for (CartProduct c: this.cartProducts) {
             if (c.getName().equals(productName)) {
@@ -61,6 +68,7 @@ public class CartState {
         db.removeProductFromCart(UserState.getInstance().getCurrentUser().getUsername(),productName);
     }
 
+    //check whether product is checked
     public void checkItem(String productName) {
         if (this.checkedProducts.contains(productName)) {
             return;
