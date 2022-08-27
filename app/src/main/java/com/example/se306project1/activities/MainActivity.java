@@ -66,6 +66,9 @@ public class MainActivity extends AppCompatActivity {
         vh.loginLoginButton.setOnClickListener(view -> onUserLogin());
     }
 
+    @Override
+    public void onBackPressed() { }
+
     private void createView() {
         vh.registerUsernameEditText = findViewById(R.id.register_username_edit_text);
         vh.registerPasswordEditText = findViewById(R.id.register_password_edit_text);

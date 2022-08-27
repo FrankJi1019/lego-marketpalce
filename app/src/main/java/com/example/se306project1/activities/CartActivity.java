@@ -73,7 +73,7 @@ public class CartActivity extends AppCompatActivity
         setContentView(R.layout.activity_cart);
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
-
+        System.out.println("on create");
         this.viewHolder = new ViewHolder();
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
