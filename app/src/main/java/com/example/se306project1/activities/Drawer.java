@@ -90,21 +90,21 @@ public class Drawer {
      */
     public boolean onNavigationItemSelected(MenuItem item, boolean toBeReturned) {
         if (item.getItemId() == R.id.nav_homepage) {
-            CategoryActivity.start(this.activity);
+            CategoryActivity.start();
         } else if (item.getItemId() == R.id.nav_likes) {
-            ProductActivity.startWithLikes(this.activity);
+            ProductActivity.startWithLikes();
         } else if (item.getItemId() == R.id.nav_cart) {
-            CartActivity.start(this.activity);
+            CartActivity.start();
         } else if (item.getItemId() == R.id.nav_technic) {
-            ProductActivity.startWithTheme(this.activity, "Technic");
+            ProductActivity.startWithTheme("Technic");
         } else if (item.getItemId() == R.id.nav_starwar) {
-            ProductActivity.startWithTheme(this.activity, "Star War");
+            ProductActivity.startWithTheme("Star War");
         } else if (item.getItemId() == R.id.nav_friends) {
-            ProductActivity.startWithTheme(this.activity, "City");
+            ProductActivity.startWithTheme("City");
         } else if (item.getItemId() == R.id.nav_logout) {
             UserState.getInstance().logoutCurrentUser();
             CartState.getCartState().userLogout();
-            MainActivity.start(this.activity);
+            MainActivity.start();
         }
         this.drawerViewHolder.drawerLayout.closeDrawer(GravityCompat.START);
         return toBeReturned;

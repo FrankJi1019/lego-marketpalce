@@ -44,7 +44,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
-    //this list is used for recyclerView
+    /**
+     * @Description: this list is used for recyclerView
+     */
     private final List<ICategory> categories;
 
     public CategoryAdapter(List<ICategory> categories) {
@@ -63,11 +65,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         String CategoryTitle = this.categories.get(position).getTitle();
         holder.categoryTitleTextview.setText(CategoryTitle);
         holder.forwardButton.setOnClickListener(view -> ProductActivity.startWithTheme(
-                ActivityState.getInstance().getCurrentActivity(),
                 this.categories.get(position).getTitle()
         ));
         holder.cardView.setOnClickListener(view -> ProductActivity.startWithTheme(
-                ActivityState.getInstance().getCurrentActivity(),
                 this.categories.get(position).getTitle()
         ));
         holder.imageView.setImageResource(this.categories.get(position).getImage());

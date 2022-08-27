@@ -30,7 +30,8 @@ import com.example.se306project1.utilities.UserState;
 public class MainActivity extends AppCompatActivity {
     private final UserDatabase userDatabase = UserDatabase.getInstance();
 
-    public static void start(AppCompatActivity activity) {
+    public static void start() {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         Intent intent = new Intent(activity.getBaseContext(), MainActivity.class);
         activity.startActivity(intent);
     }
@@ -81,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void switchToCategoryActivity() {
-        CategoryActivity.start(this);
+        CategoryActivity.start();
     }
 
     //set up the initial login page

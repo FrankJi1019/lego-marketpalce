@@ -120,7 +120,7 @@ public class DetailActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         if (UserState.getInstance().getCurrentUser() == null) {
-            MainActivity.start(this);
+            MainActivity.start();
             return;
         }
         this.drawer.initialise();

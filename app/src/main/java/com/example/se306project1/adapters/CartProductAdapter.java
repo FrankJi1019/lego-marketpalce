@@ -61,7 +61,6 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private final TextView totalPriceTextview;
     private final CheckBox selectAllCheckBox;
 
-    // initialise the adapter
     public CartProductAdapter(List<CartProduct> products, TextView totalPriceTextview, CheckBox checkBox) {
         this.products = products;
         this.totalPriceTextview = totalPriceTextview;
@@ -116,7 +115,9 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return this.products.size();
     }
 
-    // update the total price in cart activity
+    /**
+     * @Description: update the total price in cart activity
+     */
     private void updatePrice() {
         String priceTag = new StringBuilder(R.string.price_tag)
                 .set("price", CartState.getCartState().getPriceString())

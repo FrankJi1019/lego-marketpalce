@@ -58,7 +58,11 @@ public class CartActivity extends AppCompatActivity
     Drawer drawer;
     ProductSearcher productSearcher;
 
-    public static void start(AppCompatActivity activity) {
+    /**
+     * @Description: the method that directs to this page
+     */
+    public static void start() {
+        AppCompatActivity activity = ActivityState.getInstance().getCurrentActivity();
         Intent intent = new Intent(activity.getBaseContext(), CartActivity.class);
         activity.startActivity(intent);
     }
@@ -74,10 +78,10 @@ public class CartActivity extends AppCompatActivity
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
 
-        //retrieve the cart product from the database and send to adapter
+        // retrieve the cart product from the database and send to adapter
         fetchCartProducts();
 
-        //initialise the top bar element
+        // initialise the top bar element
         this.drawer.initialise();
         this.productSearcher.initialise();
         this.viewHolder.totalPriceTextview.setText(
@@ -91,7 +95,7 @@ public class CartActivity extends AppCompatActivity
     public void onResume() {
         super.onResume();
         if (UserState.getInstance().getCurrentUser() == null) {
-            MainActivity.start(this);
+            MainActivity.start();
             return;
         }
         this.drawer.initialise();
@@ -126,7 +130,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     /**
-     * @param : boolean  a boolean value should do the animation
+     * @param shouldAnimate : a boolean value that means whether the view should be animated
      * @Description: set the adapter for this pages
      */
     public void setAdapter(boolean shouldAnimate) {
@@ -141,7 +145,7 @@ public class CartActivity extends AppCompatActivity
                 false
         );
 
-        //set up the cartProduct RecyclerView
+        // set up the cartProduct RecyclerView
         this.viewHolder.cartProductRecyclerView.setLayoutManager(layoutManager);
         this.viewHolder.cartProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
@@ -169,6 +173,10 @@ public class CartActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
+    /**
+     * @Description: the click event handler for selecting all
+     * @param view : the checkbox that is next to the text "select all"
+     */
     public void onSelectAll(View view) {
         CheckBox checkBox = (CheckBox) view;
         if (checkBox.isChecked()) {
@@ -185,7 +193,7 @@ public class CartActivity extends AppCompatActivity
     }
 
     /**
-     * @param : View  the view object of event target
+     * @param view : View  the view object of event target
      * @Description: The checkout functionality for the checkout button
      */
     public void onCheckOut(View view) {

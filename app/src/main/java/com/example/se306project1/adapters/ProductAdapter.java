@@ -54,7 +54,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private final List<IProduct> products;
 
-    //get the list used for recyclerView
     public ProductAdapter(List<IProduct> products) {
         this.products = products;
     }

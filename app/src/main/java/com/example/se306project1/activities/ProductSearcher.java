@@ -65,7 +65,7 @@ public class ProductSearcher {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                ProductActivity.startWithSearch(activity, s);
+                ProductActivity.startWithSearch(s);
                 return false;
             }
 
