@@ -34,15 +34,23 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * @Description: This is CategoryActivity class which used to manage CategoryActivity pages
+ * @author: XiaoXiao Zhuang
+ * @date:  10/08/2022
+ *
+ */
 public class CategoryActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //This is list is used for the category recyclerview
     private List<ICategory> categories;
 
     Drawer drawer;
     ProductSearcher productSearcher;
     ViewHolder viewHolder;
 
+    //this inner class is used for retrieve the ui element by id
     class ViewHolder {
         private final RecyclerView categoryRecyclerView = findViewById(R.id.category_recycler_view);
         private final RecyclerView topPickRecyclerView = findViewById(R.id.top_pick_product_recycler_view);
@@ -66,9 +74,11 @@ public class CategoryActivity extends AppCompatActivity
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
 
+        //retrieve top picks and all categories
         this.fillTopPicks();
         this.fillCategories();
 
+        //set up all adapters in this pages and initialise the top bar
         this.setCategoryAdapter();
         this.drawer.initialise();
         this.productSearcher.initialise();
@@ -84,6 +94,7 @@ public class CategoryActivity extends AppCompatActivity
         this.fillTopPicks();
     }
 
+    //set up the adapter for category recyclerView
     private void setCategoryAdapter() {
         CategoryAdapter categoryAdapter = new CategoryAdapter(this.categories);
         this.viewHolder.categoryRecyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -103,6 +114,7 @@ public class CategoryActivity extends AppCompatActivity
         }
     }
 
+    //set up the adapter for top likes product recyclerView
     private void setTopProductAdapter(List<IProduct> list) {
         RecyclerView.LayoutManager topPickLayoutManager = new LinearLayoutManager(
                 getApplicationContext(),
@@ -116,12 +128,14 @@ public class CategoryActivity extends AppCompatActivity
         this.viewHolder.topPickRecyclerView.setVisibility(View.VISIBLE);
     }
 
+    //retrieve three categories
     private void fillCategories() {
         this.categories.add(new TechnicCategory());
         this.categories.add(new StarWarCategory());
         this.categories.add(new CityCategory());
     }
 
+    //get the first 4 top likes product from the database
     private void fillTopPicks() {
         int size = 4;
         LikesDatabase likesDatabase = LikesDatabase.getInstance();
@@ -129,6 +143,7 @@ public class CategoryActivity extends AppCompatActivity
             @Override
             public <T> void Callback(T value) {
                 List<IProduct> products = (List<IProduct>) value;
+                //sort all products in descending order by the likes number
                 products.sort((p1, p2) -> (p2.getLikesNumber() - p1.getLikesNumber()));
                 List<IProduct> res = new ArrayList<>(products.subList(0, size));
                 setTopProductAdapter(res);

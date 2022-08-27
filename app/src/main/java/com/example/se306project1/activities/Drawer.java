@@ -16,6 +16,12 @@ import com.example.se306project1.utilities.StringBuilder;
 import com.example.se306project1.utilities.UserState;
 import com.google.android.material.navigation.NavigationView;
 
+/**
+ * @Description: This is Drawer class which used to manage top bar of app( slide bar, search button)
+ * @author: Frank Ji
+ * @date:  13/08/2022
+ *
+ */
 public class Drawer {
 
     static class DrawerViewHolder {
@@ -35,6 +41,7 @@ public class Drawer {
         this.drawerViewHolder.navigationView = this.activity.findViewById(R.id.app_drawer_navigation);
     }
 
+    // initialise the top bar
     public void initialise() {
         this.activity.setSupportActionBar(this.drawerViewHolder.toolbar);
         ActionBar tb = this.activity.getSupportActionBar();
@@ -68,6 +75,7 @@ public class Drawer {
 
     }
 
+    //render the top bar into the pages
     public boolean setUp(MenuItem item, boolean toBeReturned) {
         if (item.getItemId() == android.R.id.home) {
             this.drawerViewHolder.drawerLayout.openDrawer(GravityCompat.START);
@@ -75,6 +83,7 @@ public class Drawer {
         return toBeReturned;
     }
 
+    //set up the slide bar ( navigate to different activity according to the item selected)
     public boolean onNavigationItemSelected(MenuItem item, boolean toBeReturned) {
         if (item.getItemId() ==  R.id.nav_homepage) {
             CategoryActivity.start(this.activity);

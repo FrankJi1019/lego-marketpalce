@@ -18,7 +18,12 @@ import com.example.se306project1.utilities.ActivityState;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @Description: This is ProductSearch class which used for search functionality in the top bar
+ * @author: QingyangLi
+ * @date:  14/08/2022
+ *
+ */
 public class ProductSearcher {
 
     static class ViewHolder {
@@ -38,6 +43,7 @@ public class ProductSearcher {
         this.fillProductSearPool();
     }
 
+    //initialise the searchPool
     public void initialise() {
         this.suggestionAdapter = new SuggestionAdapter(productPool);
         this.viewHolder.suggestionListRecycler.setAdapter(this.suggestionAdapter);
@@ -51,6 +57,7 @@ public class ProductSearcher {
         this.viewHolder.suggestionListRecycler.setItemAnimator(new DefaultItemAnimator());
     }
 
+    //set up the search functionality
     public boolean onCreateOptionsMenu(Menu menu, boolean superValue) {
         this.activity.getMenuInflater().inflate(R.menu.search_menu, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
@@ -71,6 +78,7 @@ public class ProductSearcher {
         return superValue;
     }
 
+    //retrieve the data from database according to the search and fill product search pool
     private void fillProductSearPool() {
         ProductDatabase productDatabase = ProductDatabase.getInstance();
         productDatabase.getAllProducts(new FireStoreCallback() {

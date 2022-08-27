@@ -21,8 +21,12 @@ import com.example.se306project1.utilities.ActivityState;
 import com.example.se306project1.utilities.ContextState;
 import com.example.se306project1.utilities.PasswordEncripter;
 import com.example.se306project1.utilities.UserState;
-
-
+/**
+ * @Description: This is MainActivity class which used to manage mainActivity.xml
+ * @author: XiaoXiao Zhuang
+ * @date:  11/08/2022
+ *
+ */
 public class MainActivity extends AppCompatActivity {
     private final UserDatabase userDatabase = UserDatabase.getInstance();
 
@@ -48,7 +52,9 @@ public class MainActivity extends AppCompatActivity {
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
+
         createView();
+        // set the click listener for change between login page and sign up page
         vh.registerLoginButton.setOnClickListener(view -> getLoginPage());
         vh.loginSignUpTextView.setOnClickListener(view -> getSignUpPage());
         vh.registerUsernameEditText.setOnFocusChangeListener((view, focus) -> {
@@ -60,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginLoginButton.setOnClickListener(view -> onUserLogin());
     }
 
+    //retrieve all used ui element by id
     private void createView() {
         vh.registerUsernameEditText = findViewById(R.id.register_username_edit_text);
         vh.registerPasswordEditText = findViewById(R.id.register_password_edit_text);
@@ -79,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         CategoryActivity.start(this);
     }
 
-
+    //set up the initial login page
     private void getLoginPage() {
         vh.signUp.setVisibility(View.GONE);
         vh.login.setVisibility(View.VISIBLE);
@@ -88,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         vh.registerConfirmPasswordEditText.setText("");
     }
 
+    //set up the initial sign up page
     private void getSignUpPage() {
         vh.signUp.setVisibility(View.VISIBLE);
         vh.login.setVisibility(View.GONE);
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity {
         vh.loginPasswordEditText.setText("");
     }
 
+    //Check if the user is valid
     private void onUserNotValid() {
         userDatabase.isUserExist(new FireStoreCallback() {
             @Override
@@ -107,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }, getRegisterUsername());
     }
 
+    //login functionality, this will check if the user is valid
     private void onUserLogin() {
         if (checkEmptyLogin()) {
             userDatabase.isUserExist(new FireStoreCallback() {
@@ -128,6 +138,8 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //sign up functionality, used for sign up new account, it will check whether the user has already
+    // exist ( check if there is the same user name existing in database)
     private void onUserSignUp() {
         if (checkRegisterEmptyInput()) {
             userDatabase.isUserExist(new FireStoreCallback() {
@@ -144,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //The user is valid and login successfully , record this user and will redirect to main activity
     private void userLogin(boolean isValid, String username) {
         if (isValid) {
             createCurrentUser(username);
@@ -156,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //user sign up successfully, add a new account into database, record this username and redirect to main activity
     private void userSignUp(String username, String password) {
         Toast.makeText(this, "CONGRATULATION! YOU ARE A MEMBER NOW!", Toast.LENGTH_SHORT).show();
         String encryptedPassword = getEncryptedPassword(password);
@@ -167,6 +181,7 @@ public class MainActivity extends AppCompatActivity {
         switchToCategoryActivity();
     }
 
+    //check if  no fill username or password
     private boolean checkEmptyLogin() {
         if (vh.loginUsernameEditText.getText().length() == 0) {
             Toast.makeText(this, "Please enter your username", Toast.LENGTH_SHORT).show();
@@ -178,12 +193,14 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // record currentUser
     private void createCurrentUser(String username) {
         UserState userState = UserState.getInstance();
         User user = new User(username);
         userState.setCurrentUser(user);
     }
 
+    //the message for user not found
     private void userNotFound() {
         Toast.makeText(this, "User not found, please try again", Toast.LENGTH_SHORT).show();
     }
@@ -231,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
         return vh.loginPasswordEditText.getText().toString();
     }
 
+    //get encryptedPassword
     private String getEncryptedPassword(String password) {
         return PasswordEncripter.hashPassword(password);
     }

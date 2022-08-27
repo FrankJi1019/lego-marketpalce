@@ -33,9 +33,16 @@ import com.google.android.material.navigation.NavigationView;
 
 import java.util.List;
 
+/**
+ * @Description: This is cartActivity class which used to manage cartActivity pages
+ * @author: Frank Ji
+ * @date:  12/08/2022
+ *
+ */
 public class CartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    //the inner class which is used to retrieve the ui element by id.
     class ViewHolder {
         private final RecyclerView cartProductRecyclerView = findViewById(R.id.cart_product_recyclerview);
         private final TextView totalPriceTextview = findViewById(R.id.total_price_textview);
@@ -63,8 +70,10 @@ public class CartActivity extends AppCompatActivity
         this.drawer = new Drawer();
         this.productSearcher = new ProductSearcher();
 
+        //retrieve the cart product from the database and send to adapter
         fetchCartProducts();
 
+        //initialise the top bar element
         this.drawer.initialise();
         this.productSearcher.initialise();
     }
@@ -75,7 +84,8 @@ public class CartActivity extends AppCompatActivity
         CartState.getCartState().uncheckAll();
     }
 
-    public void fetchCartProducts(){
+    //retrieve the cart product from the database and send to matching adapter
+    public void fetchCartProducts() {
         ProductDatabase db = ProductDatabase.getInstance();
         db.getAllProducts(new FireStoreCallback() {
             @Override
@@ -89,11 +99,12 @@ public class CartActivity extends AppCompatActivity
                         CartState.getCartState().setCartList(res);
                         setAdapter(true);
                     }
-                }, UserState.getInstance().getCurrentUser().getUsername(),products);
+                }, UserState.getInstance().getCurrentUser().getUsername(), products);
             }
         });
     }
 
+    //set the adapter for this pages
     public void setAdapter(boolean shouldAnimate) {
         CartProductAdapter cartProductAdapter = new CartProductAdapter(
                 CartState.getCartState().getCartProducts(),
@@ -105,6 +116,8 @@ public class CartActivity extends AppCompatActivity
                 LinearLayoutManager.VERTICAL,
                 false
         );
+
+        //set up the cartProduct RecyclerView
         this.viewHolder.cartProductRecyclerView.setLayoutManager(layoutManager);
         this.viewHolder.cartProductRecyclerView.setItemAnimator(new DefaultItemAnimator());
         this.viewHolder.cartProductRecyclerView.setAdapter(cartProductAdapter);
@@ -132,6 +145,7 @@ public class CartActivity extends AppCompatActivity
         return this.drawer.onNavigationItemSelected(item, true);
     }
 
+    //The selectAll functionality in the cart pages
     public void onSelectAll(View view) {
         CheckBox checkBox = (CheckBox) view;
         if (checkBox.isChecked()) {
@@ -147,6 +161,7 @@ public class CartActivity extends AppCompatActivity
         );
     }
 
+    //The checkout functionality for the checkout button
     public void onCheckOut(View view) {
         CartState.getCartState().checkout();
         Toast.makeText(getApplicationContext(), "Items checked out", Toast.LENGTH_SHORT).show();
