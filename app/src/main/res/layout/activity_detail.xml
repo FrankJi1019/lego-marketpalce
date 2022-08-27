@@ -92,7 +92,7 @@
                                 android:layout_height="48dp"
                                 android:layout_toStartOf="@+id/like_button_group"
                                 android:gravity="center"
-                                android:textSize="21sp"
+                                android:textSize="20sp"
                                 tools:ignore="RelativeOverlap" />
 
                             <RelativeLayout
@@ -108,7 +108,7 @@
                                     android:layout_height="48dp"
                                     android:layout_marginTop="0dp"
                                     app:icon="@drawable/outline_favorite_border_24"
-                                    app:iconSize="23sp"
+                                    app:iconSize="20sp"
                                     app:iconTint="@color/gray_300"
                                     android:onClick="onToggleLike" />
 
@@ -121,7 +121,7 @@
                                     android:onClick="onToggleLike"
                                     android:visibility="invisible"
                                     app:icon="@drawable/like_button"
-                                    app:iconSize="23sp"
+                                    app:iconSize="20sp"
                                     app:iconTint="@color/red_100" />
                             </RelativeLayout>
 
@@ -182,9 +182,9 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="18dp"
                                 android:textColor="@android:color/black"
-                                android:textSize="18sp"
+                                android:textSize="16sp"
                                 android:justificationMode="inter_word"
-                                android:lineHeight="24sp"/>
+                                android:lineHeight="20sp"/>
                         </ScrollView>
 
                         <Button
