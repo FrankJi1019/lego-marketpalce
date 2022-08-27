@@ -24,6 +24,11 @@ public class User implements IUser{
     }
 
     @Override
+    public String toString() {
+        return username;
+    }
+
+    @Override
     public String getUsername() {return username;}
 
     @Override

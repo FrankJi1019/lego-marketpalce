@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
-
         createView();
         // set the click listener for change between login page and sign up page
         vh.registerLoginButton.setOnClickListener(view -> getLoginPage());
@@ -105,6 +104,9 @@ public class MainActivity extends AppCompatActivity {
 
     //Check if the user is valid
     private void onUserNotValid() {
+        if (getRegisterUsername().isEmpty()) {
+            return;
+        }
         userDatabase.isUserExist(new FireStoreCallback() {
             @Override
             public <T> void Callback(T value) {

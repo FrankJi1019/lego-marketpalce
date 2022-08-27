@@ -76,6 +76,17 @@ public class CartActivity extends AppCompatActivity
         //initialise the top bar element
         this.drawer.initialise();
         this.productSearcher.initialise();
+        this.viewHolder.totalPriceTextview.setText(
+                new StringBuilder(R.string.price_tag)
+                        .set("price", "0.00")
+                        .toString()
+        );
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        this.drawer.initialise();
     }
 
     @Override

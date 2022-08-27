@@ -118,6 +118,12 @@ public class DetailActivity extends AppCompatActivity
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        this.drawer.initialise();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return this.drawer.setUp(item, super.onOptionsItemSelected(item));
     }

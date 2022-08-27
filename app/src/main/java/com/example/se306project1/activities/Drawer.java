@@ -43,6 +43,12 @@ public class Drawer {
 
     // initialise the top bar
     public void initialise() {
+
+        if (UserState.getInstance().getCurrentUser() == null) {
+            MainActivity.start(this.activity);
+            return;
+        }
+
         this.activity.setSupportActionBar(this.drawerViewHolder.toolbar);
         ActionBar tb = this.activity.getSupportActionBar();
         assert tb != null;

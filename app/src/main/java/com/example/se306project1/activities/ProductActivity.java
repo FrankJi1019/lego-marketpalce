@@ -34,6 +34,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
 
 /**
@@ -99,6 +100,19 @@ public class ProductActivity extends AppCompatActivity
         ActivityState.getInstance().setCurrentActivity(this);
         ContextState.getInstance().setCurrentContext(getApplicationContext());
 
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                if (key.equals("theme") && getIntent().getStringExtra("theme") != null) {
+                    activityState = ProductActivityState.THEME;
+                } else if (key.equals("keyword") && getIntent().getStringExtra("keyword") != null) {
+                    activityState = ProductActivityState.SEARCH;
+                } else {
+                    activityState = ProductActivityState.LIKE;
+                }
+            }
+        }
+
         this.products.clear();
         this.defaultOrder.clear();
 
@@ -120,6 +134,25 @@ public class ProductActivity extends AppCompatActivity
     @Override
     public void onResume() {
         super.onResume();
+        System.out.println("resume");
+        this.drawer.initialise();
+        Bundle bundle = getIntent().getExtras();
+        System.out.println(bundle == null ? "bundle" : "not bundle");
+        if (bundle != null) {
+            for (String key : bundle.keySet()) {
+                System.out.println(key);
+                System.out.println(getIntent().getStringExtra(key));
+                if (key.equals("theme") && getIntent().getStringExtra("theme") != null) {
+                    activityState = ProductActivityState.THEME;
+                } else if (key.equals("keyword") && getIntent().getStringExtra("keyword") != null) {
+                    activityState = ProductActivityState.SEARCH;
+                } else {
+                    activityState = ProductActivityState.LIKE;
+                }
+            }
+        } else {
+            activityState = ProductActivityState.LIKE;
+        }
         this.products.clear();
         this.defaultOrder.clear();
         updateProductList();

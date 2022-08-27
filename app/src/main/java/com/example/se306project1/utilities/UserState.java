@@ -36,7 +36,7 @@ public class UserState {
 
     //logout functionality
     public void logoutCurrentUser() {
-        userState = null;
+        currentUser = null;
         likedProducts.clear();
     }
 

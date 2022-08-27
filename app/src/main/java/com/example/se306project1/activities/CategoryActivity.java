@@ -92,6 +92,7 @@ public class CategoryActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         this.fillTopPicks();
+        this.drawer.initialise();
     }
 
     //set up the adapter for category recyclerView
