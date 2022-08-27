@@ -64,7 +64,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
-                        android:textSize="20sp"
+                        android:textSize="16sp"
                         tools:ignore="RelativeOverlap"
                         android:text="@string/price_placeholder"/>
 
@@ -75,10 +75,12 @@
                         android:layout_height="48dp"
                         android:layout_alignParentTop="true"
                         android:layout_alignParentEnd="true"
-                        app:icon="@drawable/close"
-                        app:iconSize="20sp"
-                        app:iconPadding="0dp"
+                        android:layout_marginTop="-8dp"
+                        android:layout_marginEnd="-8dp"
+                        app:icon="@drawable/ic_delete"
                         app:iconGravity="textEnd"
+                        app:iconPadding="0dp"
+                        app:iconSize="20sp"
                         app:iconTint="@android:color/black" />
 
                     <Button
