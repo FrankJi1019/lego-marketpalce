@@ -19,15 +19,16 @@
             android:id="@+id/product_imageview"
             android:layout_width="wrap_content"
             android:layout_height="110dp"
-            android:layout_marginEnd="7dp"
+            android:layout_marginEnd="8dp"
             android:layout_weight="1"
-            android:layout_marginBottom="7dp"
+            android:layout_marginBottom="8dp"
             android:src="@drawable/image_placeholder"
             android:contentDescription="@string/image_description_placeholder" />
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:layout_weight="2">
 
@@ -96,7 +97,7 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginTop="20dp"
                 android:text="@string/price_placeholder"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <RelativeLayout
@@ -112,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/in_stock"
                     android:textColor="@color/gray_100"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:visibility="invisible" />
 
                 <TextView
@@ -121,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/low_stock"
                     android:textColor="@color/orange_100"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:visibility="invisible" />
 
                 <TextView
@@ -130,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/no_stock"
                     android:textColor="@color/red_100"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:visibility="invisible" />
             </RelativeLayout>
 

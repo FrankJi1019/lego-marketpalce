@@ -55,7 +55,6 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
-                            android:fontFamily="sans-serif"
                             android:text="@string/recommended_for_you"
                             android:textSize="24sp"
                             android:textStyle="bold" />
@@ -93,7 +92,6 @@
                             android:layout_below="@id/top_pick_product"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="8dp"
-                            android:fontFamily="sans-serif"
                             android:text="@string/shop_by_category"
                             android:textSize="24sp"
                             android:textStyle="bold" />

@@ -15,7 +15,7 @@
 
     <style name="Theme.Splash" parent="Theme.SplashScreen">
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_team22_lego_store_logo_red</item>
-        <item name="windowSplashScreenAnimationDuration">300</item>
+        <item name="windowSplashScreenAnimationDuration">150</item>
         <item name="windowSplashScreenBackground">@color/yellow_main</item>
         <item name="postSplashScreenTheme">@style/AppTheme</item>
     </style>

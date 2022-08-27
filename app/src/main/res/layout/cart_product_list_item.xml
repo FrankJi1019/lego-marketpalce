@@ -44,7 +44,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="10dp">
+                    android:layout_marginStart="16dp">
 
                     <TextView
                         android:id="@+id/cart_product_name_textview"
@@ -64,9 +64,11 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentBottom="true"
+                        android:layout_marginEnd="5dp"
+                        android:layout_marginBottom="6dp"
+                        android:text="@string/price_placeholder"
                         android:textSize="16sp"
-                        tools:ignore="RelativeOverlap"
-                        android:text="@string/price_placeholder"/>
+                        tools:ignore="RelativeOverlap" />
 
                     <Button
                         android:id="@+id/delete_button"
