@@ -23,6 +23,12 @@ import com.google.android.material.button.MaterialButton;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @Description: This is ProductAdapter class which used for render the product list in productActivity
+ * @author: Frank Ji
+ * @date:  13/08/2022
+ *
+ */
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
 
     static class ProductViewHolder extends RecyclerView.ViewHolder {
@@ -31,6 +37,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         private final MaterialButton likeButton, unlikeButton;
         private final ImageView product_image;
         private final CardView container;
+
         public ProductViewHolder(final View view) {
             super(view);
             this.productNameTextview = view.findViewById(R.id.product_name_textview);
@@ -48,6 +55,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
     private final List<IProduct> products;
 
+    //get the list used for recyclerView
     public ProductAdapter(List<IProduct> products) {
         this.products = products;
     }
@@ -92,6 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         return this.products.size();
     }
 
+    //set like buttons for like state
     private void setLikeButtons(MaterialButton unlikeButton, MaterialButton likeButton, int position) {
         IProduct product = this.products.get(position);
         setUnlikeButtonIcon(unlikeButton, position);
@@ -104,6 +113,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
+    //set up the buttons for unlike state
     private void setUnlikeButtonIcon(MaterialButton unlikeButton, int position) {
         IProduct product = this.products.get(position);
         if (product.getCategoryTitle().equals("technic")) {
@@ -118,6 +128,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         }
     }
 
+    // set the action when people like or unlike the product
     private void setLikeAction(
             MaterialButton likeButton,
             MaterialButton unlikeButton,
@@ -148,6 +159,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         });
     }
 
+    //set up the stockState for the product( in stock, low stock and no stock)
     private void setStockState(
             TextView noStockTextView,
             TextView lowStockTextView,

@@ -12,7 +12,14 @@ import com.example.se306project1.R;
 
 import java.util.List;
 
+/**
+ * @Description: This is DetailAdapter class which used for viewPager in DetailActivity
+ * @author: Qingyang Li
+ * @date:  11/08/2022
+ *
+ */
 public class DetailAdapter extends PagerAdapter {
+    //this list of image is used for the viewPager recyclerView
     List<Integer> imageList;
 
     public DetailAdapter(List<Integer> imageList){

@@ -21,9 +21,16 @@ import com.example.se306project1.utilities.ActivityState;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @Description: This is SuggestAdapter class which used for the suggest list in ProductSearcher
+ * @author: Frank Ji
+ * @date:  15/08/2022
+ *
+ */
 public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.SuggestionViewHolder>
         implements Filterable {
 
+    //this three list container is used for the filtering the target products
     private final List<IProduct> allProducts;
     private List<IProduct> filteredProducts = new ArrayList<>();
     private final List<IProduct> emptyProductList = new ArrayList<>();
@@ -68,6 +75,8 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
         return this.filteredProducts.size();
     }
 
+
+    //this method will filter the product which name is contains the input string instantly
     @Override
     public Filter getFilter() {
         return new Filter() {
@@ -94,6 +103,7 @@ public class SuggestionAdapter extends RecyclerView.Adapter<SuggestionAdapter.Su
                 filterResults.values = filteredProducts;
                 return filterResults;
             }
+            //when the input changed, we will notify this and do a filter again.
             @SuppressLint("NotifyDataSetChanged")
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {

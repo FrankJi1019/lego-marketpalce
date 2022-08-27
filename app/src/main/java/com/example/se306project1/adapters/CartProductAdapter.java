@@ -22,6 +22,12 @@ import com.example.se306project1.utilities.UserState;
 import java.util.List;
 import java.util.Locale;
 
+/**
+ * @Description: This is CartProductAdapter class which used for cart product in cartActivity
+ * @author: Frank ji
+ * @date:  12/08/2022
+ *
+ */
 public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder> {
 
     public static class CartProductViewHolder extends RecyclerView.ViewHolder {
@@ -30,6 +36,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         private final Button decreaseAmountButton, increaseAmountButton, deleteButton;
         private final CheckBox checkBox;
 
+        //retrieve the used UI element by id
         public CartProductViewHolder(final View view) {
             super(view);
             this.nameTextView = view.findViewById(R.id.cart_product_name_textview);
@@ -47,6 +54,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
     private final TextView totalPriceTextview;
     private final CheckBox selectAllCheckBox;
 
+    // initialise the adapter
     public CartProductAdapter(List<CartProduct> products, TextView totalPriceTextview, CheckBox checkBox) {
         this.products = products;
         this.totalPriceTextview = totalPriceTextview;
@@ -100,6 +108,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         return this.products.size();
     }
 
+    //update the total price in cart activity
     private void updatePrice() {
         String priceTag = new StringBuilder(R.string.price_tag)
                 .set("price", CartState.getCartState().getPriceString())
@@ -107,8 +116,10 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         totalPriceTextview.setText(priceTag);
     }
 
+    //manage the amount of the product which is in your shopping cart. And update the data in database
     private void updateAmount(TextView amountTextView, int position, int amount) {
         CartProduct cartProduct = products.get(position);
+        //the amount of product you want to buy must at least 1 and no more than stock number
         amount = Math.max(amount, 1);
         amount = Math.min(amount, cartProduct.getStock());
         String amountString = new StringBuilder(R.string.cart_product_amount)
@@ -122,6 +133,7 @@ public class CartProductAdapter extends RecyclerView.Adapter<CartProductAdapter.
         updatePrice();
     }
 
+    //delete product from your shopping cart for the delete button in product card
     private void deleteProduct(int position) {
         CartProduct cartProduct = products.get(position);
         products.remove(position);

@@ -19,6 +19,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
+/**
+ * @Description: This is CategoryAdapter class which used for category in CategoryActivity
+ * @author: XiaoXiao Zhuang
+ * @date:  11/08/2022
+ *
+ */
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
 
     public static class CategoryViewHolder extends RecyclerView.ViewHolder {
@@ -37,6 +44,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         }
     }
 
+    //this list is used for recyclerView
     private final List<ICategory> categories;
 
     public CategoryAdapter(List<ICategory> categories) {
