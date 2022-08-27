@@ -1,6 +1,10 @@
 package com.example.se306project1.models;
 
-
+/**
+ * @Description: This is User class which is implement the IUser interface
+ * @author: Qingyang Li
+ * @date: 9/08/2022
+ */
 public class User implements IUser{
 
     private String username;

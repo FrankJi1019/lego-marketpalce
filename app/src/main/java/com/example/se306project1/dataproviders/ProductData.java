@@ -8,7 +8,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-//this class will create all the product data
+/**
+ * @Description: This is ProductData class which create all the product data for database
+ * @author: Qingyang Li
+ * @date:  19/08/2022
+ *
+ */
+
 public class ProductData {
 
     public static List<IProduct> getAllProducts(){
@@ -252,7 +258,7 @@ public class ProductData {
         IProduct product27 = new Product("city",
                 "Stunt Park",
                 "This LEGO® City Stunt Park (60293) playset comes with a toy flywheel-powered motorcycle for spectacular stunt action. Kids activate the bike to send it soaring through an array of awesome props and challenges and can quickly reconfigure the stunt modules for different competitions and performances.",
-                0,
+                131,
                 new ArrayList<>(Arrays.asList(R.drawable.stuntpark_pic1,R.drawable.stuntpark_pic2,R.drawable.stuntpark_pic3)),
                 100,
                 0);

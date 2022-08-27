@@ -1,7 +1,11 @@
 package com.example.se306project1.models;
 
 import java.util.List;
-
+/**
+ * @Description: This is IProduct interface which is abstraction of product class
+ * @author: Frank Ji
+ * @date: 9/08/2022
+ */
 public interface IProduct {
 
     String getCategoryTitle();
